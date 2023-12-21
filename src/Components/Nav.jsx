@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Collapse, Typography, IconButton } from "@material-tailwind/react";
+import { Navbar, Collapse, Typography, IconButton, Button } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 const NavList = () => (
-  <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-    {["Explore", "Mock Interview", "Problems", "Discuss"].map((item, index) => (
+  <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
+    {["Explore", "Mock-Interview", "Problems", "Discuss"].map((item, index) => (
       <Typography
         key={index}
         as="li"
@@ -13,13 +13,18 @@ const NavList = () => (
         color="blue-gray"
         className="p-1 font-medium"
       >
-        {/* Replace <a> with <Link> */}
         <Link to={`/${item.toLowerCase()}`} className="flex items-center hover:text-blue-500 transition-colors font-handwritten2">
           {item}
         </Link>
       </Typography>
     ))}
-  </ul>
+    <Button variant="text" size="sm" className="lg:inline-block">
+      <span>Log In</span>
+    </Button>
+    <Button variant="gradient" size="sm" className="lg:inline-block">
+      <span>Sign up</span>
+    </Button>
+  </div>
 );
 
 const Nav = () => {
@@ -36,36 +41,38 @@ const Nav = () => {
   }, []);
 
   return (
-    <Navbar className="mx-auto max-w-screen-xl px-6 py-3 mt-2">
-      <div className="flex items-center justify-between text-blue-gray-900">
-        <Typography
-          as={Link} // Use Link for the logo as well
-          to="/"
-          variant="h6"
-          className="mr-4 cursor-pointer py-1.5"
-        >
-          LOGO
-        </Typography>
-        <div className="hidden lg:block">
-          <NavList />
-        </div>
-        <IconButton
-          variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          ripple={false}
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <XMarkIcon className="h-6 w-6" strokeWidth={2} />
-          ) : (
-            <Bars3Icon className="h-6 w-6" strokeWidth={2} />
-          )}
-        </IconButton>
+      <div className="sticky top-0 z-10">
+        <Navbar className="mx-auto max-w-screen-xl px-6 py-3 mt-2 w-full bg-white shadow-lg ">
+          <div className="flex items-center justify-between text-blue-gray-900">
+            <Typography
+              as={Link}
+              to="/"
+              variant="h6"
+              className="mr-4 cursor-pointer py-1.5"
+            >
+              LOGO
+            </Typography>
+            <div className="hidden lg:block">
+              <NavList />
+            </div>
+            <IconButton
+              variant="text"
+              className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+              ripple={false}
+              onClick={() => setOpenNav(!openNav)}
+            >
+              {openNav ? (
+                <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+              ) : (
+                <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+              )}
+            </IconButton>
+          </div>
+          <Collapse open={openNav}>
+            <NavList />
+          </Collapse>
+        </Navbar>
       </div>
-      <Collapse open={openNav}>
-        <NavList />
-      </Collapse>
-    </Navbar>
   );
 };
 

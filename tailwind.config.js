@@ -16,7 +16,9 @@ module.exports = withMT({
       'custom': ["Rampart One", "cursive"],
       'handwritten':[ 'Kalam', "cursive"],
       'Button':['IBM Plex Sans', 'sans-serif'],
-      'handwritten2':['Playpen Sans', 'cursive']
+      'handwritten2':['Playpen Sans', 'cursive'],
+      'roboto':['Roboto', 'sans-serif'],
+      'inter':['Inter', 'sans-serif']
     }
   },
   plugins: [],
