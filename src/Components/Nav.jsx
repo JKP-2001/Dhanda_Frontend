@@ -3,6 +3,9 @@ import { Navbar, Collapse, Typography, IconButton, Button } from "@material-tail
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
+
+import { motion, useScroll } from "framer-motion"
+
 const NavList = () => (
   <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
     {["Explore", "Mock-Interview", "Problems", "Discuss"].map((item, index) => (
@@ -27,7 +30,9 @@ const NavList = () => (
   </div>
 );
 
+
 const Nav = () => {
+
   const [openNav, setOpenNav] = useState(false);
 
   const handleWindowResize = () => window.innerWidth >= 960 && setOpenNav(false);
@@ -40,7 +45,12 @@ const Nav = () => {
     };
   }, []);
 
+  const { scrollYProgress } = useScroll();
+
   return (
+      <>
+      {/* <motion.div style={{ scaleX: scrollYProgress }} className='fixed top-[64px] left-0 right-0 h-1 z-50 bg-blue-500 transform origin-left' /> */}
+
       <div className="sticky top-0 z-10">
         <Navbar className="mx-auto max-w-screen-xl px-6 py-3 mt-2 w-full bg-white shadow-lg ">
           <div className="flex items-center justify-between text-blue-gray-900">
@@ -73,6 +83,7 @@ const Nav = () => {
           </Collapse>
         </Navbar>
       </div>
+      </>
   );
 };
 

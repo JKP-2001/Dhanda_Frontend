@@ -3,12 +3,19 @@ import { Button } from "@material-tailwind/react";
 import EducationCard from './Education/EducationCard';
 import ExperienceCard from './Experience/ExperienceCard';
 import FeedbackCard from './FeedBacks/FeedbackCard';
+import ResponsiveDateTimePickers from './DateTimePick';
+
+
 
 const MockInterview = () => {
+
+    
     return (
+        <>
+        
         <div>
             <div className="mt-8 ml-5 lg:mt-20 lg:ml-48 mb-10">
-                <div className='ml-2'>
+                <div className='ml-3'>
                     <img
                         className="h-[170px] w-[170px] rounded-full object-cover object-center"
                         src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
@@ -23,7 +30,7 @@ const MockInterview = () => {
                     <h1 className="font-inter text-sm text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
                 </div>
 
-                <div className='ml-5 lg:ml-7 description font-inter w-8/12 mt-10 text-sm'>
+                <div className='ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm'>
                     Filler text is text that shares some characteristics of a real written text, but is
                     random or otherwise generated. It may be used to display a sample of fonts,
                     generate text for testing, or to spoof an e-mail spam filter.
@@ -79,10 +86,15 @@ const MockInterview = () => {
                     <FeedbackCard />
                 </div>
 
+                {/* <div className='ml-5 lg:ml-7 mt-10 w-11/12 lg:w-8/12'>
+                    <ResponsiveDateTimePickers />
+                </div> */}
+
             </div>
 
         </div>
+        </>
     )
 }
 
-export default MockInterview
+export default MockInterview;

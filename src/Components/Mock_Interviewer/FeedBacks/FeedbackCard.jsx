@@ -43,7 +43,7 @@ const FeedbackCard = ()=> {
 
   return (
     <Card className="rounded-xl w-11/12 lg:w-8/12 pb-2 border-2 border-gray-300">
-      <h1 className="font-roboto text-xl font-thin mt-4 ml-6 text-black">Feedback</h1>
+      <h1 className="font-roboto text-xl font-thin mt-4 ml-6 text-black">Feedbacks</h1>
 
       <FeedBackMaterial name={names[active]} text={texts[active]}/>
 
