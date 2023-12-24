@@ -4,11 +4,12 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 
-import { motion, useScroll } from "framer-motion"
+
 
 const NavList = () => (
   <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
     {["Explore", "Mock-Interview", "Problems", "Discuss"].map((item, index) => (
+      
       <Typography
         key={index}
         as="li"
@@ -16,7 +17,7 @@ const NavList = () => (
         color="blue-gray"
         className="p-1 font-medium"
       >
-        <Link to={`/${item.toLowerCase()}`} className="flex items-center hover:text-blue-500 transition-colors font-handwritten2">
+        <Link to={`/${item.toLowerCase()}`} className={`${window.location.pathname.includes(item.toLowerCase())?"text-blue-500":""} flex items-center hover:text-blue-500 transition-colors font-inter font-bold`}>
           {item}
         </Link>
       </Typography>
@@ -35,6 +36,8 @@ const Nav = () => {
 
   const [openNav, setOpenNav] = useState(false);
 
+  console.log({pathname:window.location.pathname});
+
   const handleWindowResize = () => window.innerWidth >= 960 && setOpenNav(false);
 
   useEffect(() => {
@@ -45,7 +48,14 @@ const Nav = () => {
     };
   }, []);
 
-  const { scrollYProgress } = useScroll();
+
+  
+
+
+  
+
+
+  
 
   return (
       <>

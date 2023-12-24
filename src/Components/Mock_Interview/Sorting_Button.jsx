@@ -44,7 +44,7 @@ const Sorting_Button = (props) => {
 
     >
       <MenuHandler>
-        <Button className="bg-white text-black border-[1.5px] border-gray-700">{props.type}</Button>
+        <Button className="bg-white font-inter font-bold text-black border-[1.5px] border-gray-700">{props.type}</Button>
       </MenuHandler>
       <MenuList className="max-h-72 overflow-y-auto">
         <Input
