@@ -3,6 +3,7 @@ import CatButton from './CatButton';
 import Sorting_Button from './Sorting_Button';
 import CompanyTag from './CompanyTag';
 import Interviewer_Card from './Interviewer_Card';
+import {motion} from "framer-motion"
 
 const Mock_Interview_Comp = () => {
   const [comp, setComp] = useState([]);
@@ -13,7 +14,8 @@ const Mock_Interview_Comp = () => {
   return (
     <div className='pb-10'>
       <div className="category">
-        <div className="flex ml-2 md:ml-10 mt-10 space-x-4">
+        <div className="flex flex-wrap mt-10 space-x-4">
+          <div></div>
           <CatButton type={"All"} active={true} />
           <CatButton type={"SDE"} active={false} />
           <CatButton type={"Data Science"} active={false} />
@@ -22,14 +24,15 @@ const Mock_Interview_Comp = () => {
       </div>
 
       <div className="sorting">
-        <div className="flex ml-2 md:ml-10 mt-10 space-x-4">
+        <div className="flex mt-10 space-x-6">
+          <div></div>
           <Sorting_Button type={"Company"} menuItems={companies} setComp={setComp} tag="comp" comp={comp} />
           <Sorting_Button type={"Sort By"} menuItems={sort_by} />
         </div>
       </div>
       <CompanyTag comp={comp} setComp={setComp} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         
         <Interviewer_Card />
         <Interviewer_Card />
@@ -47,7 +50,7 @@ const Mock_Interview_Comp = () => {
         <Interviewer_Card />
         <Interviewer_Card />
         <Interviewer_Card />
-      </div>
+      </motion.div>
     </div>
   );
 };

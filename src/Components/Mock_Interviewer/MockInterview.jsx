@@ -3,17 +3,26 @@ import { Button } from "@material-tailwind/react";
 import EducationCard from './Education/EducationCard';
 import ExperienceCard from './Experience/ExperienceCard';
 import FeedbackCard from './FeedBacks/FeedbackCard';
-import ResponsiveDateTimePickers from './DateTimePick';
+
+import {motion} from "framer-motion"
 
 
 
 const MockInterview = () => {
 
+    const variants = {
+        hidden: { x: -100 },
+        visible: { x: 0 }
+      };
     
     return (
         <>
         
-        <div>
+        <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={variants}
+        transition={{ type: "spring", stiffness: 100}}>
             <div className="mt-8 ml-5 lg:mt-20 lg:ml-48 mb-10">
                 <div className='ml-3'>
                     <img
@@ -92,7 +101,7 @@ const MockInterview = () => {
 
             </div>
 
-        </div>
+        </motion.div>
         </>
     )
 }

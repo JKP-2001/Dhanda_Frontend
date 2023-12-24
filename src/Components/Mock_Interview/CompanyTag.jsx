@@ -25,7 +25,7 @@ const CompanyTag = (props) => {
       {selectedComp.map((item, i) => {
         return (
           <span
-            className="flex bg-gray-100 text-gray-800 text-xs my-2 font-medium me-1 px-2.5 py-0.5 rounded dark:bg-gray-700 
+            className="flex bg-blue-100 text-gray-800 text-xs my-2 font-medium me-1 px-2.5 py-0.5 rounded dark:bg-gray-700 
         dark:text-gray-300" key={i}
           >
             {item}
