@@ -59,7 +59,7 @@ export default function ResponsiveDateTimePickers() {
   const [value, setValue] = useState();
     var today = new Date();
 
-    console.log({value});
+    
 
   var now = '';
 
