@@ -11,7 +11,7 @@ const CompanyTag = (props) => {
 
   const handleClick = (item)=>{
     const index = selectedComp.indexOf(item);
-    console.log({index})
+    
 
     selectedComp.splice(index,1);
     
@@ -20,7 +20,9 @@ const CompanyTag = (props) => {
   }
 
   return (
-    <div className="flex flex-wrap justify-self-auto ml-4 mt-2">
+    <div className="flex flex-wrap justify-self-auto ml-4 mt-2 space-x-3">
+
+      <div className=''></div>
 
       {selectedComp.map((item, i) => {
         return (

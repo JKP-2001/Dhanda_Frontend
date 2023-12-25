@@ -36,8 +36,6 @@ const Nav = () => {
 
   const [openNav, setOpenNav] = useState(false);
 
-  console.log({pathname:window.location.pathname});
-
   const handleWindowResize = () => window.innerWidth >= 960 && setOpenNav(false);
 
   useEffect(() => {
