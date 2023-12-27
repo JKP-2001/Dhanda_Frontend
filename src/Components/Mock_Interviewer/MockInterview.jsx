@@ -23,7 +23,7 @@ const MockInterview = () => {
         animate="visible"
         variants={variants}
         transition={{ type: "spring", stiffness: 100}}>
-            <div className="mt-8 ml-5 lg:mt-20 lg:ml-48 mb-10">
+            <div className="mt-8 ml-2 lg:mt-20 lg:ml-48 mb-10">
                 <div className='ml-3'>
                     <img
                         className="h-[170px] w-[170px] rounded-full object-cover object-center"
@@ -36,7 +36,7 @@ const MockInterview = () => {
 
                 <div className='ml-5 lg:ml-7'>
                     <h1 className="font-roboto text-xl font-thin mt-4">Manish Mishra</h1>
-                    <h1 className="font-inter text-sm text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
+                    <h1 className="font-inter text-sm w-11/12 lg:w-8/12 text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
                 </div>
 
                 <div className='ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm'>

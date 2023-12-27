@@ -15,6 +15,8 @@ import Mock_Interview from './Pages/Mock_Interview/Mock_Interview';
 import NotFound from './Pages/NotFound';
 
 import Interviewer_Card from './Components/Mock_Interview/Interviewer_Card';
+import Login from './Pages/Auth/Login';
+import SignUp from './Pages/Auth/SignUp';
 
 
 
@@ -27,7 +29,8 @@ function App() {
             <Route path='/mock-interview/:user_id' element={<MockInterviewProfile/>}/>
             <Route path="/test" element={<Interviewer_Card />} />   {/* Use to test component */}
             <Route path="*" element={<NotFound />} />
-            
+            <Route path="/login" element={<Login />}/>
+            <Route path="/signup" element={<SignUp />}/>
             </Routes>
     </Router>
   );
