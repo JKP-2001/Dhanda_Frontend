@@ -29,3 +29,27 @@ export const isStrongPassword = (password) => {
     
     return hasUpperCase && hasSymbol && hasNumber && hasMinLength;
 };
+
+
+export const isValidName = (name) => {
+    
+    if (name.trim() === '') {
+        return false;
+    }
+
+    
+    const nameRegex = /^[a-zA-Z]+$/;
+    return nameRegex.test(name);
+};
+
+
+export const isValidOTP = (otp)=> {
+    
+    if (typeof otp !== 'string') {
+        return false;
+    }
+
+    
+    return /^\d{6}$/.test(otp);
+}
+
