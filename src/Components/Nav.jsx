@@ -59,8 +59,8 @@ const Nav = () => {
                     </Link>
                   </Typography>
                 ))}
-                <Link to="/login" className=""><Button variant="outlined" size="sm" className="lg:inline-block">
-                  <span>Log In</span>
+                <Link to="/signin" className=""><Button variant="outlined" size="sm" className="lg:inline-block">
+                  <span>Sign In</span>
                 </Button></Link>
                 <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup")?'bg-blue-800':""}lg:inline-block`} onClick={()=> navigate("/signup")}>
                   <span>Sign up</span>
@@ -96,8 +96,8 @@ const Nav = () => {
                   </Link>
                 </Typography>
               ))}
-              <Button variant="outlined" size="sm" className="lg:inline-block" onClick={()=> navigate("/login")}>
-                <span>Log In</span>
+              <Button variant="outlined" size="sm" className="lg:inline-block" onClick={()=> navigate("/signin")}>
+                <span>Sign In</span>
               </Button>
               <Button variant="gradient" size="sm" className="lg:inline-block" onClick={()=> navigate("/signup")}>
                 <span>Sign up</span>
