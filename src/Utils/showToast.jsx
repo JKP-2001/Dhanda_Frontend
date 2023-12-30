@@ -12,7 +12,7 @@ const CustomMsg = (t, { msg, includeDismiss }) => {
   return (
     <div className="flex justify-center items-center">
       <span>
-        <p className="mt-1 text-sm text-gray-500">{msg}</p>
+        <p className="mt-1 text-sm text-black font-handwritten2">{msg}</p>
       </span>
       {includeDismiss && (
         <button
