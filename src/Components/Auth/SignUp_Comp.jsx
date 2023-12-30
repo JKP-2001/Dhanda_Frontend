@@ -33,9 +33,9 @@ const Step1 = (props) => {
     }, [props]);
 
     return (<>
-        <form>
+        <form className='space-y-3'>
             <div>
-                <label htmlFor="email" className="block mb-2 text-sm  text-gray-900 dark:text-white font-inter font-bold">
+                <label htmlFor="email" className="block mt-2 text-sm  text-gray-900 dark:text-white mb-1 font-inter font-bold">
                     Email<Asterik />
                 </label>
                 <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter" placeholder="name@company.com" value={userState.email} required="" onChange={onChangeHandler} />
@@ -44,13 +44,13 @@ const Step1 = (props) => {
                 </div> : null}
             </div>
             <div>
-                <label htmlFor="password" className="block mb-2 text-sm font-bold font-inter text-gray-900 dark:text-white">
+                <label htmlFor="password" className="block mb-1 text-sm font-bold font-inter text-gray-900 dark:text-white mt-2">
                     Password<Asterik />
                 </label>
                 <input type="password" autoComplete='on' name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-inter font-bold" required="" value={userState.password} onChange={onChangeHandler} />
             </div>
             <div>
-                <label htmlFor="cpassword" className="block mb-2 text-sm font-bold font-inter text-gray-900 dark:text-white">
+                <label htmlFor="cpassword" className="block mb-1 text-sm font-bold font-inter text-gray-900 dark:text-white mt-2">
                     Confirm Password <Asterik />
                 </label>
                 <input type="password" autoComplete='on' name="confirmPassword" id="cpassword" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-inter font-bold" required="" value={userState.confirmPassword} onChange={onChangeHandler} />

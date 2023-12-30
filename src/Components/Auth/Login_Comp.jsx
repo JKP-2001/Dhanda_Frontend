@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {motion} from "framer-motion"
 import showToast from '../../Utils/showToast'
+import Asterik from '../../Utils/Asterik'
 
 const Login = () => {
 
@@ -53,13 +54,13 @@ const Login = () => {
                             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white font-inter">
                                 Sign in to your account
                             </h1>
-                            <form className="space-y-4 md:space-y-6" action="#" onSubmit={onSubmitHandler}>
+                            <form className="space-y-4" action="#" onSubmit={onSubmitHandler}>
                                 <div>
-                                    <label for="email" className="block mb-2 text-sm  text-gray-900 dark:text-white font-inter font-bold">Email</label>
+                                    <label for="email" className="block mb-2 text-sm  text-gray-900 dark:text-white font-inter font-bold">Email <Asterik /></label>
                                     <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter" placeholder="name@company.com" required="" value={userState.email} onChange={onChangeHandler}/>
                                 </div>
                                 <div>
-                                    <label for="password" className="block mb-2 text-sm font-bold font-inter text-gray-900 dark:text-white">Password</label>
+                                    <label for="password" className="block mb-2 text-sm font-bold font-inter text-gray-900 dark:text-white">Password <Asterik /></label>
                                     <input type="password" name="password" id="password" placeholder="••••••••" autoComplete='on' className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-inter font-bold" required="" value={userState.password} onChange={onChangeHandler}/>
                                 </div>
                                 <div className="flex items-center justify-between">
