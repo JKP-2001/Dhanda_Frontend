@@ -376,7 +376,7 @@ const SignUp_Comp = () => {
         
         if (step === 3) {
             showToast({
-                msg: "Information Submitted Successfully",
+                msg: "Information Submitted Successfully, Please check your email for OTP",
                 type: "success",
                 duration: 2000,
             });
