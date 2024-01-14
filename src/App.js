@@ -21,7 +21,9 @@ import { Toaster } from 'react-hot-toast';
 import ForgotPassword from './Pages/Auth/ForgotPassword';
 import NewPassword from './Pages/Auth/NewPassword';
 import SignIn from './Pages/Auth/SignIn';
-import Calendar from './Components/Schedule_Interview/Calendar';
+import Calendar_Page from './Pages/Schedule_Interview/Calendar_Page';
+import User_Profile from './Pages/Profile/User_Profile';
+
 
 
 
@@ -41,7 +43,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:user_id" element={<NewPassword />} />
-          <Route path="/mock-interview/schedule/:user" element={<Calendar />} />
+          <Route path="/mock-interview/schedule/:user" element={<Calendar_Page />} />
+          <Route path="/user/profile/:user" element={<User_Profile />} />
         </Routes>
       </Router>
     </>

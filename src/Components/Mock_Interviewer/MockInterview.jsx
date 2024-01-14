@@ -5,6 +5,7 @@ import ExperienceCard from './Experience/ExperienceCard';
 import FeedbackCard from './FeedBacks/FeedbackCard';
 
 import { motion } from "framer-motion"
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -14,6 +15,12 @@ const MockInterview = () => {
         hidden: { x: -100 },
         visible: { x: 0 }
     };
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/mock-interview/schedule/Manish');
+    }
 
     return (
         <>
@@ -60,6 +67,7 @@ const MockInterview = () => {
                             iconOnly={false}
                             ripple="light"
                             className="w-40 h-10 font-inter"
+                            onClick={handleClick}
                         >
                             Book a Session
                         </Button>
