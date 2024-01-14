@@ -41,8 +41,8 @@ const Account = () => {
     return (
         <motion.div initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
-            
-            transition={{ duration: 0.5 }}
+
+            transition={{ duration: 0.3 }}
             className='ml-5 lg:ml-7 mt-5'>
 
             <EducationCard />
@@ -54,6 +54,11 @@ const Account = () => {
 
 const Calendar_Part = () => {
 
+    const variants = {
+        hidden: { x: -100 },
+        visible: { x: 0 }
+    };
+
     const events = [
         {
             title: 'Mock Interview with User1',
@@ -64,8 +69,15 @@ const Calendar_Part = () => {
     ];
 
     return (
-        
-            <div className="w-11/12 md:w-3/4 ml-5 lg:ml-7 mt-5">
+
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={variants}
+            transition={{ type: "spring", stiffness: 100 }}
+        >
+
+            <div className="w-11/12 md:w-3/4 ml-5 lg:ml-7 mt-10">
                 <Calendar
                     localizer={localizer}
                     events={events}
@@ -75,9 +87,75 @@ const Calendar_Part = () => {
                     selectable
                 />
             </div>
-  
+        </motion.div>
+
     )
 }
+
+
+const PostCard = () => {
+    return (
+
+        <motion.div initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+
+            transition={{ duration: 0.2 }}
+            className='ml-5 lg:ml-7 mt-5'>
+
+            <div className="w-11/12 md:w-3/4  mt-2">
+                <div className="bg-white border rounded shadow">
+                    <div className="border-b p-3">
+                        <h5 className="font-bold uppercase text-gray-600">Design</h5>
+                    </div>
+                    <div className="p-5">
+                        <h3 className="font-bold text-3xl">Title of job post</h3>
+                        <p className="text-sm text-gray-600 mb-5">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quia temporibus eveniet a libero
+                            incidunt suscipit laborum, rerum accusantium modi quidem, ipsam illum quis sed voluptatum quae eum fugit
+                            earum.
+                        </p>
+                        <a href="#" className="uppercase text-gray-800 hover:text-black">Apply now</a>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    )
+}
+
+
+const Posts = () => {
+    return (
+
+        <div className='ml-2 lg:ml-5 mt-2'>
+            <div className="flex flex-wrap">
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+            </div>
+        </div>
+
+    )
+}
+
+
+const BookMarked = () => {
+    return (
+        <div className='ml-2 lg:ml-5 mt-2'>
+            <div className="flex flex-wrap">
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+            </div>
+        </div>
+    )
+}
+
 
 
 const User_Profile_Comp = () => {
@@ -190,7 +268,7 @@ const User_Profile_Comp = () => {
 
                     </div>
 
-                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part /> : <></>}
+                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part /> : selectedIcon === 'grid' ? <Posts /> : selectedIcon === 'bookmark' ? <BookMarked /> : <></>}
 
 
 
