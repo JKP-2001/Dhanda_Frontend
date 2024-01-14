@@ -15,7 +15,6 @@ const Mock_Interview = () => {
     <div>
         <Nav />
         <Mock_Interview_Comp />
-        
     </div>
   )
 }
