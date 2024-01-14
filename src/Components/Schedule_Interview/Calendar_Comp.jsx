@@ -118,7 +118,7 @@ const Calendar_Comp = () => {
             </div>
             <div className="flex flex-wrap-reverse md:justify-between">
                 {showCalendar && (
-                    <div className="md:w-3/4 p-4">
+                    <div className="md:w-3/4 p-4 overflow-y-hidden">
                         <Calendar
                             localizer={localizer}
                             events={events}
