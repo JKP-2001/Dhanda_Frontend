@@ -432,7 +432,7 @@ const SignUp_Comp = () => {
                             <div className="flex justify-between">
                                 {step === 1 ? null : <button type="submit" className="w-auto text-black border-[1px] border-blue-500  hover:bg-primary-700  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handlePrev}>Prev</button>}
 
-                                <button type="submit" className="w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step=== 4)? "Submit" : "Next"}</button>
+                                <button type="submit" className="w-auto text-white bg-btn-col hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step=== 4)? "Submit" : "Next"}</button>
                             </div>
                             <p className="text-sm font-medium text-gray-500 dark:text-gray-400 font-inter">
                                 Already have an account? <Link to="/signin" className=" text-light-blue-900 font-bold hover:underline dark:text-primary-500">Sign in</Link>

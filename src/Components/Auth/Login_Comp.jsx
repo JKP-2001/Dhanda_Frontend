@@ -70,7 +70,7 @@ const Login = () => {
                                     </div>
                                     <Link to="/forgot-password" className="text-sm text-primary-600 font-inter font-bold hover:underline dark:text-primary-500 text-light-blue-900">Forgot password?</Link>
                                 </div>
-                                <button type="submit" className="w-full text-white bg-[#db2777] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold">Sign in</button>
+                                <button type="submit" className="w-full text-white bg-btn-col hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold">Sign in</button>
                                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 font-inter">
                                     Don’t have an account yet? <Link to="/signup" className=" text-light-blue-900 font-bold hover:underline dark:text-primary-500">Sign up</Link>
                                 </p>

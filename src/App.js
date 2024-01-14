@@ -13,17 +13,13 @@ import Home from './Pages/Home';
 
 import Mock_Interview from './Pages/Mock_Interview/Mock_Interview';
 import NotFound from './Pages/NotFound';
-
 import Interviewer_Card from './Components/Mock_Interview/Interviewer_Card';
-
 import SignUp from './Pages/Auth/SignUp';
 import { Toaster } from 'react-hot-toast';
 import ForgotPassword from './Pages/Auth/ForgotPassword';
 import NewPassword from './Pages/Auth/NewPassword';
 import SignIn from './Pages/Auth/SignIn';
 import Calendar from './Components/Schedule_Interview/Calendar';
-
-
 
 
 
