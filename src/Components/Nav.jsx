@@ -3,6 +3,22 @@ import { Navbar, Collapse, Typography, IconButton, Button } from "@material-tail
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
+const Avatar = (props) => {
+
+  const navigate = useNavigate();
+  
+  return (
+  
+      
+      <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="w-8 h-8 rounded-full cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={()=>navigate("/user/profile/:user")} />
+
+      
+
+  )
+}
+
 
 
 const Nav = () => {
@@ -19,14 +35,11 @@ const Nav = () => {
     };
   }, []);
 
+  const [loggedSignIn, setLoggedSignIn] = useState(true);
+
 
 
   const navigate = useNavigate();
-
-
-
-
-
 
   return (
     <>
@@ -59,12 +72,15 @@ const Nav = () => {
                     </Link>
                   </Typography>
                 ))}
-                <Link to="/signin" className=""><Button variant="outlined" size="sm" className="lg:inline-block">
-                  <span>Sign In</span>
-                </Button></Link>
-                <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup")?'bg-blue-800':""}lg:inline-block`} onClick={()=> navigate("/signup")}>
-                  <span>Sign up</span>
-                </Button>
+                {loggedSignIn ? <Avatar /> : <>
+                  <Link to="/signin" className="">
+                    <Button variant="outlined" size="sm" className="lg:inline-block">
+                      <span>Sign In</span>
+                    </Button>
+                  </Link>
+                  <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block`} onClick={() => navigate("/signup")}>
+                    <span>Sign up</span>
+                  </Button></>}
               </div>
             </div>
             <IconButton
@@ -96,10 +112,10 @@ const Nav = () => {
                   </Link>
                 </Typography>
               ))}
-              <Button variant="outlined" size="sm" className="lg:inline-block" onClick={()=> navigate("/signin")}>
+              <Button variant="outlined" size="sm" className="lg:inline-block" onClick={() => navigate("/signin")}>
                 <span>Sign In</span>
               </Button>
-              <Button variant="gradient" size="sm" className="lg:inline-block" onClick={()=> navigate("/signup")}>
+              <Button variant="gradient" size="sm" className="lg:inline-block" onClick={() => navigate("/signup")}>
                 <span>Sign up</span>
               </Button>
             </div>
