@@ -109,6 +109,8 @@ const Calendar_Comp = () => {
         setShowModal(false);
     };
 
+
+    
     return (
         <div className='my-3'>
             <div className="w-full p-4 bg-gray-100 text-center">
@@ -118,7 +120,7 @@ const Calendar_Comp = () => {
             </div>
             <div className="flex flex-wrap-reverse md:justify-between">
                 {showCalendar && (
-                    <div className="md:w-3/4 p-4">
+                    <div className="md:w-3/4 p-4 overflow-y-hidden">
                         <Calendar
                             localizer={localizer}
                             events={events}
