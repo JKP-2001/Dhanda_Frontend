@@ -5,16 +5,17 @@ import { scrollToTop } from '../../Utils/functions'
 
 const Calendar_Page = () => {
 
-  useEffect(()=>{
+  useEffect(() => {
     scrollToTop();
-  },[])
+  }, [])
 
   return (
     <div className=''>
-      
+
       <Nav />
-      
-      <Calendar_Comp />
+      <div className='mb-20'>
+        <Calendar_Comp />
+      </div>
     </div>
   )
 }

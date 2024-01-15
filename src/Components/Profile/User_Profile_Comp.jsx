@@ -22,6 +22,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 const localizer = momentLocalizer(moment);
 
 
+const variants = {
+    hidden: { x: -100 },
+    visible: { x: 0 }
+};
+
+
 const Slider = () => {
     return (
         <motion.div
@@ -39,11 +45,13 @@ const Slider = () => {
 
 const Account = () => {
     return (
-        <motion.div initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-
-            transition={{ duration: 0.3 }}
-            className='ml-5 lg:ml-7 mt-5'>
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={variants}
+            transition={{ type: "spring", stiffness: 100 }}
+            className='mt-3 ml-3 md:ml-5'
+        >
 
             <EducationCard />
 
@@ -54,10 +62,7 @@ const Account = () => {
 
 const Calendar_Part = () => {
 
-    const variants = {
-        hidden: { x: -100 },
-        visible: { x: 0 }
-    };
+    
 
     const events = [
         {
@@ -96,11 +101,12 @@ const Calendar_Part = () => {
 const PostCard = () => {
     return (
 
-        <motion.div initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-
-            transition={{ duration: 0.2 }}
-            className='ml-5 lg:ml-7 mt-5'>
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={variants}
+            transition={{ type: "spring", stiffness: 100 }}
+        >
 
             <div className="w-11/12 md:w-3/4  mt-2">
                 <div className="bg-white border rounded shadow">
@@ -126,7 +132,7 @@ const PostCard = () => {
 const Posts = () => {
     return (
 
-        <div className='ml-2 lg:ml-5 mt-2'>
+        <div className='ml-3 lg:ml-5 mt-2'>
             <div className="flex flex-wrap">
                 <PostCard />
                 <PostCard />
@@ -143,7 +149,7 @@ const Posts = () => {
 
 const BookMarked = () => {
     return (
-        <div className='ml-2 lg:ml-5 mt-2'>
+        <div className='ml-3 lg:ml-5 mt-2'>
             <div className="flex flex-wrap">
                 <PostCard />
                 <PostCard />
@@ -182,16 +188,11 @@ const User_Profile_Comp = () => {
     return (
         <>
 
-            <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={variants}
-                transition={{ type: "spring", stiffness: 100 }}
-            >
+            
                 <div className="mt-8 ml-2 lg:mt-16 lg:ml-48 mb-10">
                     <div className='ml-3'>
                         <img
-                            className="h-[170px] w-[170px] rounded-full object-cover object-center"
+                            className="h-[170px] w-[170px] border-2 border-gray-500 rounded-full object-cover object-center"
                             src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                             alt="nature"
                         />
@@ -278,7 +279,7 @@ const User_Profile_Comp = () => {
 
                 </div>
 
-            </motion.div>
+        
         </>
     )
 }

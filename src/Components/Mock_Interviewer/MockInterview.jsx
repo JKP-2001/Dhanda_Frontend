@@ -34,7 +34,7 @@ const MockInterview = () => {
                 <div className="mt-8 ml-2 lg:mt-20 lg:ml-48 mb-10">
                     <div className='ml-3'>
                         <img
-                            className="h-[170px] w-[170px] rounded-full object-cover object-center"
+                            className="h-[170px] w-[170px] rounded-full border-2 border-gray-500 object-cover object-center"
                             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
                             alt="nature"
                         />
