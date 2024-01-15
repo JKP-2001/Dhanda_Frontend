@@ -42,7 +42,7 @@ const Nav = () => {
     const url = window.location.pathname;
 
     if (url.toLowerCase().includes("explore")) {
-      setIcon("home");
+      setIcon("explore");
     }
 
     if (url.toLowerCase().includes("mock")) {
@@ -157,10 +157,9 @@ const Nav = () => {
         <div className="w-full mx-auto px-6 py-2 mt-0 bg-white shadow-lg">
 
           <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-center">
-            <OtherHousesOutlinedIcon fontSize="large" className={`${icon==='home'?"text-blue-600":""}`} onClick={()=>{setIcon("home");navigate("/explore")}}/>
+            <OtherHousesOutlinedIcon fontSize="large" className={`${icon==='explore'?"text-blue-600":""}`} onClick={()=>{setIcon("explore");navigate("/explore")}}/>
             <PeopleOutlinedIcon fontSize="large" className={`${icon==='mock'?"text-blue-600":""}`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
             <AddBoxOutlinedIcon fontSize="large" className={`${icon==='new'?"text-blue-600":""}`} onClick={()=>setIcon("new")}/>
-            <SearchOutlinedIcon fontSize="large" className={`${icon==='explore'?"text-blue-600":""}`} onClick={()=>setIcon("explore")}/>
             <Avatar setIcon={setIcon} icon={icon}/>
 
           </div>
