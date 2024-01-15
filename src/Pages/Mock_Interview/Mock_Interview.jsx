@@ -7,15 +7,17 @@ import { scrollToTop } from '../../Utils/functions'
 
 const Mock_Interview = () => {
 
-  useEffect(()=>{
+  useEffect(() => {
     scrollToTop();
-  },[])
+  }, [])
 
   return (
     <div>
-        <Nav />
+      <Nav />
+      <div className='mb-20'>
         <Mock_Interview_Comp />
-        
+      </div>
+
     </div>
   )
 }

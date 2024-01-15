@@ -28,7 +28,7 @@ const Interviewer_Card = () => {
 
                 <div className="info mt-2">
                     <div className="image mt-14 flex justify-center">
-                        <img src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="" className="h-[140px] w-[140px] rounded-full object-cover object-center" />
+                        <img src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="" className="h-[140px] w-[140px] rounded-full object-cover object-center border-2 border-blue-gray-300" />
                     </div>
 
                     <div className="mx-5 lg:mx-20 mt-2">

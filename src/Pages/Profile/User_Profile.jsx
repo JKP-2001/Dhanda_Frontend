@@ -5,8 +5,10 @@ import User_Profile_Comp from '../../Components/Profile/User_Profile_Comp'
 const User_Profile = () => {
   return (
     <div>
-        <Nav />
+      <Nav />
+      <div className='mb-20'>
         <User_Profile_Comp />
+      </div>
     </div>
   )
 }

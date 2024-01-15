@@ -5,23 +5,32 @@ import { Link, Navigate, useNavigate } from "react-router-dom"; // Import Link f
 
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import OtherHousesOutlinedIcon from '@mui/icons-material/OtherHousesOutlined';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+
 const Avatar = (props) => {
 
   const navigate = useNavigate();
-  
+  const {setIcon,icon} = props;
   return (
-  
-      
-      <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="w-8 h-8 rounded-full cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={()=>navigate("/user/profile/:user")} />
 
-      
+
+    <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`w-8 h-8 rounded-full cursor-pointer ${icon==="avatar"?"border-2 border-black":""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => {navigate("/user/profile/:user");setIcon("avatar")}} />
+
+
 
   )
 }
 
 
 
+
+
 const Nav = () => {
+
+  const [icon, setIcon] = useState("home");
 
   const [openNav, setOpenNav] = useState(false);
 
@@ -30,9 +39,26 @@ const Nav = () => {
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
 
+    const url = window.location.pathname;
+
+    if (url.toLowerCase().includes("explore")) {
+      setIcon("home");
+    }
+
+    if (url.toLowerCase().includes("mock")) {
+      setIcon("mock");
+    }
+
+    if (url.toLowerCase().includes("profile")) {
+      setIcon("avatar");
+    }
+
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
+
+    
+    
   }, []);
 
   const [loggedSignIn, setLoggedSignIn] = useState(true);
@@ -46,7 +72,7 @@ const Nav = () => {
       {/* <motion.div style={{ scaleX: scrollYProgress }} className='fixed top-[64px] left-0 right-0 h-1 z-50 bg-blue-500 transform origin-left' /> */}
 
       <div className="sticky top-0 z-10">
-        <Navbar className="mx-auto max-w-screen-xl px-6 py-3 mt-2 w-full bg-white shadow-lg ">
+        <div className="w-full mx-auto px-6 py-3 mt-0 bg-white shadow-lg ">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
               as={Link}
@@ -58,7 +84,7 @@ const Nav = () => {
             </Typography>
             <div className="hidden lg:block">
               <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
-                {["Explore", "Mock-Interview", "Problems", "Discuss"].map((item, index) => (
+                {["Explore", "New-Feeds", "Mock-Interview", "Problems", "Discuss"].map((item, index) => (
 
                   <Typography
                     key={index}
@@ -95,10 +121,11 @@ const Nav = () => {
                 <Bars3Icon className="h-6 w-6" strokeWidth={2} />
               )}
             </IconButton>
+
           </div>
           <Collapse open={openNav}>
             <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
-              {["Explore", "Mock-Interview", "Problems", "Discuss"].map((item, index) => (
+              {["Problems", "Discuss"].map((item, index) => (
 
                 <Typography
                   key={index}
@@ -120,8 +147,28 @@ const Nav = () => {
               </Button>
             </div>
           </Collapse>
-        </Navbar>
+        </div>
       </div>
+
+
+
+
+      <div className="lg:hidden border-2 overflow-x-hidden fixed bottom-0 left-0 right-0 z-10 bg-white">
+        <div className="w-full mx-auto px-6 py-2 mt-0 bg-white shadow-lg">
+
+          <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-center">
+            <OtherHousesOutlinedIcon fontSize="large" className={`${icon==='home'?"text-blue-600":""}`} onClick={()=>{setIcon("home");navigate("/explore")}}/>
+            <PeopleOutlinedIcon fontSize="large" className={`${icon==='mock'?"text-blue-600":""}`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
+            <AddBoxOutlinedIcon fontSize="large" className={`${icon==='new'?"text-blue-600":""}`} onClick={()=>setIcon("new")}/>
+            <SearchOutlinedIcon fontSize="large" className={`${icon==='explore'?"text-blue-600":""}`} onClick={()=>setIcon("explore")}/>
+            <Avatar setIcon={setIcon} icon={icon}/>
+
+          </div>
+
+        </div>
+      </div>
+
+
     </>
   );
 };
