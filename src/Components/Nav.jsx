@@ -98,7 +98,7 @@ const Nav = () => {
                     </Link>
                   </Typography>
                 ))}
-                {loggedSignIn ? <Avatar /> : <>
+                {loggedSignIn ? <Avatar setIcon={setIcon} icon={icon}/> : <>
                   <Link to="/signin" className="">
                     <Button variant="outlined" size="sm" className="lg:inline-block">
                       <span>Sign In</span>
@@ -153,10 +153,10 @@ const Nav = () => {
 
 
 
-      <div className="lg:hidden border-2 overflow-x-hidden fixed bottom-0 left-0 right-0 z-10 bg-white">
-        <div className="w-full mx-auto px-6 py-2 mt-0 bg-white shadow-lg">
+      <div className="lg:hidden border-2 overflow-hidden fixed bottom-0 left-0 right-0 z-10 bg-white px-6 py-2 shadow-lg">
+        
 
-          <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-center">
+          <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between">
             <OtherHousesOutlinedIcon fontSize="large" className={`${icon==='explore'?"text-blue-600":""}`} onClick={()=>{setIcon("explore");navigate("/explore")}}/>
             <PeopleOutlinedIcon fontSize="large" className={`${icon==='mock'?"text-blue-600":""}`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
             <AddBoxOutlinedIcon fontSize="large" className={`${icon==='new'?"text-blue-600":""}`} onClick={()=>setIcon("new")}/>
@@ -164,7 +164,7 @@ const Nav = () => {
 
           </div>
 
-        </div>
+        
       </div>
 
 
