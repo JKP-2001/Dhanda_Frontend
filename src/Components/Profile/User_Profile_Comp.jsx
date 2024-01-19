@@ -97,9 +97,7 @@ const PostCard = () => {
 
             <div className="w-[96%] sm:ml-2 lg:w-8/12  mt-2">
                 <div className="bg-white rounded-lg shadow border-2 border-gray-300">
-                    <div className="border-b p-3">
-                        <h5 className="font-bold uppercase text-gray-600">Design</h5>
-                    </div>
+                    
                     <div className="p-5">
                         <h3 className="font-bold text-3xl">Title of job post</h3>
                         <p className="text-sm text-gray-600 mb-5 text-balance break-all">

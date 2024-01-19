@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useParams } from 'react-router-dom';
+import showToast from '../../Utils/showToast';
 
 const localizer = momentLocalizer(moment);
 
@@ -31,7 +32,7 @@ const Calendar_Comp = () => {
 
     const timeSlots = useMemo(() => {
         const defaultTimeSlots = [
-            '08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
+            '08:00', '09:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
         ];
 
         if (selectedDate) {
@@ -79,7 +80,11 @@ const Calendar_Comp = () => {
             });
 
             if (isSlotAlreadyScheduled) {
-                setError('Slot already scheduled');
+                showToast({
+                    type: 'error',
+                    msg: 'Slot already scheduled',
+                    duration: 3000
+                });
             } else {
                 const startHour = parseInt(selectedTime.split(':')[0], 10);
                 const startMinute = parseInt(selectedTime.split(':')[1], 10);
@@ -99,7 +104,19 @@ const Calendar_Comp = () => {
 
                 setEvents([...events, newEvent]);
                 setError(null);
+                showToast({
+                    type: 'success',
+                    msg: 'Slot added successfully. Please check your calendar.',
+                    duration: 3000
+                });
             }
+        }else{
+            
+            showToast({
+                type: 'error',
+                msg: 'Please select Date and Time.',
+                duration: 3000
+            })
         }
     };
 
@@ -113,7 +130,7 @@ const Calendar_Comp = () => {
     
     return (
         <div className='my-3'>
-            <div className="w-full p-4 bg-gray-100 text-center">
+            <div className="w-full p-4  text-center">
                 <h1 className="text-xl font-roboto">
                     Select time slot for interview with {user}
                 </h1>
@@ -130,13 +147,14 @@ const Calendar_Comp = () => {
                             selectable
                             onSelectSlot={handleDateClick}
                             onSelectEvent={handleEventClick}
+                            className='bg-white rounded-lg shadow-md'
                         />
                     </div>
                 )}
 
-                <div className="w-full md:w-1/4 p-4 bg-gray-100 rounded">
+                <div className="w-full md:w-1/4 p-4 rounded">
                     <h2 className="text-lg font-semibold mb-4">Select Time Slot</h2>
-                    {error && <div className="text-red-500 mb-2">{error}</div>}
+                    
                     <div className="date">
                         <div className='text-sm font-roboto font-no'> Selected Date</div>
                         <DatePicker
@@ -151,7 +169,7 @@ const Calendar_Comp = () => {
                             <button
                                 key={time}
                                 onClick={() => handleTimeClick(time)}
-                                className={`p-2 border border-gray-300 rounded hover:bg-blue-100 focus:outline-none cursor-pointer transition-colors duration-300 ease-in-out ${selectedTime === time ? 'bg-blue-500 text-white' : ''
+                                className={`p-2   border-[1.5px] border-blue-gray-100 rounded-xl font-inter font-semibold hover:text-white hover:bg-blue-700 focus:outline-none cursor-pointer transition-colors duration-300 ease-in-out ${selectedTime === time ? 'bg-blue-800 text-white' : 'border-blue-400 text-blue-400'
                                     }`}
                             >
                                 {time}
@@ -160,7 +178,7 @@ const Calendar_Comp = () => {
                     </div>
                     <button
                         onClick={handleAddMeeting}
-                        className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out"
+                        className="bg-blue-500 text-white px-4 py-2 rounded-xl mt-4 hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold"
                     >
                         Add Meeting
                     </button>

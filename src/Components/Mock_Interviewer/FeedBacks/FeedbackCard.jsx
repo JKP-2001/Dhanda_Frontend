@@ -49,7 +49,7 @@ const FeedbackCard = () => {
   };
 
   return (
-    <Card className="rounded-xl w-11/12 lg:w-8/12 pb-2 border-2 border-gray-300 overflow-hidden" >
+    <Card className="rounded-xl w-[96%] lg:w-8/12 pb-2 border-2 border-gray-300 overflow-hidden" >
 
       <motion.div key={active} // Add key prop here
         initial="hidden"
