@@ -243,7 +243,7 @@ const User_Profile_Comp = () => {
 
                 </div>
                 
-                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-11/12 lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-11/12 lg:w-9/12"><BookMarked /></div> : <></>}
+                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-[96%] lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-[96%] lg:w-9/12"><BookMarked /></div> : <></>}
                
 
 
