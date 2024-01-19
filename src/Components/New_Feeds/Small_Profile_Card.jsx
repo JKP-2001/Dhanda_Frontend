@@ -6,7 +6,7 @@ const Small_Profile_Card = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex justify-between my-6 space-x-28 mx-4">
+        <div className="flex justify-between space-x-14 mx-2 my-5">
             <div className="flex leftside space-x-2">
                 <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`w-12 h-12 rounded-full cursor-pointer`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => { navigate("/user/profile/:user")}} />
 
