@@ -108,6 +108,8 @@ const Calendar_Comp = () => {
                     msg: 'Slot added successfully. Please check your calendar.',
                     duration: 3000
                 });
+                setSelectedDate(null);
+                setSelectedTime(null);
             }
         } else {
             showToast({

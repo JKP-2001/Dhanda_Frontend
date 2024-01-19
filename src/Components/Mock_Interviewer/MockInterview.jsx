@@ -25,13 +25,13 @@ const MockInterview = () => {
     return (
         <>
 
-            <motion.div
+            <motion.div className='select-none'
                 initial="hidden"
                 animate="visible"
                 variants={variants}
                 transition={{ type: "spring", stiffness: 100 }}
             >
-                <div className="mt-8 ml-2 lg:mt-20 lg:ml-48 mb-10">
+                <div className="select-none mt-8 ml-2 lg:mt-20 lg:ml-48 mb-10">
                     <div className='ml-3'>
                         <img
                             className="h-[170px] w-[170px] rounded-full border-2 border-gray-500 object-cover object-center"
