@@ -12,8 +12,8 @@ const localizer = momentLocalizer(moment);
 const preFilledEvents = [
     {
         title: 'Mock Interview with User1',
-        start: new Date(2024, 0, 14, 10, 0), // Example date and time
-        end: new Date(2024, 0, 14, 11, 0), // Example date and time
+        start: new Date(2024, 0, 14, 10, 0),
+        end: new Date(2024, 0, 14, 11, 0),
     },
     // Add more events as needed
 ];
@@ -21,7 +21,7 @@ const preFilledEvents = [
 const Calendar_Comp = () => {
     const [selectedDate, setSelectedDate] = useState(moment().toDate());
     const [selectedTime, setSelectedTime] = useState(null);
-    const [events, setEvents] = useState(preFilledEvents); // Initialize with pre-filled events
+    const [events, setEvents] = useState(preFilledEvents);
     const [showCalendar, setShowCalendar] = useState(true);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -57,8 +57,8 @@ const Calendar_Comp = () => {
 
     const handleEventClick = (event) => {
         setSelectedEvent(event);
-        // Show the modal when an event is clicked
         setShowModal(true);
+        document.body.style.overflow = 'hidden'; 
     };
 
     const handleDateChange = (date) => {
@@ -68,7 +68,6 @@ const Calendar_Comp = () => {
 
     const handleAddMeeting = () => {
         if (selectedDate && selectedTime) {
-            // Check if the selected date and time already exist in events
             const isSlotAlreadyScheduled = events.some((event) => {
                 const eventStartTime = moment(event.start);
                 const selectedStartTime = moment(selectedDate).set({
@@ -110,24 +109,21 @@ const Calendar_Comp = () => {
                     duration: 3000
                 });
             }
-        }else{
-            
+        } else {
             showToast({
                 type: 'error',
                 msg: 'Please select Date and Time.',
                 duration: 3000
-            })
+            });
         }
     };
 
     const handleClosePopup = () => {
         setSelectedEvent(null);
-        // Close the modal
         setShowModal(false);
+        document.body.style.overflow = 'auto'; // Enable scrolling when the modal is closed
     };
 
-
-    
     return (
         <div className='my-3'>
             <div className="w-full p-4  text-center">

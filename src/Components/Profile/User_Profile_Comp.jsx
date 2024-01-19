@@ -17,6 +17,7 @@ import moment from 'moment';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import PostCard from '../New_Feeds/PostCard';
 
 
 const localizer = momentLocalizer(moment);
@@ -46,7 +47,7 @@ const Slider = () => {
 const Account = () => {
     return (
         <motion.div
-            
+
             className='mt-3 ml-3 md:ml-5'
         >
 
@@ -57,9 +58,69 @@ const Account = () => {
 }
 
 
-const Calendar_Part = () => {
+const Calendar_Part = (props) => {
 
 
+
+    const events = props.events;
+    const handleEventClick = props.handleEventClick;
+
+    return (
+
+
+
+        <div className="w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10">
+            <Calendar
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: `550px` }}
+                onSelectEvent={handleEventClick}
+                selectable
+            />
+        </div>
+    )
+}
+
+
+
+
+const Posts = () => {
+    return (
+
+        <div >
+
+            <PostCard type="saved" />
+            <PostCard type="saved" />
+            <PostCard type="saved" />
+            <PostCard type="saved" />
+            <PostCard type="saved" />
+            <PostCard type="saved" />
+        </div>
+
+    )
+}
+
+
+const BookMarked = () => {
+    return (
+        <div >
+
+            <PostCard type="book" />
+            <PostCard type="book" />
+           
+
+        </div>
+    )
+}
+
+
+
+const User_Profile_Comp = () => {
+
+
+    const navigate = useNavigate();
 
     const events = [
         {
@@ -70,98 +131,27 @@ const Calendar_Part = () => {
         // Add more events as needed
     ];
 
-    return (
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
-       
+    const handleEventClick = (event) => {
+        setSelectedEvent(event);
+        document.body.style.overflow = 'hidden';
+    };
 
-            <div className="w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10">
-                <Calendar
-                    localizer={localizer}
-                    events={events}
-                    startAccessor="start"
-                    endAccessor="end"
-                    style={{ height: `550px` }}
-                    selectable
-                />
-            </div>
- 
+    const handleClosePopup = () => {
+        setSelectedEvent(null);
 
-    )
-}
-
-
-const PostCard = () => {
-    return (
-
-      
-
-            <div className="w-[96%] sm:ml-2 lg:w-8/12  mt-2">
-                <div className="bg-white rounded-lg shadow border-2 border-gray-300">
-                    
-                    <div className="p-5">
-                        <h3 className="font-bold text-3xl">Title of job post</h3>
-                        <p className="text-sm text-gray-600 mb-5 text-balance break-all">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quia temporibus eveniet a libero
-                            incidunt suscipit laborum, rerum accusantium modi quidem, ipsam illum quis sed voluptatum quae eum fugit
-                            earum.
-                        </p>
-                        <a href="#" className="uppercase text-gray-800 hover:text-black">Apply now</a>
-                    </div>
-                </div>
-            </div>
-   
-    )
-}
-
-
-const Posts = () => {
-    return (
-
-        <div className='ml-3 lg:ml-5 mt-2'>
-            <div className="flex flex-wrap">
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-            </div>
-        </div>
-
-    )
-}
-
-
-const BookMarked = () => {
-    return (
-        <div className='ml-3 lg:ml-5 mt-2'>
-            <div className="flex flex-wrap">
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-            </div>
-        </div>
-    )
-}
+        document.body.style.overflow = 'auto';
+    };
 
 
 
-const User_Profile_Comp = () => {
-
-  
-    const navigate = useNavigate();
-
-
-
-    const [selectedIcon, setSelectedIcon] = useState(localStorage.getItem("user-profile")?localStorage.getItem("user-profile"):"account");
+    const [selectedIcon, setSelectedIcon] = useState(localStorage.getItem("user-profile") ? localStorage.getItem("user-profile") : "account");
 
     const handleIconClick = (icon) => {
         // Toggle the state to show/hide underline
         setSelectedIcon(icon);
-        localStorage.setItem("user-profile",icon)
+        localStorage.setItem("user-profile", icon)
     };
 
     useEffect(() => {
@@ -252,11 +242,29 @@ const User_Profile_Comp = () => {
                     </motion.div>
 
                 </div>
-
-                {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part /> : selectedIcon === 'grid' ? <Posts /> : selectedIcon === 'bookmark' ? <BookMarked /> : <></>}
+                
+                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-11/12 lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-11/12 lg:w-9/12"><BookMarked /></div> : <></>}
+               
 
 
             </div>
+
+            {selectedEvent && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10">
+                    <div className="bg-white p-4 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full">
+                        <h2 className="text-lg font-roboto mb-4">Interview Details</h2>
+                        <p className='font-roboto'>Title: {selectedEvent.title}</p>
+                        <p className='font-roboto'>Start Time: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
+                        <p className='font-roboto'>End Time: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
+
+                        <p className='font-roboto'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+
+                        <button onClick={handleClosePopup} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
 
 
         </>

@@ -5,8 +5,10 @@ import New_Feeds_Comp from '../Components/New_Feeds/New_Feeds_Comp'
 const New_Feeds = () => {
   return (
     <div>
-        <Nav />
+      <Nav />
+      <div className='mb-20'>
         <New_Feeds_Comp />
+      </div>
     </div>
   )
 }
