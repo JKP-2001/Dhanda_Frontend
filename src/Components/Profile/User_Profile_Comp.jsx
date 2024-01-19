@@ -48,7 +48,7 @@ const Account = () => {
     return (
         <motion.div
 
-            className='mt-3 ml-3 md:ml-5'
+            className='mt-5 ml-3 md:ml-5'
         >
 
             <EducationCard />
@@ -89,8 +89,8 @@ const Calendar_Part = (props) => {
 const Posts = () => {
     return (
 
-        <div >
-
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2   gap-4'>
+            
             <PostCard type="saved" />
             <PostCard type="saved" />
             <PostCard type="saved" />
@@ -105,10 +105,13 @@ const Posts = () => {
 
 const BookMarked = () => {
     return (
-        <div >
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2   gap-4'>
 
             <PostCard type="book" />
             <PostCard type="book" />
+            <PostCard type="book" />
+            <PostCard type="book" />
+          
            
 
         </div>
@@ -179,7 +182,7 @@ const User_Profile_Comp = () => {
                     <h1 className="font-inter text-sm w-11/12 lg:w-8/12 text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
                 </div>
 
-                <div className='ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm break-words'>
+                <div className='ml-5 lg:ml-7 description font-inter w-10/12 lg:w-8/12  mt-10 text-sm break-words'>
                     Filler text is text that shares some characteristics of a real written text, but is
                     random or otherwise generated. It may be used to display a sample of fonts,
                     generate text for testing, or to spoof an e-mail spam filter.
