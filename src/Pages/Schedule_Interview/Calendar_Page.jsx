@@ -13,7 +13,7 @@ const Calendar_Page = () => {
     <div className=''>
 
       <Nav />
-      <div className='mb-20'>
+      <div className='mb-20 select-none'>
         <Calendar_Comp />
       </div>
     </div>

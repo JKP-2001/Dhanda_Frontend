@@ -6,7 +6,7 @@ const User_Profile = () => {
   return (
     <div>
       <Nav />
-      <div className='mb-20'>
+      <div className='mb-20 select-none'>
         <User_Profile_Comp />
       </div>
     </div>

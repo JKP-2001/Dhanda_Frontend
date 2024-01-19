@@ -24,7 +24,7 @@ const PostCard = (props) => {
     const newBio = bio.length > 50 ? bio.substring(0, 50) + "..." : bio;
 
     return (
-        <div className={`my-5 ${type==="feed"?"items-center flex justify-center":""}`}>
+        <div className={`my-5 select-none ${type==="feed"?"items-center flex justify-center":""}`}>
 
 
             <div class="mx-2 w-full max-w-3xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -51,18 +51,18 @@ const PostCard = (props) => {
 
                     <div className="likes flex space-x-1">
                         <AiOutlineLike fontSize={15} className=" text-gray-600 hover:cursor-pointer" />
-                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold">1.5K Likes</p>
+                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none">1.5K Likes</p>
                     </div>
 
                     <div className="flex space-x-1">
                         <div className="flex space-x-1">
                             <IoChatbubbleOutline fontSize={15} className="hidden sm:block text-gray-600 hover:cursor-pointer" />
-                            <p className="text-xs text-gray-600 font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-500">9 Comments</p>
+                            <p className="text-xs text-gray-600 font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-500 select-none">9 Comments</p>
                         </div>
                         <p className='-mt-[5px]'>•</p>
                         <div className="flex">
                             <IoRepeat fontSize={15} className="hidden sm:block text-gray-600 hover:cursor-pointer" />
-                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold">29 Reposts</p>
+                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none">29 Reposts</p>
                         </div>
                     </div>
                 </div>

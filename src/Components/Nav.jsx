@@ -71,7 +71,7 @@ const Nav = () => {
     <>
       {/* <motion.div style={{ scaleX: scrollYProgress }} className='fixed top-[64px] left-0 right-0 h-1 z-50 bg-blue-500 transform origin-left' /> */}
 
-      <div className="sticky top-0 z-10">
+      <div className="sticky top-0 z-10 select-none">
         <div className="w-full mx-auto px-6 py-3 mt-0 bg-white shadow-lg ">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography

@@ -21,7 +21,7 @@ const Interviewer_Card = () => {
         // whileInView={{ opacity: 1, y: 0 }}
         // viewport={{ once: true, amount: 0.1 }}
         // transition={{ duration: 0.5 }} >
-        <div>
+        <div className="select-none">
             <Card className="mt-5 mx-5 md:w-11/12 border-2 shadow-lg hover:shadow-2xl border-gray-200 hover:border-gray-300">
                 <div className="price absolute right-4 top-2 text-black font-inter">
                     ₹ 500 (45 mins)
