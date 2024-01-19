@@ -41,7 +41,7 @@ const Nav = () => {
 
     const url = window.location.pathname;
 
-    if (url.toLowerCase().includes("explore")) {
+    if (url.toLowerCase().includes("new-feeds")) {
       setIcon("explore");
     }
 
@@ -157,7 +157,7 @@ const Nav = () => {
         
 
           <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between">
-            <OtherHousesOutlinedIcon fontSize="large" className={`${icon==='explore'?"text-blue-600":""} hover:cursor-pointer`} onClick={()=>{setIcon("explore");navigate("/new_feeds")}}/>
+            <OtherHousesOutlinedIcon fontSize="large" className={`${icon==='explore'?"text-blue-600":""} hover:cursor-pointer`} onClick={()=>{setIcon("explore");navigate("/new-feeds")}}/>
             <PeopleOutlinedIcon fontSize="large" className={`${icon==='mock'?"text-blue-600":""} hover:cursor-pointer`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
             <AddBoxOutlinedIcon fontSize="large" className={`${icon==='new'?"text-blue-600":""}  hover:cursor-pointer`} onClick={()=>setIcon("new")}/>
             <Avatar setIcon={setIcon} icon={icon}/>
