@@ -115,7 +115,7 @@ const PostCard = (props) => {
 
             {like ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
 
-                <div className="block max-w-sm pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
+                <div className="block w-[96%] lg:w-[40%] pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
 
                     <div className='sticky top-0 bg-white z-10 mb-3'>
                         <div className='flex justify-between'>
@@ -136,7 +136,7 @@ const PostCard = (props) => {
 
             </div> : repost ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
 
-                <div className="block max-w-sm pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
+                <div className="block w-[96%] lg:w-[40%] max-w-lg pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
 
                     <div className='sticky top-0 bg-white z-10 mb-3'>
                         <div className='flex justify-between'>
