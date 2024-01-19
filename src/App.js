@@ -23,6 +23,7 @@ import NewPassword from './Pages/Auth/NewPassword';
 import SignIn from './Pages/Auth/SignIn';
 import Calendar_Page from './Pages/Schedule_Interview/Calendar_Page';
 import User_Profile from './Pages/Profile/User_Profile';
+import New_Feeds from './Pages/New_Feeds';
 
 
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="/reset-password/:user_id" element={<NewPassword />} />
           <Route path="/mock-interview/schedule/:user" element={<Calendar_Page />} />
           <Route path="/user/profile/:user" element={<User_Profile />} />
+          <Route path="/new_feeds" element={<New_Feeds />} />
         </Routes>
       </Router>
     </>
