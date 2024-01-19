@@ -31,8 +31,8 @@ const MockInterview = () => {
                 variants={variants}
                 transition={{ type: "spring", stiffness: 100 }}
             >
-                <div className="select-none mt-8 ml-2 lg:mt-20 lg:ml-48 mb-10">
-                    <div className='ml-3'>
+                <div className="select-none mt-8 ml-0 lg:mt-20 lg:ml-48 mb-10">
+                    <div className='ml-1 lg:ml-4'>
                         <img
                             className="h-[170px] w-[170px] rounded-full border-2 border-gray-500 object-cover object-center"
                             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
@@ -44,7 +44,7 @@ const MockInterview = () => {
 
                     <div className='ml-5 lg:ml-7'>
                         <h1 className="font-roboto text-xl font-thin mt-4">Manish Mishra</h1>
-                        <h1 className="font-inter text-sm w-11/12 lg:w-8/12 text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
+                        <h1 className="font-inter text-sm w-[96%] lg:w-8/12 text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
                     </div>
 
                     <div className='ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm'>
@@ -57,7 +57,7 @@ const MockInterview = () => {
                         generate text for testing, or to spoof an e-mail spam filter.
                     </div>
 
-                    <div className='ml-5 lg:ml-7 mt-10'>
+                    <div className='ml-3 lg:ml-7 mt-10'>
                         <Button
                             color="black"
                             buttonType="filled"
@@ -74,7 +74,7 @@ const MockInterview = () => {
                     </div>
 
                     <motion.div 
-                        className='ml-5 lg:ml-7 mt-5'>
+                        className='ml-3 lg:ml-7 mt-5'>
 
                         <ExperienceCard />
 
@@ -84,13 +84,13 @@ const MockInterview = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 0.5 }}
-                        className='ml-5 lg:ml-7 mt-5'>
+                        className='ml-3 lg:ml-7 mt-5'>
 
                         <EducationCard />
 
                     </motion.div>
 
-                    <div className='ml-5 lg:ml-7 mt-10'>
+                    <div className='ml-3 lg:ml-7 mt-10'>
                         <Button
                             color="black"
                             buttonType="filled"
@@ -109,7 +109,7 @@ const MockInterview = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 0.5 }}
-                    className='ml-5 lg:ml-7 mt-10'>
+                    className='ml-3 lg:ml-7 mt-10'>
                         <FeedbackCard />
                     </motion.div>
 

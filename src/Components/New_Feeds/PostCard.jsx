@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
@@ -13,9 +13,38 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { IoRepeat } from "react-icons/io5";
 
 import Carousel_Comp from './Carousle_Comp';
+import Small_Profile_Card from './Small_Profile_Card';
+
+import { IoMdClose } from "react-icons/io";
 
 const PostCard = (props) => {
     const navigate = useNavigate();
+
+    const [like, setLike] = useState(false);
+
+    const [repost, setRepost] = useState(false);
+
+    const handleLikeClick = (event) => {
+        setLike(true)
+        document.body.style.overflow = 'hidden';
+    };
+
+    const handleCloseLike = () => {
+        setLike(false);
+
+        document.body.style.overflow = 'auto';
+    };
+
+    const handleClickRepost = () => {
+        setRepost(true)
+        document.body.style.overflow = 'hidden';
+    };
+
+    const handleCloseRepost = () => {
+        setRepost(false);
+
+        document.body.style.overflow = 'auto';
+    };
 
     const type = props.type;
 
@@ -24,10 +53,10 @@ const PostCard = (props) => {
     const newBio = bio.length > 50 ? bio.substring(0, 50) + "..." : bio;
 
     return (
-        <div className={`my-5 select-none ${type==="feed"?"items-center flex justify-center":""}`}>
+        <div className={`my-5 select-none ${type === "feed" ? "items-center flex justify-center" : ""}`}>
 
 
-            <div class="mx-2 w-full max-w-3xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className={`mx-2 w-full ${type === "feed" ?"max-w-2xl":"max-w-lg"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
                 <div className='flex my-2'>
                     <div className='ml-3'>
                         <img
@@ -42,16 +71,16 @@ const PostCard = (props) => {
                         <h1 className='font-inter text-xs text-gray-500'>{newBio}</h1>
                     </div>
                 </div>
-                
+
                 <Carousel_Comp />
 
-                
+
 
                 <div className="flex mx-2 sm:mx-4 justify-between mt-2">
 
                     <div className="likes flex space-x-1">
                         <AiOutlineLike fontSize={15} className=" text-gray-600 hover:cursor-pointer" />
-                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none">1.5K Likes</p>
+                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleLikeClick}>1.5K Likes</p>
                     </div>
 
                     <div className="flex space-x-1">
@@ -62,7 +91,7 @@ const PostCard = (props) => {
                         <p className='-mt-[5px]'>•</p>
                         <div className="flex">
                             <IoRepeat fontSize={15} className="hidden sm:block text-gray-600 hover:cursor-pointer" />
-                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none">29 Reposts</p>
+                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleClickRepost}>29 Reposts</p>
                         </div>
                     </div>
                 </div>
@@ -83,6 +112,50 @@ const PostCard = (props) => {
 
                 </div>
             </div>
+
+            {like ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
+
+                <div className="block max-w-sm pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
+
+                    <div className='sticky top-0 bg-white z-10 mb-3'>
+                        <div className='flex justify-between'>
+                            <h5 class="mb-2 text-2xl font-inter font-semibold tracking-tight text-gray-900 dark:text-white ml-2 pt-2">Liked By</h5>
+                            <IoMdClose fontSize={25} className='mt-3 mr-2 hover:cursor-pointer' onClick={handleCloseLike} />
+                        </div>
+                        <hr className='border-[1px] border-gray-400' />
+                    </div>
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                </div>
+
+
+            </div> : repost ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
+
+                <div className="block max-w-sm pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
+
+                    <div className='sticky top-0 bg-white z-10 mb-3'>
+                        <div className='flex justify-between'>
+                            <h5 class="mb-2 text-2xl font-inter font-semibold tracking-tight text-gray-900 dark:text-white ml-2 pt-2">Reposted By</h5>
+                            <IoMdClose fontSize={25} className='mt-3 mr-2 hover:cursor-pointer' onClick={handleCloseRepost} />
+                        </div>
+                        <hr className='border-[1px] border-gray-400' />
+                    </div>
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                    <Small_Profile_Card />
+                </div>
+
+
+            </div> : null}
 
         </div>
     )

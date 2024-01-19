@@ -15,7 +15,7 @@ const InstitituteCard = () => {
 
             </div>
             <div className="about">
-                <h1 className="font-inter text-sm text-gray-500 ml-[65px] md:ml-[80px] mt-2 mx-10 break-words">
+                <h1 className="font-inter text-sm text-gray-500 ml-[70px] md:ml-[80px] mt-2 mx-10 ">
                     Filler text is text that shares some characteristics of a real written text, but is
                     random or otherwise generated. It may be used to display a sample of fonts, 
                     generate text for testing, or to spoof an e-mail spam filter.

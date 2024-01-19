@@ -3,7 +3,7 @@ import { Carousel } from '@material-tailwind/react';
 
 const Carousel_Comp = () => {
     return (
-        <Carousel className="w-full h-[300px] sm:h-[500px] overflow-hidden ">
+        <Carousel className="w-full h-[300px] sm:h-[500px] overflow-hidden z-0">
             <img
                 src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
                 alt="image 1"

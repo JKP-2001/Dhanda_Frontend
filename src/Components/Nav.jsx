@@ -10,6 +10,10 @@ import OtherHousesOutlinedIcon from '@mui/icons-material/OtherHousesOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 
+import { HiOutlineHome } from "react-icons/hi2";
+import { SlPeople } from "react-icons/sl";
+import { CiSquarePlus } from "react-icons/ci";
+
 const Avatar = (props) => {
 
   const navigate = useNavigate();
@@ -17,7 +21,7 @@ const Avatar = (props) => {
   return (
 
 
-    <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`w-8 h-8 rounded-full cursor-pointer ${icon==="avatar"?"border-2 border-black":""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => {navigate("/user/profile/:user");setIcon("avatar")}} />
+    <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`mt-1 w-8 h-8 rounded-full cursor-pointer ${icon==="avatar"?"border-2 border-blue-400":""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => {navigate("/user/profile/:user");setIcon("avatar")}} />
 
 
 
@@ -157,9 +161,9 @@ const Nav = () => {
         
 
           <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between">
-            <OtherHousesOutlinedIcon fontSize="large" className={`${icon==='explore'?"text-blue-600":""} hover:cursor-pointer`} onClick={()=>{setIcon("explore");navigate("/new-feeds")}}/>
-            <PeopleOutlinedIcon fontSize="large" className={`${icon==='mock'?"text-blue-600":""} hover:cursor-pointer`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
-            <AddBoxOutlinedIcon fontSize="large" className={`${icon==='new'?"text-blue-600":""}  hover:cursor-pointer`} onClick={()=>setIcon("new")}/>
+            <HiOutlineHome fontSize={30} className={`${icon==='explore'?"text-blue-800":""} hover:cursor-pointer mt-1`} onClick={()=>{setIcon("explore");navigate("/new-feeds")}}/>
+            <SlPeople fontSize={27} className={`${icon==='mock'?"text-blue-800":""} hover:cursor-pointer mt-1`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
+            <CiSquarePlus fontSize={30} className={`${icon==='new'?"text-blue-800":""}  hover:cursor-pointer mt-1`} onClick={()=>setIcon("new")}/>
             <Avatar setIcon={setIcon} icon={icon}/>
 
           </div>
