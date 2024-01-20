@@ -16,6 +16,7 @@ import Carousel_Comp from './Carousle_Comp';
 import Small_Profile_Card from './Small_Profile_Card';
 
 import { IoMdClose } from "react-icons/io";
+import { FaUserPlus } from "react-icons/fa";
 
 const PostCard = (props) => {
     const navigate = useNavigate();
@@ -57,18 +58,26 @@ const PostCard = (props) => {
 
 
             <div className={`mx-2 w-full ${type === "feed" ? "max-w-3xl" : "max-w-4xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
-                <div className='flex my-2'>
-                    <div className='ml-3'>
-                        <img
-                            className="hover:underline hover:cursor-pointer  h-[40px] w-[40px] border-2 border-gray-500 rounded-full object-cover object-center"
-                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                            alt="nature"
-                            onClick={() => navigate("/user/profile/:user")}
-                        />
+                <div className='flex my-2 justify-between'>
+                    <div className="flex">
+                        <div className='ml-3'>
+                            <img
+                                className="hover:underline hover:cursor-pointer  h-[40px] w-[40px] border-2 border-gray-500 rounded-full object-cover object-center"
+                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                alt="nature"
+                                onClick={() => navigate("/user/profile/:user")}
+                            />
+                        </div>
+                        <div className='ml-3 mt-1 -space-y-1 hover:cursor-pointer hover:underline' onClick={() => navigate("/user/profile/:user")}>
+                            <h1 className='font-inter font-semibold'>Abhishek</h1>
+                            <h1 className='font-inter text-xs text-gray-500 w-3/4'>{newBio}</h1>
+                        </div>
                     </div>
-                    <div className='ml-3 mt-1 -space-y-1 hover:cursor-pointer hover:underline' onClick={() => navigate("/user/profile/:user")}>
-                        <h1 className='font-inter font-semibold'>Abhishek</h1>
-                        <h1 className='font-inter text-xs text-gray-500'>{newBio}</h1>
+                    <div className='mr-3 mt-2 sm:mt-1'>
+                        
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl font-inter text-xs flex">
+                        <FaUserPlus fontSize={17} className="text-white hover:cursor-pointer block  sm:mr-2" />
+                        </button>
                     </div>
                 </div>
 
@@ -125,13 +134,13 @@ const PostCard = (props) => {
                         <hr className='border-[1px] border-gray-400' />
                     </div>
                     <div className='overflow-y-scroll max-h-[400px] -mt-3'>
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
                     </div>
                 </div>
 
