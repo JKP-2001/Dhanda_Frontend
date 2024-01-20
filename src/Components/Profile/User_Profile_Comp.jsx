@@ -91,7 +91,7 @@ const Posts = () => {
     return (
 
         <div>
-            
+
             <PostCard type="saved" />
             <PostCard type="saved" />
             <PostCard type="saved" />
@@ -112,8 +112,8 @@ const BookMarked = () => {
             <PostCard type="book" />
             <PostCard type="book" />
             <PostCard type="book" />
-          
-           
+
+
 
         </div>
     )
@@ -168,12 +168,42 @@ const User_Profile_Comp = () => {
 
 
             <div className="mt-2 ml-0 lg:mt-12 lg:ml-48 mb-10">
-                <div className='ml-3'>
+                <div className='ml-3 sm:ml-4 flex'>
                     <img
-                        className="h-[170px] w-[170px] border-2 border-gray-500 rounded-full object-cover object-center"
+                        className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
                         src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                         alt="nature"
                     />
+
+                    <div className='ml-4 lg:ml-10 mt-10 sm:mt-16 text-center'>
+                        <div className="flex space-x-4 sm:space-x-16">
+                            <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                <div className="number text-center">
+                                    0
+                                </div>
+                                <div>
+                                    Posts
+                                </div>
+                            </div>
+                            <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                <div className="number text-center">
+                                    0
+                                </div>
+                                <div>
+                                    Followers
+                                </div>
+                            </div>
+                            <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                <div className="number text-center">
+                                    0
+                                </div>
+                                <div>
+                                    Following
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -246,9 +276,9 @@ const User_Profile_Comp = () => {
                     </motion.div>
 
                 </div>
-                
-                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-[96%] lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-[96%] lg:w-9/12"><BookMarked /></div> : <></>}
-               
+
+                {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-[96%] lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-[96%] lg:w-9/12"><BookMarked /></div> : <></>}
+
 
 
             </div>
@@ -256,21 +286,21 @@ const User_Profile_Comp = () => {
             {selectedEvent && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10">
                     <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
-                            <h2 className="text-2xl font-inter font-bold mb-4">Interview Details</h2>
-                            
-                            <p className='font-inter font-semibold text-gray-700'>Title: {selectedEvent.title}</p>
-                            <p className='font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
-                            <p className='font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
+                        <h2 className="text-2xl font-inter font-bold mb-4">Interview Details</h2>
 
-                            <p className='font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+                        <p className='font-inter font-semibold text-gray-700'>Title: {selectedEvent.title}</p>
+                        <p className='font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
+                        <p className='font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
 
-                            <div className="flex justify-end">
-                                <button onClick={handleClosePopup} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">
-                                    Close
-                                </button>
-                            </div>
+                        <p className='font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
 
+                        <div className="flex justify-end">
+                            <button onClick={handleClosePopup} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">
+                                Close
+                            </button>
                         </div>
+
+                    </div>
                 </div>
             )}
 
