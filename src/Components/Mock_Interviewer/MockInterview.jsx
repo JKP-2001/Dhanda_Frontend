@@ -124,8 +124,8 @@ const MockInterview = () => {
                 variants={variants}
                 transition={{ type: "spring", stiffness: 100 }}
             >
-                <div className="select-none mt-8 ml-0 lg:mt-20 lg:ml-48 mb-10">
-                    <div className='ml-1 lg:ml-4 flex'>
+                <div className="select-none mt-3 ml-0 lg:mt-20 lg:ml-48 mb-10">
+                    <div className='ml-3 sm:ml-4 flex'>
                         <img
                             className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
                             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
