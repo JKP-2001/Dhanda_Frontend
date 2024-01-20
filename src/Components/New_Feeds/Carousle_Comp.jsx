@@ -1,10 +1,21 @@
 import React from 'react';
 import { Carousel } from '@material-tailwind/react';
 
-const Carousel_Comp = () => {
+const Carousel_Comp = (props) => {
+    const openImageModal = props.openImageModal
     return (
         <Carousel className="w-full h-[300px] sm:h-[500px] overflow-hidden z-0">
-            <img
+
+            {props.images.map((image, index) => (
+                <img
+                    key={index}
+                    src={image}
+                    alt="image 1"
+                    className="h-full w-full object-cover object-center hover:cursor-pointer"
+                    onClick={() => openImageModal(index)}
+                />
+            ))}
+            {/* <img
                 src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
                 alt="image 1"
                 className="h-full w-full object-cover object-center"
@@ -28,7 +39,7 @@ const Carousel_Comp = () => {
                 src="https://plus.unsplash.com/premium_photo-1668136403317-1230640e4b9f?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="image 4"
                 className="h-full w-full object-cover object-center"
-            />
+            /> */}
         </Carousel>
     );
 };

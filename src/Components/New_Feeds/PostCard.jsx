@@ -16,14 +16,40 @@ import Carousel_Comp from './Carousle_Comp';
 import Small_Profile_Card from './Small_Profile_Card';
 
 import { IoMdClose } from "react-icons/io";
-import { FaUserPlus } from "react-icons/fa";
+import { IoPersonAddSharp } from "react-icons/io5";
+import { RiUserFollowFill } from "react-icons/ri";
+import UserList_Modal from '../../Utils/UserList_Modal';
+
+
+import { RiImageAddLine } from 'react-icons/ri';
+import { MdNavigateNext } from 'react-icons/md';
+import { GrFormPrevious } from 'react-icons/gr';
+
+import parse from 'html-react-parser';
 
 const PostCard = (props) => {
     const navigate = useNavigate();
 
+    const [follow, setFollow] = useState(props.follow);
+
+    const images = props.images;
+
+
+
     const [like, setLike] = useState(false);
 
     const [repost, setRepost] = useState(false);
+
+    const [text, setText] = useState(parse(props.text));
+
+
+
+    const [seeMore, seeMoreClicked] = useState(false);
+
+
+    const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
+    
 
     const handleLikeClick = (event) => {
         setLike(true)
@@ -47,65 +73,108 @@ const PostCard = (props) => {
         document.body.style.overflow = 'auto';
     };
 
+    const openImageModal = (index) => {
+        setSelectedImageIndex(index);
+    };
+
+    const closeImageModal = () => {
+        setSelectedImageIndex(null);
+    };
+
+    const goToPreviousImage = () => {
+        setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    };
+
+    const goToNextImage = () => {
+        setSelectedImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    };
+
+
+
     const type = props.type;
 
-    const bio = "Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20";
+    const bio = props.bio;
+
+    
+    function extractPlainText(htmlString) {
+        const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+        return doc.body.textContent || "";
+      }
+      
 
     const newBio = bio.length > 50 ? bio.substring(0, 50) + "..." : bio;
+
+    const rawText = extractPlainText(props.text)
 
     return (
         <div className={`my-5 select-none ${type === "feed" ? "items-center flex justify-center" : ""}`}>
 
 
-            <div className={`mx-2 w-full ${type === "feed" ? "max-w-3xl" : "max-w-4xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
+            <div className={`mx-2 w-full ${type === "feed" ? "max-w-lg" : "max-w-lg"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
                 <div className='flex my-2 justify-between'>
                     <div className="flex">
                         <div className='ml-3'>
                             <img
-                                className="hover:underline hover:cursor-pointer  h-[40px] w-[40px] border-2 border-gray-500 rounded-full object-cover object-center"
+                                className="hover:underline hover:cursor-pointer mt-2 sm:mt-0 w-[60px] sm:h-[40px] sm:w-[40px] border-2 border-gray-500 rounded-full object-cover object-center"
                                 src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                                 alt="nature"
                                 onClick={() => navigate("/user/profile/:user")}
                             />
                         </div>
-                        <div className='ml-3 mt-1 -space-y-1 hover:cursor-pointer hover:underline' onClick={() => navigate("/user/profile/:user")}>
-                            <h1 className='font-inter font-semibold'>Abhishek</h1>
+                        <div className='ml-3 mt-1 space-y-0.1 hover:cursor-pointer hover:underline' onClick={() => navigate("/user/profile/:user")}>
+                            <h1 className='font-inter font-semibold'>{props.name}</h1>
                             <h1 className='font-inter text-xs text-gray-500 w-3/4'>{newBio}</h1>
                         </div>
                     </div>
                     <div className='mr-3 mt-2 sm:mt-1'>
-                        
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl font-inter text-xs flex">
-                        <FaUserPlus fontSize={17} className="text-white hover:cursor-pointer block  sm:mr-2" />
+
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 justify-center rounded-xl font-inter text-xs flex" onClick={() => setFollow(!follow)}>
+                            {!follow ? <IoPersonAddSharp fontSize={17} className="font-bold text-white hover:cursor-pointer block  sm:mr-1" /> : <RiUserFollowFill fontSize={17} className="text-white hover:cursor-pointer block  sm:mr-1" />}
                         </button>
                     </div>
                 </div>
 
-                <Carousel_Comp />
+                <hr className='border-[0.5px] border-gray-200' />
 
+                <div className="text mx-2 text-left break-words my-3 text-sm font-inter transition-height duration-300 ease-in-out overflow-hidden">
+                    <div className="1">
+                        {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200)+".......":text):text}
+                        <p
+                            className="text-blue-600 hover:underline hover:cursor-pointer transition-opacity duration-300 ease-in-out"
+                            onClick={() => seeMoreClicked(!seeMore)}
+                        >
+                            {rawText.length > 200 ? seeMore ? "See Less" : "See More" : ""}
+                        </p>
+                    </div>
+                    <div className="2"></div>
+                </div>
+
+                {images.length>0 ? <Carousel_Comp images={props.images} openImageModal={openImageModal}/>:null}
+
+                <hr className='border-[0.5px] border-gray-200' />
 
 
                 <div className="flex mx-2 sm:mx-4 justify-between mt-2">
 
                     <div className="likes flex space-x-1">
                         <AiOutlineLike fontSize={15} className=" text-gray-600 hover:cursor-pointer" />
-                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleLikeClick}>1.5K Likes</p>
+                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleLikeClick}>{props.likes} Likes</p>
                     </div>
 
                     <div className="flex space-x-1">
                         <div className="flex space-x-1">
                             <IoChatbubbleOutline fontSize={15} className="hidden sm:block text-gray-600 hover:cursor-pointer" />
-                            <p className="text-xs text-gray-600 font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-500 select-none">9 Comments</p>
+                            <p className="text-xs text-gray-600 font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-500 select-none">{props.comments} Comments</p>
                         </div>
                         <p className='-mt-[5px]'>•</p>
                         <div className="flex">
                             <IoRepeat fontSize={15} className="hidden sm:block text-gray-600 hover:cursor-pointer" />
-                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleClickRepost}>29 Reposts</p>
+                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleClickRepost}>{props.reposts} Reposts</p>
                         </div>
                     </div>
                 </div>
                 <hr className='border-[1px] border-gray-200 mt-1' />
-                <div class="p-4">
+                <div class="pl-4 pr-4 pt-4 pb-2">
 
                     <div className="flex justify-between">
                         <div className="flex space-x-7">
@@ -119,56 +188,42 @@ const PostCard = (props) => {
                         </div>
                     </div>
 
+
+
+                </div>
+                <div className='text-xs ml-4 mb-2 font-inter font-semibold text-gray-500'>
+                    4 Hours Ago
                 </div>
             </div>
 
-            {like ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
-
-                <div className="block w-[96%] lg:w-[40%] pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[500px] ">
-
-                    <div className='sticky top-0 bg-white z-10 mb-3'>
-                        <div className='flex justify-between'>
-                            <h5 class="mb-2 text-2xl font-inter font-semibold tracking-tight text-gray-900 dark:text-white ml-2 pt-2">Liked By</h5>
-                            <IoMdClose fontSize={25} className='mt-3 mr-2 hover:cursor-pointer' onClick={handleCloseLike} />
-                        </div>
-                        <hr className='border-[1px] border-gray-400' />
-                    </div>
-                    <div className='overflow-y-scroll max-h-[400px] -mt-3'>
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                    </div>
-                </div>
-
-
-            </div> : repost ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
-
-                <div className="block w-[96%] lg:w-[40%] max-w-lg pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[500px] ">
-
-                    <div className='sticky top-0 bg-white z-10 mb-3'>
-                        <div className='flex justify-between'>
-                            <h5 class="mb-2 text-2xl font-inter font-semibold tracking-tight text-gray-900 dark:text-white ml-2 pt-2">Reposted By</h5>
-                            <IoMdClose fontSize={25} className='mt-3 mr-2 hover:cursor-pointer' onClick={handleCloseRepost} />
-                        </div>
-                        <hr className='border-[1px] border-gray-400' />
-                    </div>
-                    <div className='overflow-y-scroll max-h-[400px] -mt-3'>
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
-                        <Small_Profile_Card />
+            {selectedImageIndex !== null && (
+                <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 flex justify-center items-center'>
+                    <div className='mx-2 max-w-[700px] max-h-[700px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden relative'>
+                        <img
+                            src={images[selectedImageIndex]}
+                            alt={`Image ${selectedImageIndex + 1}`}
+                            className='max-w-full max-h-full object-cover '
+                        />
+                        <GrFormPrevious
+                            fontSize={30}
+                            className='absolute bottom-2 left-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
+                            onClick={goToPreviousImage}
+                        />
+                        <MdNavigateNext
+                            fontSize={30}
+                            className='absolute bottom-2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
+                            onClick={goToNextImage}
+                        />
+                        <IoMdClose
+                            fontSize={30}
+                            className='absolute top-2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
+                            onClick={closeImageModal}
+                        />
                     </div>
                 </div>
+            )}
 
-
-            </div> : null}
+            {like ? <UserList_Modal handleClose={handleCloseLike} heading={"Liked By"} /> : repost ? <UserList_Modal handleClose={handleCloseRepost} heading={"Shared By"} /> : null}
 
         </div>
     )
