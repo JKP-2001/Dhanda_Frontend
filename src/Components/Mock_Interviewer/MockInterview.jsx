@@ -125,12 +125,42 @@ const MockInterview = () => {
                 transition={{ type: "spring", stiffness: 100 }}
             >
                 <div className="select-none mt-8 ml-0 lg:mt-20 lg:ml-48 mb-10">
-                    <div className='ml-1 lg:ml-4'>
+                    <div className='ml-1 lg:ml-4 flex'>
                         <img
-                            className="h-[170px] w-[170px] rounded-full border-2 border-gray-500 object-cover object-center"
+                            className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
                             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
                             alt="nature"
                         />
+
+                        <div className='ml-4 lg:ml-10 mt-10 sm:mt-16 text-center'>
+                            <div className="flex space-x-4 sm:space-x-16">
+                                <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                    <div className="number text-center">
+                                        0
+                                    </div>
+                                    <div>
+                                        Posts
+                                    </div>
+                                </div>
+                                <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                    <div className="number text-center">
+                                        0
+                                    </div>
+                                    <div>
+                                        Followers
+                                    </div>
+                                </div>
+                                <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                    <div className="number text-center">
+                                        0
+                                    </div>
+                                    <div>
+                                        Following
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
 
