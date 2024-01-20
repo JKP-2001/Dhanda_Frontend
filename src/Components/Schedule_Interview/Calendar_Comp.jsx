@@ -58,7 +58,7 @@ const Calendar_Comp = () => {
     const handleEventClick = (event) => {
         setSelectedEvent(event);
         setShowModal(true);
-        document.body.style.overflow = 'hidden'; 
+        document.body.style.overflow = 'hidden';
     };
 
     const handleDateChange = (date) => {
@@ -108,7 +108,7 @@ const Calendar_Comp = () => {
                     msg: 'Slot added successfully. Please check your calendar.',
                     duration: 3000
                 });
-                setSelectedDate(null);
+
                 setSelectedTime(null);
             }
         } else {
@@ -129,7 +129,7 @@ const Calendar_Comp = () => {
     return (
         <div className='my-3'>
             <div className="w-full p-4  text-center">
-                <h1 className="text-xl font-roboto">
+                <h1 className="text-xl font-inter font-bold">
                     Select time slot for interview with {user}
                 </h1>
             </div>
@@ -145,21 +145,21 @@ const Calendar_Comp = () => {
                             selectable
                             onSelectSlot={handleDateClick}
                             onSelectEvent={handleEventClick}
-                            className='bg-white rounded-lg shadow-md'
+                            className='bg-white rounded-lg shadow-md font-inter font-semibold'
                         />
                     </div>
                 )}
 
                 <div className="w-full md:w-1/4 p-4 rounded">
-                    <h2 className="text-lg font-semibold mb-4">Select Time Slot</h2>
-                    
+                    <h2 className="text-lg font-inter font-semibold mb-4">Select Time Slot</h2>
+
                     <div className="date">
-                        <div className='text-sm font-roboto font-no'> Selected Date</div>
+                        <div className='text-sm font-inter font-semibold my-1'> Selected Date</div>
                         <DatePicker
                             selected={selectedDate}
                             onChange={handleDateChange}
                             dateFormat="dd/MM/yyyy"
-                            className="mb-2 p-2 border border-gray-300 rounded w-full"
+                            className="mb-2 p-2 font-inter font-semibold border border-gray-300 rounded-xl w-3/4"
                         />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
@@ -184,17 +184,23 @@ const Calendar_Comp = () => {
 
                 {selectedEvent && showModal && (
                     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10">
-                        <div className="bg-white p-4 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full">
-                            <h2 className="text-lg font-roboto mb-4">Interview Details</h2>
-                            <p className='font-roboto'>Title: {selectedEvent.title}</p>
-                            <p className='font-roboto'>Start Time: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
-                            <p className='font-roboto'>End Time: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
 
-                            <p className='font-roboto'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
 
-                            <button onClick={handleClosePopup} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out">
-                                Close
-                            </button>
+                        <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
+                            <h2 className="text-2xl font-inter font-bold mb-4">Interview Details</h2>
+                            
+                            <p className='font-inter font-semibold text-gray-700'>Title: {selectedEvent.title}</p>
+                            <p className='font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
+                            <p className='font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
+
+                            <p className='font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+
+                            <div className="flex justify-end">
+                                <button onClick={handleClosePopup} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">
+                                    Close
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 )}
