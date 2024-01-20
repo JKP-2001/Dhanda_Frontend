@@ -134,25 +134,26 @@ const MockInterview = () => {
 
                         <div className='ml-4 lg:ml-10 mt-10 sm:mt-16 text-center'>
                             <div className="flex space-x-4 sm:space-x-16">
-                                <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600" onClick={()=> {setIcon("grid");
+                            window.scrollTo({top:600,behavior:"smooth"})}}>
                                     <div className="number text-center">
-                                        0
+                                        100
                                     </div>
                                     <div>
                                         Posts
                                     </div>
                                 </div>
-                                <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600">
                                     <div className="number text-center">
-                                        0
+                                        1.5M
                                     </div>
                                     <div>
                                         Followers
                                     </div>
                                 </div>
-                                <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                                <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600">
                                     <div className="number text-center">
-                                        0
+                                        200
                                     </div>
                                     <div>
                                         Following

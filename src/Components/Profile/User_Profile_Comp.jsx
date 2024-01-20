@@ -18,6 +18,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import PostCard from '../New_Feeds/PostCard';
+import UserList_Modal from '../../Utils/UserList_Modal';
 
 
 const localizer = momentLocalizer(moment);
@@ -126,6 +127,31 @@ const User_Profile_Comp = () => {
 
     const navigate = useNavigate();
 
+    const [checkFollowers, setCheckFollowers] = useState(false);
+    const [checkFollowing, setCheckFollowing] = useState(false);
+
+    
+    const openCheckFollowers = () => {
+        setCheckFollowers(true);
+        document.body.style.overflow = 'hidden';
+    }
+
+    const closeCheckFollowers = () => {
+        setCheckFollowers(false);
+        document.body.style.overflow = 'auto';
+    }
+    
+    const openCheckFollowings = () => {
+        setCheckFollowing(true);
+        document.body.style.overflow = 'hidden';
+    }
+
+    const closeCheckFollowings = () => {
+        setCheckFollowing(false);
+        document.body.style.overflow = 'auto';
+    }
+
+
     const events = [
         {
             title: 'Mock Interview with User1',
@@ -177,7 +203,8 @@ const User_Profile_Comp = () => {
 
                     <div className='ml-4 lg:ml-10 mt-10 sm:mt-16 text-center'>
                         <div className="flex space-x-4 sm:space-x-16">
-                            <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                            <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600" onClick={()=> {setSelectedIcon("grid");
+                            window.scrollTo({top:600,behavior:"smooth"})}}>
                                 <div className="number text-center">
                                     0
                                 </div>
@@ -185,7 +212,7 @@ const User_Profile_Comp = () => {
                                     Posts
                                 </div>
                             </div>
-                            <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                            <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600" onClick={openCheckFollowers}>
                                 <div className="number text-center">
                                     0
                                 </div>
@@ -193,7 +220,7 @@ const User_Profile_Comp = () => {
                                     Followers
                                 </div>
                             </div>
-                            <div className="flex-col text-sm sm:text-base font-inter font-semibold">
+                            <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600" onClick={openCheckFollowings}>
                                 <div className="number text-center">
                                     0
                                 </div>
@@ -282,6 +309,8 @@ const User_Profile_Comp = () => {
 
 
             </div>
+
+            {checkFollowers ? <UserList_Modal handleClose={closeCheckFollowers} heading={"Followers"} /> : checkFollowing ? <UserList_Modal handleClose={closeCheckFollowings} heading={"Following"} /> : null}
 
             {selectedEvent && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10">
