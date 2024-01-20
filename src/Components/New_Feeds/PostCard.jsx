@@ -56,7 +56,7 @@ const PostCard = (props) => {
         <div className={`my-5 select-none ${type === "feed" ? "items-center flex justify-center" : ""}`}>
 
 
-            <div className={`mx-2 w-full ${type === "feed" ?"max-w-2xl":"max-w-lg"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
+            <div className={`mx-2 w-full ${type === "feed" ? "max-w-3xl" : "max-w-4xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
                 <div className='flex my-2'>
                     <div className='ml-3'>
                         <img
@@ -115,7 +115,7 @@ const PostCard = (props) => {
 
             {like ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
 
-                <div className="block w-[96%] lg:w-[40%] pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
+                <div className="block w-[96%] lg:w-[40%] pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[500px] ">
 
                     <div className='sticky top-0 bg-white z-10 mb-3'>
                         <div className='flex justify-between'>
@@ -124,6 +124,7 @@ const PostCard = (props) => {
                         </div>
                         <hr className='border-[1px] border-gray-400' />
                     </div>
+                    <div className='overflow-y-scroll max-h-[400px] -mt-3'>
                     <Small_Profile_Card />
                     <Small_Profile_Card />
                     <Small_Profile_Card />
@@ -131,12 +132,13 @@ const PostCard = (props) => {
                     <Small_Profile_Card />
                     <Small_Profile_Card />
                     <Small_Profile_Card />
+                    </div>
                 </div>
 
 
             </div> : repost ? <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
 
-                <div className="block w-[96%] lg:w-[40%] max-w-lg pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[400px] overflow-y-scroll">
+                <div className="block w-[96%] lg:w-[40%] max-w-lg pb-2 pt-0   z-20 bg-white border border-gray-200 rounded-lg shadow max-h-[500px] ">
 
                     <div className='sticky top-0 bg-white z-10 mb-3'>
                         <div className='flex justify-between'>
@@ -145,13 +147,15 @@ const PostCard = (props) => {
                         </div>
                         <hr className='border-[1px] border-gray-400' />
                     </div>
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
-                    <Small_Profile_Card />
+                    <div className='overflow-y-scroll max-h-[400px] -mt-3'>
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                        <Small_Profile_Card />
+                    </div>
                 </div>
 
 

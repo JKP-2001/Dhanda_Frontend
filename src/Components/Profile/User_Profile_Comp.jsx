@@ -78,6 +78,7 @@ const Calendar_Part = (props) => {
                 style={{ height: `550px` }}
                 onSelectEvent={handleEventClick}
                 selectable
+                className='font-inter font-semibold'
             />
         </div>
     )
@@ -89,7 +90,7 @@ const Calendar_Part = (props) => {
 const Posts = () => {
     return (
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2   gap-4'>
+        <div>
             
             <PostCard type="saved" />
             <PostCard type="saved" />
@@ -105,7 +106,7 @@ const Posts = () => {
 
 const BookMarked = () => {
     return (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2   gap-4'>
+        <div>
 
             <PostCard type="book" />
             <PostCard type="book" />
@@ -166,7 +167,7 @@ const User_Profile_Comp = () => {
         <>
 
 
-            <div className="mt-8 ml-0 lg:mt-16 lg:ml-48 mb-10">
+            <div className="mt-2 ml-0 lg:mt-12 lg:ml-48 mb-10">
                 <div className='ml-3'>
                     <img
                         className="h-[170px] w-[170px] border-2 border-gray-500 rounded-full object-cover object-center"
@@ -182,7 +183,7 @@ const User_Profile_Comp = () => {
                     <h1 className="font-inter text-sm w-11/12 lg:w-8/12 text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
                 </div>
 
-                <div className='ml-5 lg:ml-7 description font-inter w-10/12 lg:w-8/12  mt-10 text-sm break-words'>
+                <div className='ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm break-words'>
                     Filler text is text that shares some characteristics of a real written text, but is
                     random or otherwise generated. It may be used to display a sample of fonts,
                     generate text for testing, or to spoof an e-mail spam filter.
@@ -254,18 +255,22 @@ const User_Profile_Comp = () => {
 
             {selectedEvent && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10">
-                    <div className="bg-white p-4 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full">
-                        <h2 className="text-lg font-roboto mb-4">Interview Details</h2>
-                        <p className='font-roboto'>Title: {selectedEvent.title}</p>
-                        <p className='font-roboto'>Start Time: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
-                        <p className='font-roboto'>End Time: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
+                    <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
+                            <h2 className="text-2xl font-inter font-bold mb-4">Interview Details</h2>
+                            
+                            <p className='font-inter font-semibold text-gray-700'>Title: {selectedEvent.title}</p>
+                            <p className='font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
+                            <p className='font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
 
-                        <p className='font-roboto'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+                            <p className='font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
 
-                        <button onClick={handleClosePopup} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out">
-                            Close
-                        </button>
-                    </div>
+                            <div className="flex justify-end">
+                                <button onClick={handleClosePopup} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">
+                                    Close
+                                </button>
+                            </div>
+
+                        </div>
                 </div>
             )}
 
