@@ -8,11 +8,7 @@ const Editor = (props) => {
 
   const quillRef = useRef(null);
 
-  useEffect(() => {
-    if (quillRef.current) {
-      quillRef.current.editor.format('header', 2); // Set default format to h2
-    }
-  }, []); // Run this effect only once on mount
+
 
   const handleContentChange = (newContent) => {
     setText(newContent);
@@ -31,7 +27,7 @@ const Editor = (props) => {
           ['bold', 'italic', 'underline', 'list', 'link'],
         ],
       }}
-      className={`p-3 rounded-md ${length>0?"h-[45%]":"h-[70%]"} font-inter`}
+      className={`p-3 rounded-md font-inter  ${length>0?"h-[45%]":"h-[70%]"} font-inter`}
       ref={quillRef}
     />
   );

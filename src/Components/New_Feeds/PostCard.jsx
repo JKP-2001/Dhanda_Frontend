@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
@@ -34,22 +34,34 @@ const PostCard = (props) => {
 
     const images = props.images;
 
+    const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
+    const goToPreviousImage = () => {
+        setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    };
+
+    const goToNextImage = () => {
+        setSelectedImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    };
+
+
+
 
 
     const [like, setLike] = useState(false);
 
     const [repost, setRepost] = useState(false);
 
-    const [text, setText] = useState(parse(props.text));
+    const [text, setText] = useState(props.text?parse(props.text):null);
 
 
 
     const [seeMore, seeMoreClicked] = useState(false);
 
 
-    const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-
     
+
+
 
     const handleLikeClick = (event) => {
         setLike(true)
@@ -75,19 +87,15 @@ const PostCard = (props) => {
 
     const openImageModal = (index) => {
         setSelectedImageIndex(index);
+        document.body.style.overflow = 'hidden';
     };
 
     const closeImageModal = () => {
         setSelectedImageIndex(null);
+        document.body.style.overflow = 'auto';
     };
 
-    const goToPreviousImage = () => {
-        setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
-    };
-
-    const goToNextImage = () => {
-        setSelectedImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-    };
+   
 
 
 
@@ -95,12 +103,12 @@ const PostCard = (props) => {
 
     const bio = props.bio;
 
-    
+
     function extractPlainText(htmlString) {
         const doc = new DOMParser().parseFromString(htmlString, 'text/html');
         return doc.body.textContent || "";
-      }
-      
+    }
+
 
     const newBio = bio.length > 50 ? bio.substring(0, 50) + "..." : bio;
 
@@ -110,7 +118,7 @@ const PostCard = (props) => {
         <div className={`my-5 select-none ${type === "feed" ? "items-center flex justify-center" : ""}`}>
 
 
-            <div className={`mx-2 w-full ${type === "feed" ? "max-w-lg" : "max-w-lg"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
+            <div className={`mx-2 w-full ${type === "feed" ? "max-w-xl" : "max-w-3xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
                 <div className='flex my-2 justify-between'>
                     <div className="flex">
                         <div className='ml-3'>
@@ -136,9 +144,9 @@ const PostCard = (props) => {
 
                 <hr className='border-[0.5px] border-gray-200' />
 
-                <div className="text mx-2 text-left break-words my-3 text-sm font-inter transition-height duration-300 ease-in-out overflow-hidden">
+                {text?<div className="text mx-2 text-left break-words my-3 text-sm font-inter transition-height duration-300 ease-in-out overflow-hidden">
                     <div className="1">
-                        {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200)+".......":text):text}
+                        {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200) + "......." : text) : text}
                         <p
                             className="text-blue-600 hover:underline hover:cursor-pointer transition-opacity duration-300 ease-in-out"
                             onClick={() => seeMoreClicked(!seeMore)}
@@ -147,9 +155,9 @@ const PostCard = (props) => {
                         </p>
                     </div>
                     <div className="2"></div>
-                </div>
+                </div>:null}
 
-                {images.length>0 ? <Carousel_Comp images={props.images} openImageModal={openImageModal}/>:null}
+                {images.length > 0 ? <Carousel_Comp images={props.images} openImageModal={openImageModal} /> : null}
 
                 <hr className='border-[0.5px] border-gray-200' />
 
@@ -198,7 +206,7 @@ const PostCard = (props) => {
 
             {selectedImageIndex !== null && (
                 <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 flex justify-center items-center'>
-                    <div className='mx-2 max-w-[700px] max-h-[700px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden relative'>
+                    <div className='mx-2 max-w-[650px] max-h-[650px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden relative'>
                         <img
                             src={images[selectedImageIndex]}
                             alt={`Image ${selectedImageIndex + 1}`}
@@ -206,12 +214,12 @@ const PostCard = (props) => {
                         />
                         <GrFormPrevious
                             fontSize={30}
-                            className='absolute bottom-2 left-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
+                            className='absolute top-1/2 left-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
                             onClick={goToPreviousImage}
                         />
                         <MdNavigateNext
                             fontSize={30}
-                            className='absolute bottom-2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
+                            className='absolute top-1/2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
                             onClick={goToNextImage}
                         />
                         <IoMdClose
