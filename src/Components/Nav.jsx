@@ -157,10 +157,10 @@ const Nav = () => {
 
 
 
-      <div className="lg:hidden border-2 overflow-hidden fixed bottom-0 left-0 right-0 z-10 bg-white px-6 py-2 shadow-lg">
+      <div className="lg:hidden border-t-[1px] border-gray-800 overflow-hidden fixed bottom-0 left-0 right-0 z-10 bg-white px-6 py-2 shadow-lg">
         
 
-          <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between">
+          <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between bg-white">
             <HiOutlineHome fontSize={30} className={`${icon==='explore'?"text-blue-800":""} hover:cursor-pointer mt-1`} onClick={()=>{setIcon("explore");navigate("/new-feeds")}}/>
             <SlPeople fontSize={27} className={`${icon==='mock'?"text-blue-800":""} hover:cursor-pointer mt-1`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
             <CiSquarePlus fontSize={30} className={`${icon==='new'?"text-blue-800":""}  hover:cursor-pointer mt-1`} onClick={()=>setIcon("new")}/>

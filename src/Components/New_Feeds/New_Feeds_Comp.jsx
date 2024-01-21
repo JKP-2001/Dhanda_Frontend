@@ -125,7 +125,7 @@ const New_Feeds_Comp = () => {
   
   const [items, setItems] = useState(dummy);
   
-  const [text, setText] = useState("");
+  const [text, setText] = useState(null);
   
   const [images, setImages] = useState([]);
   
@@ -183,7 +183,7 @@ const New_Feeds_Comp = () => {
             {!open ? <input
               type="text"
               placeholder="Start A Post"
-              className="w-full focus:outline-none"
+              className="w-full focus:outline-none font-inter text-sm"
               onClick={() => { setOpen(true); document.body.style.overflow = 'hidden'; }}
             /> : <Post_Modal open={open} setOpen={setOpen} text={text} setText={setText} images={images} setImages={setImages} handlePost={handlePost}/>}
 

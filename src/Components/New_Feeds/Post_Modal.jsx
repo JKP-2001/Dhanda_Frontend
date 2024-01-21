@@ -5,12 +5,19 @@ import { RiImageAddLine } from 'react-icons/ri';
 import { MdNavigateNext } from 'react-icons/md';
 import { GrFormPrevious } from 'react-icons/gr';
 
+import ImageCompressor from 'image-compressor';
+import showToast from '../../Utils/showToast';
+
+import toast, { useToaster } from 'react-hot-toast';
+
 const Post_Modal = (props) => {
   const { open, setOpen } = props;
 
+  const toaster = useToaster();
+
   const handlePost = props.handlePost;
 
-  const images = props.images 
+  const images = props.images
   const setImages = props.setImages;
 
   const text = props.text
@@ -27,22 +34,51 @@ const Post_Modal = (props) => {
     const newImages = [];
     const files = e.target.files;
 
+    const toastId = toast.loading('Uploading...');
+
+    let success = false;
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
 
+      // Show loading toaster when the FileReader starts
+
+
       reader.onloadend = () => {
+        showToast({
+          msg: 'Upload complete!',
+          type: 'success',
+          duration: 3000,
+        });
+
         newImages.push(reader.result);
 
         if (newImages.length === files.length) {
           // All images have been processed
           handleImageUpload(newImages);
+          toast.dismiss(toastId); // Dismiss the loading toaster
+
+          success = true;
+
         }
+      };
+
+
+      reader.onerror = () => {
+        showToast({
+          msg: 'Error uploading image',
+          type: 'error',
+          duration: 3000,
+        });
+        toast.dismiss(toastId); // Dismiss the loading toaster in case of an error
       };
 
       reader.readAsDataURL(file);
     }
   };
+
+
 
   const openImageModal = (index) => {
     setSelectedImageIndex(index);
@@ -50,6 +86,8 @@ const Post_Modal = (props) => {
 
   const closeImageModal = () => {
     setSelectedImageIndex(null);
+
+
   };
 
   const goToPreviousImage = () => {
@@ -58,6 +96,13 @@ const Post_Modal = (props) => {
 
   const goToNextImage = () => {
     setSelectedImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+  };
+
+
+  const removeImage = (index) => {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
   };
 
   return (
@@ -71,20 +116,20 @@ const Post_Modal = (props) => {
                 <IoMdClose
                   fontSize={25}
                   className='mt-3 mr-2 hover:cursor-pointer text-gray-600'
-                  onClick={() => setOpen(false)}
+                  onClick={() => { setOpen(false); setImages([]) }}
                 />
               </div>
               <hr className='mt-1 border-[0.1px] border-gray-200' />
             </div>
 
-            <Editor length={images.length} text={text} setText={setText}/>
+            <Editor length={images.length} text={text} setText={setText} />
 
             <div className='absolute -bottom-1 w-full pb-2 mr-2'>
               <hr className='mt-1 border-[0.1px] border-gray-200 ' />
               <div className='flex justify-between mt-2 w-[98%]'>
                 <div className='mt-1 mx-3'>
                   <label htmlFor='imageInput' className='cursor-pointer p-2 rounded-xl text-black font-inter text-sm'>
-                    <RiImageAddLine className='inline' fontSize={25} />
+                    <RiImageAddLine className='inline hover:text-blue-600' fontSize={25} />
                   </label>
 
                   <input
@@ -96,7 +141,7 @@ const Post_Modal = (props) => {
                     onChange={handleFileChange}
                   />
                 </div>
-                <button className='p-2 bg-blue-600 rounded-xl text-white' onClick={handlePost}>
+                <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={handlePost}>
                   Post
                 </button>
               </div>
@@ -108,13 +153,19 @@ const Post_Modal = (props) => {
                 <div className='flex flex-wrap h-[200px] overflow-y-scroll space-x-5'>
                   <div></div>
                   {images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Uploaded ${index + 1}`}
-                      className='max-w-[100px] max-h-[130px] m-2 rounded-md object-cover hover:cursor-pointer'
-                      onClick={() => openImageModal(index)}
-                    />
+                    <div key={index} className='relative'>
+                      <img
+                        src={image}
+                        alt={`Uploaded ${index + 1}`}
+                        className='max-w-[100px] max-h-[130px] m-2 rounded-md object-cover hover:cursor-pointer'
+                        onClick={() => openImageModal(index)}
+                      />
+                      <IoMdClose
+                        fontSize={20}
+                        className='absolute top-3 right-3 p-1 bg-blue-gray-500 rounded-full text-white cursor-pointer'
+                        onClick={() => removeImage(index)}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -123,22 +174,22 @@ const Post_Modal = (props) => {
             {/* Slideshow Modal */}
             {selectedImageIndex !== null && (
               <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 flex justify-center items-center'>
-                <div className='mx-2 max-w-[700px] max-h-[700px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden relative'>
+                <div className='mx-2 max-w-[650px] max-h-[650px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden relative'>
                   <img
                     src={images[selectedImageIndex]}
                     alt={`Image ${selectedImageIndex + 1}`}
                     className='max-w-full max-h-full object-cover '
                   />
-                  <GrFormPrevious
+                  {selectedImageIndex !== 0 && (<GrFormPrevious
                     fontSize={30}
                     className='absolute bottom-2 left-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
                     onClick={goToPreviousImage}
-                  />
-                  <MdNavigateNext
+                  />)}
+                  {selectedImageIndex !== images.length - 1 && <MdNavigateNext
                     fontSize={30}
                     className='absolute bottom-2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
                     onClick={goToNextImage}
-                  />
+                  />}
                   <IoMdClose
                     fontSize={30}
                     className='absolute top-2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
