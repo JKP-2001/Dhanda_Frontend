@@ -25,6 +25,11 @@ import { RiImageAddLine } from 'react-icons/ri';
 import { MdNavigateNext } from 'react-icons/md';
 import { GrFormPrevious } from 'react-icons/gr';
 
+import { IoSettingsOutline } from "react-icons/io5";
+import { AiFillLike } from "react-icons/ai";
+
+
+
 import parse from 'html-react-parser';
 
 const PostCard = (props) => {
@@ -44,7 +49,48 @@ const PostCard = (props) => {
         setSelectedImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     };
 
+    const [isLike, setIsLike] = useState(false);
+    const [isRepost, setIsRepost] = useState(false);
+    const [isBookmark, setIsBookmark] = useState(false);
 
+
+    const [numLikes, setNumLikes] = useState(props.likes);
+
+    const [numComments, setNumComments] = useState(props.comments);
+
+    const [numReposts, setNumReposts] = useState(props.reposts);
+
+    const handleLike = () => {
+        if(isLike){
+            setNumLikes(numLikes - 1);
+            setIsLike(false);
+        }
+        else{
+
+            setNumLikes(numLikes + 1);
+            setIsLike(true);
+        }
+    };
+
+    const handleRepost = () => {
+        if(isRepost){
+            setNumReposts(numReposts - 1);
+            setIsRepost(false);
+        }
+        else{
+            setNumReposts(numReposts + 1);
+            setIsRepost(true);
+        }
+    };
+
+    const handleBookmark = () => {
+        if(isBookmark){
+            setIsBookmark(false);
+        }
+        else{
+            setIsBookmark(true);
+        }
+    };
 
 
 
@@ -58,10 +104,7 @@ const PostCard = (props) => {
 
     const [seeMore, seeMoreClicked] = useState(false);
 
-
-    
-
-
+    const [openSettings, setOpenSettings] = useState(false);
 
     const handleLikeClick = (event) => {
         setLike(true)
@@ -92,6 +135,16 @@ const PostCard = (props) => {
 
     const closeImageModal = () => {
         setSelectedImageIndex(null);
+        document.body.style.overflow = 'auto';
+    };
+
+    const handleOpenSettings = () => {
+        setOpenSettings(true);
+        document.body.style.overflow = 'hidden';
+    };
+
+    const handleCloseSettings = () => {
+        setOpenSettings(false);
         document.body.style.overflow = 'auto';
     };
 
@@ -131,14 +184,16 @@ const PostCard = (props) => {
                         </div>
                         <div className='ml-3 mt-1 space-y-0.1 hover:cursor-pointer hover:underline' onClick={() => navigate("/user/profile/:user")}>
                             <h1 className='font-inter font-semibold'>{props.name}</h1>
-                            <h1 className='font-inter text-xs text-gray-500 w-3/4'>{newBio}</h1>
+                            <h1 className='font-inter text-xs text-gray-500 w-3/4 md:w-full'>{newBio}</h1>
                         </div>
                     </div>
-                    <div className='mr-3 mt-2 sm:mt-1'>
+                    <div className=' mr-3 mt-4 sm:mt-3 space-x-4 '>
 
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 justify-center rounded-xl font-inter text-xs flex" onClick={() => setFollow(!follow)}>
+                        {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold  px-2 justify-center rounded-xl font-inter text-xs " onClick={() => setFollow(!follow)}>
                             {!follow ? <IoPersonAddSharp fontSize={17} className="font-bold text-white hover:cursor-pointer block  sm:mr-1" /> : <RiUserFollowFill fontSize={17} className="text-white hover:cursor-pointer block  sm:mr-1" />}
-                        </button>
+                        </button> */}
+
+                        <IoSettingsOutline onClick={handleOpenSettings} fontSize={20} className='hover:cursor-pointer '/>
                     </div>
                 </div>
 
@@ -166,18 +221,18 @@ const PostCard = (props) => {
 
                     <div className="likes flex space-x-1">
                         <AiOutlineLike fontSize={15} className=" text-gray-600 hover:cursor-pointer" />
-                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleLikeClick}>{props.likes} Likes</p>
+                        <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleLikeClick}>{numLikes} Likes</p>
                     </div>
 
                     <div className="flex space-x-1">
                         <div className="flex space-x-1">
                             <IoChatbubbleOutline fontSize={15} className="hidden sm:block text-gray-600 hover:cursor-pointer" />
-                            <p className="text-xs text-gray-600 font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-500 select-none">{props.comments} Comments</p>
+                            <p className="text-xs text-gray-600 font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-500 select-none">{numComments} Comments</p>
                         </div>
                         <p className='-mt-[5px]'>•</p>
                         <div className="flex">
                             <IoRepeat fontSize={15} className="hidden sm:block text-gray-600 hover:cursor-pointer" />
-                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleClickRepost}>{props.reposts} Reposts</p>
+                            <p className="hover:cursor-pointer hover:underline hover:text-blue-500 text-xs text-gray-600 font-inter font-semibold select-none" onClick={handleClickRepost}>{numReposts} Reposts</p>
                         </div>
                     </div>
                 </div>
@@ -186,13 +241,13 @@ const PostCard = (props) => {
 
                     <div className="flex justify-between">
                         <div className="flex space-x-7">
-                            <AiOutlineLike fontSize={25} className="text-gray-600 hover:cursor-pointer hover:text-blue-500" />
+                            {!isLike?<AiOutlineLike fontSize={25} className="text-gray-600 hover:cursor-pointer hover:text-blue-500" onClick={handleLike}/>:<AiFillLike fontSize={25} className="text-blue-500 hover:cursor-pointer hover:text-blue-500" onClick={handleLike} />}
                             <IoChatbubbleOutline fontSize={25} className="text-gray-600 hover:cursor-pointer hover:text-blue-500" />
                             <BsSend fontSize={24} className="text-gray-600 mt-[2px] hover:cursor-pointer hover:text-blue-500" />
-                            <IoRepeat fontSize={29} className="text-gray-600 hover:cursor-pointer hover:text-blue-500" />
+                            <IoRepeat fontSize={29} className={`${!isRepost?"text-gray-600":"text-blue-600"} hover:cursor-pointer hover:text-blue-500`} onClick={handleRepost}/>
                         </div>
                         <div>
-                            <IoBookmarkOutline fontSize={25} className="text-gray-600 hover:cursor-pointer hover:text-blue-500" />
+                            <IoBookmarkOutline fontSize={25} className={`text-gray-600 hover:cursor-pointer hover:text-blue-500`} onClick={handleBookmark}/>
                         </div>
                     </div>
 
@@ -232,6 +287,48 @@ const PostCard = (props) => {
             )}
 
             {like ? <UserList_Modal handleClose={handleCloseLike} heading={"Liked By"} /> : repost ? <UserList_Modal handleClose={handleCloseRepost} heading={"Shared By"} /> : null}
+
+            {openSettings?
+            <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 flex justify-center items-center'>
+                <div className='mx-2 w-3/4 sm:w-1/4  bg-white border border-gray-200 rounded-lg shadow overflow-hidden relative'>
+                    <div className='flex justify-between p-2'>
+                        <h1 className='font-inter font-semibold text-lg'>Settings</h1>
+                        <IoMdClose
+                            fontSize={20}
+                            className='hover:cursor-pointer'
+                            onClick={handleCloseSettings}
+                        />
+                    </div>
+                    <hr className='border-[1px] border-gray-200' />
+                    <div className='flex flex-col py-2'>
+                        <div className="report my-1 hover:cursor-pointer">
+                            <h1 className='font-inter font-semibold text-sm text-center text-red-500'>Report</h1>
+                            <hr className='border-[1px] border-gray-200 mt-2' />
+                        </div>
+                        <div className="unfollow my-1 hover:cursor-pointer">
+                            <h1 className='font-inter font-semibold text-sm text-center text-red-500'>Unfollow</h1>
+                            <hr className='border-[1px] border-gray-200 mt-2' />
+                        </div>
+                        <div className="shareTo my-1 hover:cursor-pointer">
+                            <h1 className='font-inter font-semibold text-sm text-center'>Share To....</h1>
+                            <hr className='border-[1px] border-gray-200 mt-2' />
+                        </div>
+                        <div className="bookmark my-1 hover:cursor-pointer">
+                            <h1 className='font-inter font-semibold text-sm text-center'>Bookmark</h1>
+                            <hr className='border-[1px] border-gray-200 mt-2' />
+                        </div>
+                        <div className="gototpost my-1 hover:cursor-pointer">
+                            <h1 className='font-inter font-semibold text-sm text-center'>Go To Post</h1>
+                            <hr className='border-[1px] border-gray-200 mt-2' />
+                        </div>
+                        <div className="copylink my-1 hover:cursor-pointer">
+                            <h1 className='font-inter font-semibold text-sm text-center'>Copy Link</h1>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            :null}
 
         </div>
     )
