@@ -23,6 +23,8 @@ const Post_Modal = (props) => {
   const text = props.text
   const setText = props.setText;
 
+  const [uploading, setUploading] = useState(false);
+
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
@@ -44,8 +46,11 @@ const Post_Modal = (props) => {
 
       // Show loading toaster when the FileReader starts
 
+      setUploading(true);
+
 
       reader.onloadend = () => {
+        setUploading(false);
         showToast({
           msg: 'Upload complete!',
           type: 'success',
@@ -66,6 +71,7 @@ const Post_Modal = (props) => {
 
 
       reader.onerror = () => {
+        setUploading(false);
         showToast({
           msg: 'Error uploading image',
           type: 'error',
@@ -86,8 +92,7 @@ const Post_Modal = (props) => {
 
   const closeImageModal = () => {
     setSelectedImageIndex(null);
-
-
+    document.body.style.overflow = 'auto';
   };
 
   const goToPreviousImage = () => {
@@ -116,7 +121,7 @@ const Post_Modal = (props) => {
                 <IoMdClose
                   fontSize={25}
                   className='mt-3 mr-2 hover:cursor-pointer text-gray-600'
-                  onClick={() => { setOpen(false); setImages([]) }}
+                  onClick={() => { setOpen(false); setImages([]); document.body.style.overflow = 'auto'; }}
                 />
               </div>
               <hr className='mt-1 border-[0.1px] border-gray-200' />
@@ -128,7 +133,7 @@ const Post_Modal = (props) => {
               <hr className='mt-1 border-[0.1px] border-gray-200 ' />
               <div className='flex justify-between mt-2 w-[98%]'>
                 <div className='mt-1 mx-3'>
-                  <label htmlFor='imageInput' className='cursor-pointer p-2 rounded-xl text-black font-inter text-sm'>
+                  {!uploading?<><label htmlFor='imageInput' className='cursor-pointer p-2 rounded-xl text-black font-inter text-sm'>
                     <RiImageAddLine className='inline hover:text-blue-600' fontSize={25} />
                   </label>
 
@@ -139,7 +144,7 @@ const Post_Modal = (props) => {
                     multiple
                     className='hidden'
                     onChange={handleFileChange}
-                  />
+                  /></>:<div className='uploading font-inter font-semibold'> Uploading...</div>}
                 </div>
                 <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={handlePost}>
                   Post
