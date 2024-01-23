@@ -27,6 +27,9 @@ import { GrFormPrevious } from 'react-icons/gr';
 
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiFillLike } from "react-icons/ai";
+import { FaBookmark } from "react-icons/fa6";
+
+import { IoBookmark } from "react-icons/io5";
 
 
 
@@ -52,6 +55,8 @@ const PostCard = (props) => {
     const [isLike, setIsLike] = useState(false);
     const [isRepost, setIsRepost] = useState(false);
     const [isBookmark, setIsBookmark] = useState(false);
+
+    const [shareOpen, setShareOpen] = useState(false);
 
 
     const [numLikes, setNumLikes] = useState(props.likes);
@@ -91,6 +96,17 @@ const PostCard = (props) => {
             setIsBookmark(true);
         }
     };
+
+    const openShare = () => {
+        setShareOpen(true);
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeShare = () => {
+        setShareOpen(false);
+        document.body.style.overflow = 'auto';
+    };
+
 
 
 
@@ -243,11 +259,11 @@ const PostCard = (props) => {
                         <div className="flex space-x-7">
                             {!isLike?<AiOutlineLike fontSize={25} className="text-gray-600 hover:cursor-pointer hover:text-blue-500" onClick={handleLike}/>:<AiFillLike fontSize={25} className="text-blue-500 hover:cursor-pointer hover:text-blue-500" onClick={handleLike} />}
                             <IoChatbubbleOutline fontSize={25} className="text-gray-600 hover:cursor-pointer hover:text-blue-500" />
-                            <BsSend fontSize={24} className="text-gray-600 mt-[2px] hover:cursor-pointer hover:text-blue-500" />
-                            <IoRepeat fontSize={29} className={`${!isRepost?"text-gray-600":"text-blue-600"} hover:cursor-pointer hover:text-blue-500`} onClick={handleRepost}/>
+                            <BsSend fontSize={24} className="text-gray-600 mt-[2px] hover:cursor-pointer hover:text-blue-500" onClick={openShare}/>
+                            {/* <IoRepeat fontSize={29} className={`${!isRepost?"text-gray-600":"text-blue-600"} hover:cursor-pointer`} onClick={handleRepost}/> */}
                         </div>
                         <div>
-                            <IoBookmarkOutline fontSize={25} className={`text-gray-600 hover:cursor-pointer hover:text-blue-500`} onClick={handleBookmark}/>
+                            {!isBookmark?<IoBookmarkOutline fontSize={25} className={`text-gray-600 hover:cursor-pointer hover:text-blue-500`} onClick={handleBookmark}/>:<IoBookmark fontSize={25} className={`text-blue-500 hover:cursor-pointer hover:text-blue-500`} onClick={handleBookmark}/>}
                         </div>
                     </div>
 
@@ -328,7 +344,7 @@ const PostCard = (props) => {
                     </div>
                 </div>
             </div>
-            :null}
+            :shareOpen?<UserList_Modal handleClose={closeShare} heading={"Share To"} />:null}
 
         </div>
     )

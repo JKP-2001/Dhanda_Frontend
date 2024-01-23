@@ -43,7 +43,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:user_id" element={<NewPassword />} />
+          <Route path="/reset-password" element={<NewPassword />} />
           <Route path="/mock-interview/schedule/:user" element={<Calendar_Page />} />
           <Route path="/user/profile/:user" element={<User_Profile />} />
           <Route path="/new-feeds" element={<New_Feeds />} />

@@ -6,7 +6,7 @@ const Progressor = (props)=> {
   const {step} = props;
 
   return (
-    <div className="w-full pt-4 px-8">
+    <div className="w-full pt-4 px-8 z-0">
       <Stepper
         activeStep={step}
       >

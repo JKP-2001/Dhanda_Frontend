@@ -3,25 +3,22 @@ import { Navbar, Collapse, Typography, IconButton, Button } from "@material-tail
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import OtherHousesOutlinedIcon from '@mui/icons-material/OtherHousesOutlined';
-import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 
 import { HiOutlineHome } from "react-icons/hi2";
 import { SlPeople } from "react-icons/sl";
 import { CiSquarePlus } from "react-icons/ci";
+import { FiLogIn } from "react-icons/fi";
+import { LuPlusSquare } from "react-icons/lu";
 
 const Avatar = (props) => {
 
   const navigate = useNavigate();
-  const {setIcon,icon} = props;
+  const { setIcon, icon } = props;
   return (
 
 
-    <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`mt-1 w-8 h-8 rounded-full cursor-pointer ${icon==="avatar"?"border-2 border-blue-400":""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => {navigate("/user/profile/:user");setIcon("avatar")}} />
+    <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => { navigate("/user/profile/:user"); setIcon("avatar") }} />
 
 
 
@@ -61,21 +58,38 @@ const Nav = () => {
       window.removeEventListener("resize", handleWindowResize);
     };
 
-    
-    
+
+
   }, []);
 
-  const [loggedSignIn, setLoggedSignIn] = useState(true);
+  const [loggedSignIn, setLoggedSignIn] = useState(false);
 
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLoggedSignIn(true);
+    }
+  }, []);
 
   const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+    setLoggedSignIn(false);
+
+    navigate("/signin");
+  }
+
+
+
 
   return (
     <>
       {/* <motion.div style={{ scaleX: scrollYProgress }} className='fixed top-[64px] left-0 right-0 h-1 z-50 bg-blue-500 transform origin-left' /> */}
 
-      <div className="sticky top-0 z-10 select-none">
+      <div className="sticky top-0 z-30 select-none">
         <div className="w-full mx-auto px-6 py-3 mt-0 bg-white shadow-lg ">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
@@ -102,15 +116,23 @@ const Nav = () => {
                     </Link>
                   </Typography>
                 ))}
-                {loggedSignIn ? <Avatar setIcon={setIcon} icon={icon}/> : <>
-                  <Link to="/signin" className="">
-                    <Button variant="outlined" size="sm" className="lg:inline-block">
-                      <span>Sign In</span>
-                    </Button>
-                  </Link>
-                  <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block`} onClick={() => navigate("/signup")}>
-                    <span>Sign up</span>
-                  </Button></>}
+                {loggedSignIn ? <><Avatar setIcon={setIcon} icon={icon} />
+
+                  <Button variant="gradient" size="sm" className={`lg:inline-block flex`} onClick={handleLogout}>
+
+
+                    <span>Log out</span>
+                  </Button>
+                </>
+                  : <>
+                    <Link to="/signin" className="">
+                      <Button variant="outlined" size="sm" className="lg:inline-block">
+                        <span>Sign In</span>
+                      </Button>
+                    </Link>
+                    <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block`} onClick={() => navigate("/signup")}>
+                      <span>Sign up</span>
+                    </Button></>}
               </div>
             </div>
             <IconButton
@@ -143,12 +165,19 @@ const Nav = () => {
                   </Link>
                 </Typography>
               ))}
-              <Button variant="outlined" size="sm" className="lg:inline-block" onClick={() => navigate("/signin")}>
-                <span>Sign In</span>
-              </Button>
-              <Button variant="gradient" size="sm" className="lg:inline-block" onClick={() => navigate("/signup")}>
-                <span>Sign up</span>
-              </Button>
+              {loggedSignIn ?
+                <Button variant="outlined" size="sm" className="lg:inline-block" onClick={handleLogout}>
+                  <span>Log Out</span>
+                </Button>
+                :
+                <>
+                  <Button variant="outlined" size="sm" className="lg:inline-block" onClick={() => navigate("/signin")}>
+                    <span>Sign In</span>
+                  </Button>
+                  <Button variant="gradient" size="sm" className="lg:inline-block" onClick={() => navigate("/signup")}>
+                    <span>Sign up</span>
+                  </Button></>
+              }
             </div>
           </Collapse>
         </div>
@@ -158,17 +187,17 @@ const Nav = () => {
 
 
       <div className="lg:hidden border-t-[1px] border-gray-800 overflow-hidden fixed bottom-0 left-0 right-0 z-10 bg-white px-6 py-2 shadow-lg">
-        
 
-          <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between bg-white">
-            <HiOutlineHome fontSize={30} className={`${icon==='explore'?"text-blue-800":""} hover:cursor-pointer mt-1`} onClick={()=>{setIcon("explore");navigate("/new-feeds")}}/>
-            <SlPeople fontSize={27} className={`${icon==='mock'?"text-blue-800":""} hover:cursor-pointer mt-1`} onClick={()=>{setIcon("mock");navigate("/mock-interview")}}/>
-            <CiSquarePlus fontSize={30} className={`${icon==='new'?"text-blue-800":""}  hover:cursor-pointer mt-1`} onClick={()=>setIcon("new")}/>
-            <Avatar setIcon={setIcon} icon={icon}/>
 
-          </div>
+        <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between bg-white">
+          <HiOutlineHome fontSize={30} className={`${icon === 'explore' ? "text-blue-800" : ""} hover:cursor-pointer mt-1`} onClick={() => { setIcon("explore"); navigate("/new-feeds") }} />
+          <SlPeople fontSize={27} className={`${icon === 'mock' ? "text-blue-800" : ""} hover:cursor-pointer mt-[5px]`} onClick={() => { setIcon("mock"); navigate("/mock-interview") }} />
+          <LuPlusSquare fontSize={27} className={`${icon === 'new' ? "text-blue-800" : ""}  hover:cursor-pointer mt-[6px]`} onClick={() => setIcon("new")} />
+          {loggedSignIn?<Avatar setIcon={setIcon} icon={icon} />:
+          <FiLogIn fontSize={25} className={`  hover:cursor-pointer mt-[6px]`} onClick={() => navigate("/signin")}/>}
+        </div>
 
-        
+
       </div>
 
 
