@@ -198,9 +198,9 @@ const PostCard = (props) => {
                                 onClick={() => navigate("/user/profile/:user")}
                             />
                         </div>
-                        <div className='ml-3 mt-1 space-y-0.1 hover:cursor-pointer hover:underline' onClick={() => navigate("/user/profile/:user")}>
+                        <div className='ml-3 mt-1 space-y-0.1 hover:cursor-pointer hover:text-blue-800 hover:underline' onClick={() => navigate("/user/profile/:user")}>
                             <h1 className='font-inter font-semibold'>{props.name}</h1>
-                            <h1 className='font-inter text-xs text-gray-500 w-3/4 md:w-full'>{newBio}</h1>
+                            <h1 className='font-inter text-xs hover:text-light-blue-800 text-gray-500 w-3/4 md:w-full'>{newBio}</h1>
                         </div>
                     </div>
                     <div className=' mr-3 mt-4 sm:mt-3 space-x-4 '>
@@ -209,7 +209,7 @@ const PostCard = (props) => {
                             {!follow ? <IoPersonAddSharp fontSize={17} className="font-bold text-white hover:cursor-pointer block  sm:mr-1" /> : <RiUserFollowFill fontSize={17} className="text-white hover:cursor-pointer block  sm:mr-1" />}
                         </button> */}
 
-                        <IoSettingsOutline onClick={handleOpenSettings} fontSize={20} className='hover:cursor-pointer '/>
+                        <IoSettingsOutline onClick={handleOpenSettings} fontSize={20} className='hover:cursor-pointer hover:text-blue-600'/>
                     </div>
                 </div>
 
@@ -295,7 +295,7 @@ const PostCard = (props) => {
                         />
                         <IoMdClose
                             fontSize={30}
-                            className='absolute top-2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer'
+                            className='absolute top-2 right-2 p-2 bg-blue-600 rounded-xl text-white hover:cursor-pointer hover:text-red-500'
                             onClick={closeImageModal}
                         />
                     </div>
@@ -311,7 +311,7 @@ const PostCard = (props) => {
                         <h1 className='font-inter font-semibold text-lg'>Settings</h1>
                         <IoMdClose
                             fontSize={20}
-                            className='hover:cursor-pointer'
+                            className='hover:cursor-pointer hover:text-red-500'
                             onClick={handleCloseSettings}
                         />
                     </div>

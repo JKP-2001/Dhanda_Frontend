@@ -538,7 +538,7 @@ const SignUp_Comp = (props) => {
                                 Sign up for an account
                             </h1>
 
-                            <Progressor step={step - 1} setStep={setStep} handleNext={handleNext} handlePrev={handlePrev} />
+                            <Progressor totalSteps={4} step={step - 1} setStep={setStep} handleNext={handleNext} handlePrev={handlePrev} />
 
                             <motion.div key={step} // Add key prop here
                                 initial="hidden"

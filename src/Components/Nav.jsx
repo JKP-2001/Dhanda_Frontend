@@ -10,6 +10,7 @@ import { SlPeople } from "react-icons/sl";
 import { CiSquarePlus } from "react-icons/ci";
 import { FiLogIn } from "react-icons/fi";
 import { LuPlusSquare } from "react-icons/lu";
+import showToast from "../Utils/showToast";
 
 const Avatar = (props) => {
 
@@ -62,14 +63,7 @@ const Nav = () => {
 
   }, []);
 
-  const [loggedSignIn, setLoggedSignIn] = useState(false);
-
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setLoggedSignIn(true);
-    }
-  }, []);
+  const loggedSignIn = localStorage.getItem("token")?true:false;
 
   const navigate = useNavigate();
 
@@ -77,8 +71,14 @@ const Nav = () => {
   const handleLogout = () => {
 
     localStorage.removeItem("token");
-    setLoggedSignIn(false);
+    
+    showToast({
+      msg: "Logout Successful",
+      type: "success",
+      duration: 3000,
+    });
 
+    
     navigate("/signin");
   }
 
@@ -87,7 +87,7 @@ const Nav = () => {
 
   return (
     <>
-      {/* <motion.div style={{ scaleX: scrollYProgress }} className='fixed top-[64px] left-0 right-0 h-1 z-50 bg-blue-500 transform origin-left' /> */}
+
 
       <div className="sticky top-0 z-30 select-none">
         <div className="w-full mx-auto px-6 py-3 mt-0 bg-white shadow-lg ">
@@ -117,22 +117,19 @@ const Nav = () => {
                   </Typography>
                 ))}
                 {loggedSignIn ? <><Avatar setIcon={setIcon} icon={icon} />
-
-                  <Button variant="gradient" size="sm" className={`lg:inline-block flex`} onClick={handleLogout}>
-
-
-                    <span>Log out</span>
-                  </Button>
+                <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block`} onClick={handleLogout}>
+                      <span>Log out</span>
+                    </Button>
                 </>
                   : <>
-                    <Link to="/signin" className="">
-                      <Button variant="outlined" size="sm" className="lg:inline-block">
-                        <span>Sign In</span>
-                      </Button>
-                    </Link>
+
+                    <Button variant="outlined" size="sm" className="lg:inline-block" onClick={() => navigate("/signin")}>
+                      <span>Sign In</span>
+                    </Button>
                     <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block`} onClick={() => navigate("/signup")}>
                       <span>Sign up</span>
-                    </Button></>}
+                    </Button>
+                  </>}
               </div>
             </div>
             <IconButton
@@ -186,15 +183,15 @@ const Nav = () => {
 
 
 
-      <div className="lg:hidden border-t-[1px] border-gray-800 overflow-hidden fixed bottom-0 left-0 right-0 z-10 bg-white px-6 py-2 shadow-lg">
+      <div className="lg:hidden border-t-[2px] border-gray-300 overflow-hidden fixed bottom-0 left-0 right-0 z-10 bg-white px-6 py-2 shadow-2xl">
 
 
         <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between bg-white">
           <HiOutlineHome fontSize={30} className={`${icon === 'explore' ? "text-blue-800" : ""} hover:cursor-pointer mt-1`} onClick={() => { setIcon("explore"); navigate("/new-feeds") }} />
           <SlPeople fontSize={27} className={`${icon === 'mock' ? "text-blue-800" : ""} hover:cursor-pointer mt-[5px]`} onClick={() => { setIcon("mock"); navigate("/mock-interview") }} />
           <LuPlusSquare fontSize={27} className={`${icon === 'new' ? "text-blue-800" : ""}  hover:cursor-pointer mt-[6px]`} onClick={() => setIcon("new")} />
-          {loggedSignIn?<Avatar setIcon={setIcon} icon={icon} />:
-          <FiLogIn fontSize={25} className={`  hover:cursor-pointer mt-[6px]`} onClick={() => navigate("/signin")}/>}
+          {loggedSignIn ? <Avatar setIcon={setIcon} icon={icon} /> :
+            <FiLogIn fontSize={25} className={`  hover:cursor-pointer mt-[6px]`} onClick={() => navigate("/signin")} />}
         </div>
 
 

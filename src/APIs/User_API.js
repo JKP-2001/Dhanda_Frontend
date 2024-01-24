@@ -28,3 +28,32 @@ export const getUserData = async (token) => {
         return { success: false, msg: err.toString() };
     }
 }
+
+
+export const callOnBoardingProcess = async (data, token) => {
+
+    try {
+
+        const encryptedData = encryptToJson(data);
+        const DATA = { payload: encryptedData }
+
+        const response = await fetch(BASE_URL + "/user/onboarding", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "security-key": security_key,
+                "auth-token":token
+            },
+            
+            body: JSON.stringify(DATA),
+        })
+
+        const json = await response.json();
+
+        return json;
+
+    } catch (err) {
+
+        return { success: false, msg: err.toString() };
+    }
+}

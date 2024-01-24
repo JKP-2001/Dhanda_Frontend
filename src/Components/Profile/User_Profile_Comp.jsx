@@ -10,6 +10,7 @@ import GridOnOutlinedIcon from '@mui/icons-material/GridOnOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+
 import { scrollToTop } from '../../Utils/functions';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -19,9 +20,11 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import PostCard from '../New_Feeds/PostCard';
 import UserList_Modal from '../../Utils/UserList_Modal';
+import { useSelector } from 'react-redux';
 
 
 const localizer = momentLocalizer(moment);
+
 
 
 const dummy = [
@@ -300,9 +303,12 @@ const User_Profile_Comp = () => {
         scrollToTop();
     }, []);
 
+    const userRedux = useSelector((state) => state.user);
+
+
 
     return (
-        <>
+        userRedux.data?<>
 
 
             <div className="mt-2 ml-0 lg:mt-12 lg:ml-48 mb-10">
@@ -350,18 +356,12 @@ const User_Profile_Comp = () => {
 
 
                 <div className='ml-5 lg:ml-7'>
-                    <h1 className="font-roboto text-xl font-thin mt-4">Manish Mishra</h1>
-                    <h1 className="font-inter text-sm w-11/12 lg:w-8/12 text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
+                    <h1 className="font-roboto text-xl font-thin mt-4">{userRedux.data.firstName+" "+userRedux.data.lastName+" ( @"+userRedux.data.username+" )"}</h1>
+                    <h1 className="font-inter text-sm w-11/12 lg:w-8/12 text-gray-500">{userRedux.data.bio}</h1>
                 </div>
 
                 <div className='ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm break-words'>
-                    Filler text is text that shares some characteristics of a real written text, but is
-                    random or otherwise generated. It may be used to display a sample of fonts,
-                    generate text for testing, or to spoof an e-mail spam filter.
-
-                    Filler text is text that shares some characteristics of a real written text, but is
-                    random or otherwise generated. It may be used to display a sample of fonts,
-                    generate text for testing, or to spoof an e-mail spam filter.
+                    {userRedux.data.decription}
                 </div>
 
                 <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-11/12 lg:w-8/12 mt-10 text-sm justify-center">
@@ -448,7 +448,7 @@ const User_Profile_Comp = () => {
             )}
 
 
-        </>
+        </> : null
     )
 }
 
