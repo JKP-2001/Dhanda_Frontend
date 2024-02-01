@@ -1,12 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CatButton from './CatButton';
 import Sorting_Button from './Sorting_Button';
 import CompanyTag from './CompanyTag';
 import Interviewer_Card from './Interviewer_Card';
 import { motion } from "framer-motion"
+import { GetInterviewersList } from '../../APIs/InterviewersAPIs';
+import Pager from '../Pager';
 
 const Mock_Interview_Comp = () => {
   const [comp, setComp] = useState([]);
+  const [curPage, setCurPage] = useState(1)
+  const demoInterviewer = {
+    firstName: 'Jitendra',
+    lastName: 'Pandey',
+    headline: 'SDE at Deutsche bank, going to rob the bank.',
+    rating: 4.7,
+    interviewsTaken: 56,
+    price: 1250,
+    interviewDuration: 45
+  }
+  const [interviewersList, setInterviewersList] = useState([demoInterviewer])
+
+  useEffect(
+    ()=>{
+      async function getData(){
+        try{
+          const interviewers = await GetInterviewersList(1,undefined)
+          console.log(interviewers)
+          if (!Array.isArray(interviewers))
+            throw new Error('Interviewers is not an array type')
+          setInterviewersList(interviewers)
+        }
+        catch(e){
+          console.error('Error :', e)
+        }
+      }
+      getData()
+  },
+    []
+  )
 
   const companies = ["Amazon", "Google", "Microsoft", "Facebook", "Apple", "Uber", "Adobe", "Oracle", "Paypal", "Salesforce", "Cisco", "Samsung", "Walmart", "Intuit", "Spotify", "Twitter", "LinkedIn", "Snapchat", "Twitch", "TikTok", "Reddit", "Pinterest", "Netflix", "Airbnb", "IBM"];
   const sort_by = ["Company", "Date", "Rating"];
@@ -44,24 +76,15 @@ const Mock_Interview_Comp = () => {
       <CompanyTag comp={comp} setComp={setComp} />
 
       <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
-        <Interviewer_Card />
+        {
+          interviewersList.map(
+            (interviewer, index)=><Interviewer_Card key={index} {...interviewer}/>
+          )
+        }
       </motion.div>
+      <Pager totalPage={10} currentPage={curPage} className="mt-5" onClick={(page)=>{
+        setCurPage(page)
+      }}/>
     </div>
   );
 };
