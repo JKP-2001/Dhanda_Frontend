@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CatButton from "./CatButton";
 import Sorting_Button from "./Sorting_Button";
 import CompanyTag from "./CompanyTag";
 import Interviewer_Card from "./Interviewer_Card";
 import { motion } from "framer-motion";
+import { fetchInstructer } from "../../Redux/instructers/instructerAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useRef } from "react";
+import { setCurrentPage } from "../../Redux/instructers/instructerSlice";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Loader from "../../Utils/Loader";
+import Loading from "../../Utils/Loading.gif";
 
 const Mock_Interview_Comp = () => {
+
+  const Spinner = () => {
+    return (
+      <div className=" mt-8 flex items-center justify-center">
+        <img src={Loading} alt="Loading" />
+      </div>
+    );
+  };
+
   const [comp, setComp] = useState([]);
+  const dispatch = useDispatch();
+  const currPage = useSelector((state) => state.instructers.currPage);
+  const instructers = useSelector((state) => state.instructers.instructers);
+  const totalResults = useSelector((state) => state.instructers.totalResults);
 
   const companies = [
     "Amazon",
@@ -42,9 +62,21 @@ const Mock_Interview_Comp = () => {
     visible: { x: 0 },
   };
 
+
+
+  const fetchMoreData = async () => {
+    dispatch(fetchInstructer());
+  };
+
+  useEffect(()=>{
+    dispatch(fetchInstructer());
+  },[]);
+
+ 
+
   return (
-    <div className="flex items-center justify-center">
-      <div className="pb-10 w-[80%]">
+    <div className="flex items-center justify-center ">
+      <div className="pb-10 w-[80%] mt-10 ">
         <motion.div
           className="category"
           initial="hidden"
@@ -52,7 +84,7 @@ const Mock_Interview_Comp = () => {
           variants={variants}
           transition={{ type: "spring", stiffness: 100 }}
         >
-          <div className="flex flex-wrap mt-10 space-x-4">
+          <div className="flex flex-wrap  space-x-4">
             <div></div>
             <CatButton type={"All"} active={true} />
             <CatButton type={"SDE"} active={false} />
@@ -80,24 +112,18 @@ const Mock_Interview_Comp = () => {
           </div>
         </motion.div>
         <CompanyTag comp={comp} setComp={setComp} />
-        <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-          <Interviewer_Card />
-        </motion.div>
+        <InfiniteScroll
+          dataLength={instructers.length}
+          next={fetchMoreData}
+          hasMore={totalResults !== instructers.length}
+          loader={<Spinner />}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
+            {instructers.map((ins,idx) => {
+              return <Interviewer_Card key={idx} instructer={ins} />;
+            })}
+          </div>
+        </InfiniteScroll>
       </div>
     </div>
   );

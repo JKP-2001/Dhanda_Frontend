@@ -9,8 +9,10 @@ const SignUp = () => {
 
   return (
     <>
-        <Nav />
-        {user===""?<AuthSelection user={user} setUser={setUser} type={"sign up"}/>:<SignUp_Comp />}
+      <Nav />
+      <div className='mb-20'>
+        {user === "" ? <AuthSelection user={user} setUser={setUser} type={"sign up"} /> : <SignUp_Comp user={user}/>}
+      </div>
     </>
   )
 }

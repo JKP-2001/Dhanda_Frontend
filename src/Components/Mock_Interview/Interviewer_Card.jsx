@@ -12,15 +12,29 @@ import { useNavigate } from "react-router-dom";
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import { motion } from "framer-motion";
 
-const Interviewer_Card = () => {
+const Interviewer_Card = ({instructer}) => {
 
     const navigate = useNavigate();
+    let name="";
+    if(instructer.firstName)
+    {
+        name=name+instructer.firstName;
+    }
+    if(instructer.middleName)
+    {
+        name=name+" "+instructer.middleName;
+    }
+    if(instructer.lastName)
+    {
+        name=name+" "+instructer.lastName;
+    }
 
     return (
-        <motion.div initial={{ opacity: 0, y: 200 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.5 }} >
+        // <motion.div initial={{ opacity: 0, y: 200 }}
+        // whileInView={{ opacity: 1, y: 0 }}
+        // viewport={{ once: true, amount: 0.1 }}
+        // transition={{ duration: 0.5 }} >
+        <div className="select-none">
             <Card className="mt-5 mx-5 md:w-11/12 border-2 shadow-lg hover:shadow-2xl border-gray-200 hover:border-gray-300">
                 <div className="price absolute right-4 top-2 text-black font-inter">
                     ₹ 500 (45 mins)
@@ -28,13 +42,13 @@ const Interviewer_Card = () => {
 
                 <div className="info mt-2">
                     <div className="image mt-14 flex justify-center">
-                        <img src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="" className="h-[140px] w-[140px] rounded-full object-cover object-center" />
+                        <img src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="" className="h-[140px] w-[140px] rounded-full object-cover object-center border-2 border-blue-gray-300" />
                     </div>
 
                     <div className="mx-5 lg:mx-20 mt-2">
 
                         <div className="name font-inter text-black font-bold text-lg">
-                            Manish Mishra
+                            {name}
                         </div>
                         <div className="name font-inter text-sm">
                             SDE 1 at Zomato, Internship at Razorpay
@@ -65,7 +79,7 @@ const Interviewer_Card = () => {
                     </div>
                 </div>
             </Card>
-        </motion.div>
+        </div>
     );
 }
 

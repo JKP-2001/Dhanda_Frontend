@@ -5,7 +5,7 @@ const CompanyCard = () => {
         <>
             <div className='flex'>
                 <div className='logo'>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Paypal_2014_logo.png" alt="logo" className='h-[40px] w-[40px] mt-5 mx-4' />
+                    <img src="https://cdn-icons-png.freepik.com/512/895/895360.png?ga=GA1.1.1404805500.1684049480&" alt="logo" className='h-[40px] w-[40px] mt-5 mx-4' />
                 </div>
                 <div className="info mx-2">
                     <h1 className="font-roboto text-base font-medium mt-4">Software Engineer II</h1>
@@ -15,7 +15,7 @@ const CompanyCard = () => {
 
             </div>
             <div className="about">
-            <h1 className="font-inter text-sm text-gray-500 ml-[75px] lg:ml-[80px] mt-2 mx-10 break-words">
+            <h1 className="font-inter text-sm text-gray-500 ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words">
                     Filler text is text that shares some characteristics of a real written text, but is
                     random or otherwise generated. It may be used to display a sample of fonts, 
                     generate text for testing, or to spoof an e-mail spam filter.

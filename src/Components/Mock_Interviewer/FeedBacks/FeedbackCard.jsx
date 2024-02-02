@@ -49,7 +49,7 @@ const FeedbackCard = () => {
   };
 
   return (
-    <Card className="rounded-xl w-11/12 lg:w-8/12 pb-2 border-2 border-gray-300 overflow-hidden" >
+    <Card className="rounded-xl w-[96%] lg:w-8/12 pb-2 border-2 border-gray-300 overflow-hidden" >
 
       <motion.div key={active} // Add key prop here
         initial="hidden"
@@ -59,6 +59,7 @@ const FeedbackCard = () => {
 
 
         <h1 className="font-roboto text-xl font-thin mt-4 ml-6 text-black">Feedbacks</h1>
+        <hr className='w-11/12 mx-4 mt-2' />
 
         <FeedBackMaterial name={names[active]} text={texts[active]} />
 

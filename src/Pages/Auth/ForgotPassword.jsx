@@ -6,7 +6,10 @@ const ForgotPassword = () => {
     return (
         <>
             <Nav />
-            <ForgotPassword_Comp />
+            <div className='mb-20'>
+                <ForgotPassword_Comp />
+            </div>
+            
         </>
     )
 }
