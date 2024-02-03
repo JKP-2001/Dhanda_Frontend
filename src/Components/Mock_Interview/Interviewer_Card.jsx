@@ -12,9 +12,22 @@ import { useNavigate } from "react-router-dom";
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import { motion } from "framer-motion";
 
-const Interviewer_Card = () => {
+const Interviewer_Card = ({instructer}) => {
 
     const navigate = useNavigate();
+    let name="";
+    if(instructer.firstName)
+    {
+        name=name+instructer.firstName;
+    }
+    if(instructer.middleName)
+    {
+        name=name+" "+instructer.middleName;
+    }
+    if(instructer.lastName)
+    {
+        name=name+" "+instructer.lastName;
+    }
 
     return (
         // <motion.div initial={{ opacity: 0, y: 200 }}
@@ -35,7 +48,7 @@ const Interviewer_Card = () => {
                     <div className="mx-5 lg:mx-20 mt-2">
 
                         <div className="name font-inter text-black font-bold text-lg">
-                            Manish Mishra
+                            {name}
                         </div>
                         <div className="name font-inter text-sm">
                             SDE 1 at Zomato, Internship at Razorpay

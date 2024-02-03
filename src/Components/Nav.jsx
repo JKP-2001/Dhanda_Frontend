@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Collapse, Typography, IconButton, Button } from "@material-tailwind/react";
+import { motion } from "framer-motion";
+import {
+  Navbar,
+  Collapse,
+  Typography,
+  IconButton,
+  Button,
+} from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 
@@ -35,8 +42,8 @@ const Nav = () => {
   const [icon, setIcon] = useState("home");
 
   const [openNav, setOpenNav] = useState(false);
-
-  const handleWindowResize = () => window.innerWidth >= 960 && setOpenNav(false);
+  const handleWindowResize = () =>
+    window.innerWidth >= 960 && setOpenNav(false);
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
@@ -100,7 +107,7 @@ const Nav = () => {
             >
               LOGO
             </Typography>
-            <div className="hidden lg:block">
+            <motion.div className="hidden lg:block">
               <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
                 {["Explore", "New-Feeds", "Mock-Interview", "Problems", "Discuss"].map((item, index) => (
 
@@ -131,7 +138,7 @@ const Nav = () => {
                     </Button>
                   </>}
               </div>
-            </div>
+            </motion.div>
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

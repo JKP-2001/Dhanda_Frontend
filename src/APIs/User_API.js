@@ -21,6 +21,8 @@ export const getUserData = async (token) => {
 
         const json = await response.json();
 
+       
+
         return json;
 
     } catch (err) {

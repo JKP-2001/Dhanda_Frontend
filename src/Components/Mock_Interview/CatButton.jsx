@@ -1,14 +1,23 @@
-import { Button } from '@material-tailwind/react'
-import React from 'react'
+import { Button } from "@material-tailwind/react";
+import React from "react";
 
-const CatButton = (props) => {
-  return (
-    <Button color={props.active ? `black` : `white`} className={`w-[147.39px] h-[41px] font-inter font-bold rounded-3xl $text-black border-[1.5px] border-gray-500 text-center my-2`}>
-      
-        {props.type}
-      
-    </Button>
-  )
-}
+const CatButton = ({ active,type }) => {
+  if (active) {
+    return (
+      <Button
+        className={`w-[147.39px] h-[41px] font-inter font-bold rounded-3xl text-white  border-[2px] bg-btn-col text-center my-2`}
+      >
+        {type}
+      </Button>
+    );
+  } else
+    return (
+      <Button
+        className={`w-[147.39px] h-[41px] font-inter font-bold rounded-3xl text-btn-col border-[2px] border-btn-col  bg-white text-center my-2`}
+      >
+        {type}
+      </Button>
+    );
+};
 
-export default CatButton
+export default CatButton;

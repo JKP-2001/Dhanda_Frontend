@@ -41,9 +41,6 @@ export const Signup = async (data) => {
 
 
 export const verifyEmail = async (data) => {
-
-  
-
     try {
         const response = await fetch(BASE_URL+"/auth/verify-email", {
             method: "POST",
