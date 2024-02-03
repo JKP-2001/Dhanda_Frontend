@@ -29,7 +29,7 @@ const ProtectedRoute = (props) => {
             const token = localStorage.getItem('token');
 
             if (token === null) {
-                const allowedRoutes = ['/signin', '/signup', '/forgot-password', '/reset-password'];
+                const allowedRoutes = ['/signin', '/signup', '/forgot-password', '/reset-password',"/"];
                 const currentPath = window.location.pathname;
 
                 if (!allowedRoutes.includes(currentPath)) {
