@@ -21,6 +21,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import PostCard from '../New_Feeds/PostCard';
 import UserList_Modal from '../../Utils/UserList_Modal';
 import { useSelector } from 'react-redux';
+import ExperienceCard from '../Mock_Interviewer/Experience/ExperienceCard';
 
 
 const localizer = momentLocalizer(moment);
@@ -160,14 +161,31 @@ const Slider = () => {
 }
 
 
-const Account = () => {
+const Account = (props) => {
+
+    const userRedux = useSelector((state) => state.user);
+
+    if (!userRedux.data) {
+        return null;
+    }
+
+
+
     return (
         <motion.div
 
-            className='mt-5 ml-3 md:ml-5'
+            className='mt-5 ml-3 md:ml-5 space-y-8'
         >
 
-            <EducationCard />
+            <div>
+                <ExperienceCard exp={userRedux} />
+            </div>
+            
+            <div>
+                <EducationCard edu={userRedux} />
+            </div>
+
+
 
         </motion.div>
     )
@@ -308,7 +326,7 @@ const User_Profile_Comp = () => {
 
 
     return (
-        userRedux.data?<>
+        userRedux.data ? <>
 
 
             <div className="mt-2 ml-0 lg:mt-12 lg:ml-48 mb-10">
@@ -356,7 +374,7 @@ const User_Profile_Comp = () => {
 
 
                 <div className='ml-5 lg:ml-7'>
-                    <h1 className="font-roboto text-xl font-thin mt-4">{userRedux.data.firstName+" "+userRedux.data.lastName+" ( @"+userRedux.data.username+" )"}</h1>
+                    <h1 className="font-roboto text-xl font-thin mt-4">{userRedux.data.firstName + " " + userRedux.data.lastName + " ( @" + userRedux.data.username + " )"}</h1>
                     <h1 className="font-inter text-sm w-11/12 lg:w-8/12 text-gray-500">{userRedux.data.bio}</h1>
                 </div>
 
