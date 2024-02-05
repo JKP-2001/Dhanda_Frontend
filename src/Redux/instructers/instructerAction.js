@@ -2,13 +2,20 @@ import { fetchInstructerSuccess,fetchInstructersLoading,fetchInstructersFail,set
 import { fetchInstructers } from "../../APIs/Instructer_API";
 import showToast from "../../Utils/showToast";
 import { decryptFromJson } from "../../Utils/functions";
+import { DecryptResponseData } from "../../Utils/Encryption/DecryptResponseData";
 
 export const fetchInstructer=()=>async (dispatch,getState)=>{
     try{
         dispatch(fetchInstructersLoading());
         const page=getState().instructers.currPage;
         const instructers = await fetchInstructers(localStorage.getItem("token"),page);
-        if(instructers.success===false)
+        // const decryptedInstructers=decryptFromJson(instructers.data);
+        console.log('at fetchInstructor, instructors ', instructers)
+
+        const decryptedInstructers = decryptFromJson(instructers.payload)
+        console.log('at fetchInstructor, decryptedInstructers ', decryptedInstructers)
+
+        if(decryptedInstructers.success===false)
         {
             showToast({
                 type:"error",
@@ -18,7 +25,6 @@ export const fetchInstructer=()=>async (dispatch,getState)=>{
             dispatch(fetchInstructersFail(instructers.msg))
             return ;
         }
-        const decryptedInstructers=decryptFromJson(instructers.data);
         const currentInstructers=getState().instructers.instructers;
         const updatedInstructors=[...currentInstructers,...decryptedInstructers.result];
         dispatch(fetchInstructerSuccess(updatedInstructors));

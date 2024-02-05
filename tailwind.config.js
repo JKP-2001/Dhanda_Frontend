@@ -22,7 +22,8 @@ module.exports = withMT({
       'Button':['IBM Plex Sans', 'sans-serif'],
       'handwritten2':['Playpen Sans', 'cursive'],
       'roboto':['Roboto', 'sans-serif'],
-      'inter':['Inter', 'sans-serif']
+      'inter':['Inter', 'sans-serif'],
+      'landing':['Bodoni Moda','serif']
     }
   },
   plugins: [],

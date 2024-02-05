@@ -1,4 +1,6 @@
-import { encryptToJson } from "../Utils/functions";
+import { DecryptResponseData } from "../Utils/Encryption/DecryptResponseData";
+import { EncryptRequestData } from "../Utils/Encryption/EncryptRequestData";
+import { decryptFromJson, encryptToJson } from "../Utils/functions";
 
 const security_key = process.env.REACT_APP_SECURITY_KEY;
 
@@ -23,7 +25,11 @@ export const Signup = async (data) => {
         });
 
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
+
+
+        console.log('The response is of Signup fetch is ', json)
 
         if (json.success) {
 
@@ -41,6 +47,9 @@ export const Signup = async (data) => {
 
 
 export const verifyEmail = async (data) => {
+
+    console.log('The data in verifyEmail is ', data)
+
     try {
         const response = await fetch(BASE_URL+"/auth/verify-email", {
             method: "POST",
@@ -50,7 +59,7 @@ export const verifyEmail = async (data) => {
             },
             body: JSON.stringify(data),
         });
-        const json = await response.json();
+        const json = DecryptResponseData(await response.json());
 
         if (json.success) {
 
@@ -71,8 +80,9 @@ export const Signin = async (data) => {
 
     try {
 
-        const encryptedData = encryptToJson(data);
-        const DATA  = {payload:encryptedData}
+        // const encryptedData = encryptToJson(data);
+        // const DATA  = {payload:encryptedData}
+        const DATA = EncryptRequestData(data)
 
         const response = await fetch(BASE_URL+"/auth/signin", {
             method: "POST",
@@ -83,8 +93,9 @@ export const Signin = async (data) => {
             body: JSON.stringify(DATA),
         });
 
-        const json = await response.json();
+        const json = DecryptResponseData(await response.json());
 
+        console.log('The received json data in signin :',json)
         if (json.success) {
 
             return { success: true, unique:json.unique, encryptedData:json.encryptedData };
@@ -100,8 +111,9 @@ export const Signin = async (data) => {
 
 export const changePasswordRequest = async (data) => {
     try{
-        const encryptedData = encryptToJson(data);
-        const DATA  = {payload:encryptedData}
+        // const encryptedData = encryptToJson(data);
+        // const DATA  = {payload:encryptedData}
+        const DATA = EncryptRequestData(data)
 
         const response = await fetch(BASE_URL+"/auth/forgotpasswordrequest", {
             method: "POST",
@@ -112,7 +124,7 @@ export const changePasswordRequest = async (data) => {
             body: JSON.stringify(DATA),
         });
 
-        const json = await response.json();
+        const json = DecryptResponseData(await response.json());
 
         return json;
 
@@ -126,8 +138,9 @@ export const changePassword = async (data) => {
 
     try{
 
-        const encryptedData = encryptToJson(data);
-        const DATA  = {payload:encryptedData}
+        // const encryptedData = encryptToJson(data);
+        // const DATA  = {payload:encryptedData}
+        const DATA = EncryptRequestData(data)
 
         const response = await fetch(BASE_URL+"/auth/resetpassword", {
             method: "PATCH",
@@ -138,7 +151,7 @@ export const changePassword = async (data) => {
             body: JSON.stringify(DATA),
         });
 
-        const json = await response.json();
+        const json = DecryptResponseData(await response.json());
 
         return json;
         
