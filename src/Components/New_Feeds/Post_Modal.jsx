@@ -113,14 +113,14 @@ const Post_Modal = (props) => {
   return (
     <div>
       {open ? (
-        <div className='fixed select-none top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10 flex justify-center items-center'>
-          <div className='block w-[98%] lg:w-[90%] max-w-3xl pb-2 pt-0 z-20 bg-white border border-gray-200 rounded-lg shadow h-[98%] sm:h-[93%] relative'>
+        <div className='fixed select-none top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50'>
+          <div className='block w-[98%] lg:w-[90%] max-w-3xl pb-2 pt-0  bg-white border border-gray-200 rounded-lg shadow h-[98%] sm:h-[93%] relative'>
             <div className=''>
               <div className='flex justify-between'>
                 <h1 className='mx-4 mt-3 text-2xl font-bold font-inter text-gray-800'>Create Post</h1>
                 <IoMdClose
                   fontSize={25}
-                  className='mt-3 mr-2 hover:cursor-pointer text-gray-600'
+                  className='mt-3 mr-2 hover:cursor-pointer hover:text-red-600 text-gray-600'
                   onClick={() => { setOpen(false); setImages([]); document.body.style.overflow = 'auto'; }}
                 />
               </div>

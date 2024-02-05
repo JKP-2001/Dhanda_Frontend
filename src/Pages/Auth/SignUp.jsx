@@ -11,7 +11,7 @@ const SignUp = () => {
     <>
       <Nav />
       <div className='mb-20'>
-        {user === "" ? <AuthSelection user={user} setUser={setUser} type={"sign up"} /> : <SignUp_Comp />}
+        {user === "" ? <AuthSelection user={user} setUser={setUser} type={"sign up"} /> : <SignUp_Comp user={user}/>}
       </div>
     </>
   )

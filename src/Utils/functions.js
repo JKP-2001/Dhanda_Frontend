@@ -1,4 +1,6 @@
-const CryptoJS = require('crypto-js');
+// const CryptoJS = require('crypto-js');
+import CryptoJS from 'crypto-js'
+
 
 const key = process.env.REACT_APP_ENCRYPT_KEY;
 

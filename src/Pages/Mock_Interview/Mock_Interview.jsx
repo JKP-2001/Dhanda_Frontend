@@ -6,7 +6,6 @@ import { scrollToTop } from '../../Utils/functions'
 
 
 const Mock_Interview = () => {
-
   useEffect(() => {
     scrollToTop();
   }, [])

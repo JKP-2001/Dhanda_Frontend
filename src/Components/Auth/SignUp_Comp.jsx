@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Progressor from './Progressor'
 import { motion } from "framer-motion"
-import { isStrongPassword, isValidEmail, isValidName } from '../../Utils/functions'
+import { isStrongPassword, isValidEmail, isValidName, validateUsername } from '../../Utils/functions'
 import { Button } from '@mui/material'
 import showToast from '../../Utils/showToast'
+import { Signup, verifyEmail } from '../../APIs/Auth_API'
+import Loader from '../../Utils/Loader'
 
 
 const Asterik = () => {
@@ -13,12 +15,15 @@ const Asterik = () => {
 }
 
 
+
+
 const Step1 = (props) => {
 
     const { userState, onChangeHandler, handleNext } = props;
 
     useEffect(() => {
         const handleKeyPress = (e) => {
+
             if (e.key === 'Enter') {
                 handleNext();
             }
@@ -41,6 +46,15 @@ const Step1 = (props) => {
                 <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter" placeholder="name@company.com" value={userState.email} required="" onChange={onChangeHandler} />
                 {userState.email.length > 0 && !isValidEmail(userState.email) ? <div className="error text-xs text-red-600 mt-1">
                     Please enter a valid email address.
+                </div> : null}
+            </div>
+            <div>
+                <label htmlFor="username" className="block mt-2 text-sm  text-gray-900 dark:text-white mb-1 font-inter font-bold">
+                    Username<Asterik />
+                </label>
+                <input type="text" name="userName" id="userName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter" placeholder="abc_123" value={userState.userName} required="" onChange={onChangeHandler} />
+                {userState.userName.length > 0 && !validateUsername(userState.userName) ? <div className="error text-xs text-red-600 mt-1">
+                    Please enter a valid username.
                 </div> : null}
             </div>
             <div>
@@ -73,6 +87,7 @@ const Step2 = (props) => {
 
     useEffect(() => {
         const handleKeyPress = (e) => {
+
             if (e.key === 'Enter') {
                 handleNext();
             }
@@ -167,6 +182,7 @@ const Step3 = (props) => {
 
     useEffect(() => {
         const handleKeyPress = (e) => {
+
             if (e.key === 'Enter') {
                 handleNext();
             }
@@ -181,7 +197,7 @@ const Step3 = (props) => {
 
 
     return (
-        <>
+        <div className='z-0'>
             <div className="mb-8">
                 <h2 className="text-xl font-bold text-gray-800 dark:text-white font-inter  text-center">
                     Review Your Information
@@ -207,6 +223,16 @@ const Step3 = (props) => {
                                 {userState.email}
                             </div>
                         </div>
+
+                        <div className="flex space-x-2 my-1">
+                            <div className="email text-sm font-inter font-bold">
+                                Username:
+                            </div>
+                            <div className="emaildata text-sm font-handwritten2">
+                                {userState.userName}
+                            </div>
+                        </div>
+
                         <div className="flex flex-wrap space-x-2 my-1 justify-between">
                             <div className="flex space-x-2">
                                 <div className="password text-sm font-inter font-bold">
@@ -267,13 +293,18 @@ const Step3 = (props) => {
 
 
             </div>
-        </>
+        </div>
     );
 };
 
 
 const Step4 = (props) => {
     const { userState, onChangeHandler, handleNext } = props;
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); // Prevent the default form submission behavior
+        handleNext();
+    };
 
     useEffect(() => {
         const handleKeyPress = (e) => {
@@ -291,15 +322,13 @@ const Step4 = (props) => {
 
     return (
         <>
-
             <div className="mb-8">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white font-inter  text-center">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white font-inter text-center">
                     Verify Yourself
                 </h2>
             </div>
 
-            <form>
-
+            <form onSubmit={handleSubmit}> {/* Attach the onSubmit handler */}
                 <div>
                     <label htmlFor="password" className="block mb-2 text-sm text-gray-900 dark:text-white font-inter font-bold">
                         OTP <Asterik />
@@ -318,18 +347,24 @@ const Step4 = (props) => {
                 </div>
             </form>
         </>
-    )
-
-}
-
+    );
+};
 
 
 
 
-const SignUp_Comp = () => {
 
-    
+const SignUp_Comp = (props) => {
+
+
     const navigate = useNavigate();
+
+    const [key, setKey] = useState(null);
+
+    const [loading, setLoading] = useState(false);
+
+    const user_role = props.user;
+
 
     const [userState, setUserState] = useState({
         email: "",
@@ -339,6 +374,8 @@ const SignUp_Comp = () => {
         firstName: "",
         middleName: "",
         lastName: "",
+        userName: ""
+
     });
 
     const [step, setStep] = useState(1);
@@ -352,41 +389,135 @@ const SignUp_Comp = () => {
 
 
 
-    
+
     const handlePrev = () => {
         if (step === 1) {
             return;
         }
         setStep(step - 1);
     }
-    
-    const handleNext = () => {
 
-        if (step === 4) {
-            showToast({
-                msg: "Signed Up Successfully",
-                type: "success",
-                duration: 3000,
-            });
+    const handleNext = async (e) => {
 
-            navigate("/signin");
-            
+        if(loading){
             return;
         }
-        
-        if (step === 3) {
-            showToast({
-                msg: "Information Submitted Successfully, Please check your email for OTP",
-                type: "success",
-                duration: 2000,
-            });
+
+
+        if (step === 4) {
+
+
+            if (!key) {
+                showToast({
+                    msg: "Invalid Key, please try again by refreshing the page.",
+                    type: "error",
+                    duration: 3000,
+                });
+                return;
+            }
+
+            const data = {
+                "otp": userState.otp,
+                "encryptedData": key
+            }
+
+            setLoading(true);
+
+            const response = await verifyEmail(data);
+
+
+
+            setLoading(false);
+
+            if (response.success) {
+                showToast({
+                    msg: "Signed Up Successfully",
+                    type: "success",
+                    duration: 3000,
+                });
+
+                setKey(null);
+
+                setUserState({
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
+                    otp: "",
+                    firstName: "",
+                    middleName: "",
+                    lastName: "",
+                    userName: ""
+
+                });
+
+                navigate("/signin");
+            }
+
+            else {
+                showToast({
+                    msg: response.msg,
+                    type: "error",
+                    duration: 3000,
+                });
+            }
+
+            return;
         }
+
+        if (step === 3) {
+
+            const data = {
+                "firstName": userState.firstName,
+                "middleName": userState.middleName,
+                "lastName": userState.lastName,
+                "email": userState.email,
+                "password": userState.password,
+                "repassword": userState.confirmPassword,
+                "username": userState.userName,
+                "role": user_role
+            }
+
+            setLoading(true);
+
+            const response = await Signup(data);
+
+            setLoading(false);
+
+
+
+
+            if (response.success) {
+
+
+                const key_to_Store = response.data.encryptedData;
+
+                setKey(key_to_Store);
+
+                showToast({
+                    msg: "Information Submitted Successfully, Please check your email for OTP",
+                    type: "success",
+                    duration: 2000,
+                });
+            }
+
+            else {
+                showToast({
+                    msg: response.msg,
+                    type: "error",
+                    duration: 3000,
+                });
+
+                return;
+            }
+
+        }
+
         setStep(step + 1);
     }
-    
-    
-    
-    
+
+
+
+
     const variants = {
         hidden: { x: -30 },
         visible: { x: 0 }
@@ -396,22 +527,18 @@ const SignUp_Comp = () => {
     return (
 
 
-        <motion.div key={step} // Add key prop here
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-            transition={{ type: "spring", stiffness: 100 }} >
-            <section className=" dark:bg-gray-900 mb-5 z-10 overflow-hidden">
+        <motion.div  >
+            <section className=" dark:bg-gray-900 mb-5 z-0 overflow-hidden">
 
                 <div className="flex flex-col items-center justify-center px-6  mt-7 mx-auto md:mt-7 lg:py-0 ">
 
                     <div className="w-full bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                        <div className="p-6 space-y-4 md:space-y-6 sm:p-8 z-0">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white font-inter text-center">
                                 Sign up for an account
                             </h1>
 
-                            <Progressor step={step - 1} setStep={setStep} handleNext={handleNext} handlePrev={handlePrev} />
+                            <Progressor totalSteps={4} step={step - 1} setStep={setStep} handleNext={handleNext} handlePrev={handlePrev} />
 
                             <motion.div key={step} // Add key prop here
                                 initial="hidden"
@@ -419,7 +546,7 @@ const SignUp_Comp = () => {
                                 variants={variants}
                                 transition={{ type: "spring", stiffness: 100 }} className="space-y-4 md:space-y-6">
 
-                                {step === 1 ? <Step1 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext}/> : step === 2 ? <Step2 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext}/> : step === 3 ? <Step3 userState={userState} setStep={setStep} handleNext={handleNext}/> : step === 4 ? <Step4 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext}/> : <></>}
+                                {step === 1 ? <Step1 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext} /> : step === 2 ? <Step2 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext} /> : step === 3 ? <Step3 userState={userState} setStep={setStep} handleNext={handleNext} /> : step === 4 ? <Step4 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext} /> : <></>}
 
                             </motion.div>
                             <div className="flex justify-between">
@@ -432,7 +559,14 @@ const SignUp_Comp = () => {
                             <div className="flex justify-between">
                                 {step === 1 ? null : <button type="submit" className="w-auto text-black border-[1px] border-blue-500  hover:bg-primary-700  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handlePrev}>Prev</button>}
 
-                                <button type="submit" className="w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step=== 4)? "Submit" : "Next"}</button>
+                                {!loading ? <button type="submit" className="w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step === 4) ? "Submit" : step == 1 ? "Next" : ""}</button> :
+
+                                    <button type="submit" className="w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold flex justify-center" disabled>
+                                        <Loader />
+                                        <div>
+                                            Processing....
+                                        </div>
+                                    </button>}
                             </div>
                             <p className="text-sm font-medium text-gray-500 dark:text-gray-400 font-inter">
                                 Already have an account? <Link to="/signin" className=" text-light-blue-900 font-bold hover:underline dark:text-primary-500">Sign in</Link>

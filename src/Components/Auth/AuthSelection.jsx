@@ -78,12 +78,8 @@ const AuthSelection = (props) => {
     };
 
     return (
-        <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-            transition={{ type: 'spring', stiffness: 100 }}
-        >
+        <motion.div>
+        
             <section className="dark:bg-gray-900 justify-center items-center mt-32">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mt-16 mx-auto md:mt-14 lg:py-0">
                     <div className="w-full md:w-6/12 bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">

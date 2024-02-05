@@ -5,7 +5,7 @@ const CompanyCard = () => {
         <>
             <div className='flex'>
                 <div className='logo'>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Paypal_2014_logo.png" alt="logo" className='h-[40px] w-[40px] mt-5 mx-4' />
+                    <img src="https://cdn-icons-png.freepik.com/512/895/895360.png?ga=GA1.1.1404805500.1684049480&" alt="logo" className='h-[40px] w-[40px] mt-5 mx-4' />
                 </div>
                 <div className="info mx-2">
                     <h1 className="font-roboto text-base font-medium mt-4">Software Engineer II</h1>
