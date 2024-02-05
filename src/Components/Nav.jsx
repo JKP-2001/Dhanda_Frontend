@@ -26,7 +26,7 @@ const Avatar = (props) => {
   return (
 
 
-    <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => { navigate("/user/profile/:user"); setIcon("avatar") }} />
+    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => { navigate("/user/profile/:user"); setIcon("avatar") }} />
 
 
 
@@ -97,7 +97,7 @@ const Nav = () => {
 
 
       <div className="sticky top-0 z-30 select-none bg-white shadow-lg w-screen ">
-        <div className=" mx-auto px-6 py-3 mt-0 w-[100%]  lg:w-[80%] ">
+        <div className=" mx-auto py-3 mt-0 w-[96%]  md:w-[90%] ">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
               as={Link}
@@ -116,24 +116,24 @@ const Nav = () => {
                     as="li"
                     variant="small"
                     color="blue-gray"
-                    className="p-1 font-medium"
+                    className="p-1 font-medium "
                   >
-                    <Link to={`/${item.toLowerCase()}`} className={`${window.location.pathname.includes(item.toLowerCase()) ? "text-blue-500" : ""} flex items-center hover:text-blue-500 transition-colors font-inter font-bold`}>
+                    <Link to={`/${item.toLowerCase()}`} className={`${window.location.pathname.includes(item.toLowerCase()) ? "text-blue-500 scale-[115%]" : "hover:scale-110"} flex items-center hover:text-blue-500 transition-colors font-inter font-bold`}>
                       {item}
                     </Link>
                   </Typography>
                 ))}
                 {loggedSignIn ? <><Avatar setIcon={setIcon} icon={icon} />
-                <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block`} onClick={handleLogout}>
+                <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block hover:scale-110`} onClick={handleLogout}>
                       <span>Log out</span>
                     </Button>
                 </>
                   : <>
 
-                    <Button variant="outlined" size="sm" className="lg:inline-block" onClick={() => navigate("/signin")}>
+                    <Button variant="outlined" size="sm" className="lg:inline-block hover:scale-110" onClick={() => navigate("/signin")}>
                       <span>Sign In</span>
                     </Button>
-                    <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block`} onClick={() => navigate("/signup")}>
+                    <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block hover:scale-110`} onClick={() => navigate("/signup")}>
                       <span>Sign up</span>
                     </Button>
                   </>}
@@ -194,9 +194,9 @@ const Nav = () => {
 
 
         <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between bg-white">
-          <HiOutlineHome fontSize={30} className={`${icon === 'explore' ? "text-blue-800" : ""} hover:cursor-pointer mt-1`} onClick={() => { setIcon("explore"); navigate("/new-feeds") }} />
-          <SlPeople fontSize={27} className={`${icon === 'mock' ? "text-blue-800" : ""} hover:cursor-pointer mt-[5px]`} onClick={() => { setIcon("mock"); navigate("/mock-interview") }} />
-          <LuPlusSquare fontSize={27} className={`${icon === 'new' ? "text-blue-800" : ""}  hover:cursor-pointer mt-[6px]`} onClick={() => setIcon("new")} />
+          <HiOutlineHome fontSize={30} className={`${icon === 'explore' ? "text-blue-800 scale-110" : ""} hover:cursor-pointer mt-1 `} onClick={() => { setIcon("explore"); navigate("/new-feeds") }} />
+          <SlPeople fontSize={27} className={`${icon === 'mock' ? "text-blue-800 scale-110" : ""} hover:cursor-pointer mt-[5px]`} onClick={() => { setIcon("mock"); navigate("/mock-interview") }} />
+          <LuPlusSquare fontSize={27} className={`${icon === 'new' ? "text-blue-800" : ""}  hover:cursor-pointer mt-[6px] scale-110`} onClick={() => setIcon("new")} />
           {loggedSignIn ? <Avatar setIcon={setIcon} icon={icon} /> :
             <FiLogIn fontSize={25} className={`  hover:cursor-pointer mt-[6px]`} onClick={() => navigate("/signin")} />}
         </div>
