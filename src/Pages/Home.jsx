@@ -6,6 +6,7 @@ import Post_Modal from "../Components/New_Feeds/Post_Modal";
 import heroHeader from "../Utils/Images/hero-header.png";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import achieveGoalCard from "../Components/HomeComponents/achieveGoalCard";
 
 const Home = () => {
   useEffect(() => {
@@ -50,6 +51,9 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <achieveGoalCard/>
       </div>
     </div>
   );
