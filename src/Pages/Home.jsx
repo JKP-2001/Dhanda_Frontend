@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../Components/Nav";
 import { scrollToTop } from "../Utils/functions";
-import Editor from "../Utils/Editor";
-import Post_Modal from "../Components/New_Feeds/Post_Modal";
 import heroHeader from "../Utils/Images/hero-header.png";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
-import achieveGoalCard from "../Components/HomeComponents/achieveGoalCard";
+import AchieveGoal from "../Components/HomeComponents/AchieveGoal";
+import TrustUs from "../Components/HomeComponents/TrustUs";
+import OpenWindow from "../Components/HomeComponents/OpenWindow";
+
 
 const Home = () => {
   useEffect(() => {
@@ -18,7 +19,7 @@ const Home = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-[#f0f4f9] min-h-screen">
+    <div className="bg-[#f0f4f9] min-h-screen pb-14">
       <Nav />
       <div className="main-container w-screen flex items-center justify-center flex-col">
         <div className="hero flex flex-col lg:flex-row  items-center justify-between w-[100%] gap-4 p-4 lg:pt-12  lg:w-[80%] pt-12">
@@ -26,7 +27,7 @@ const Home = () => {
             <div className="quote text-center lg:text-left font-roboto text-[#002147] text-2xl font-bold">
               Become Master
             </div>
-            <div className="heading text-center lg:text-left font-landing font-bold text-4xl lg:text-5xl text-[#002147] leading-[40px] lg:leading-[54px]">
+            <div className="heading text-center lg:text-left font-custom font-bold text-4xl lg:text-5xl text-[#002147] leading-[40px] lg:leading-[54px]">
               Start your internship and placement preperation journey with us
             </div>
             <div className="btn justify-center lg:justify-start flex flex-row gap-3 items-center mt-8">
@@ -37,24 +38,33 @@ const Home = () => {
                 Sign In
               </Button>
               <Button
-              onClick={()=>{navigate("/explore")}}
+                onClick={() => {
+                  navigate("/explore");
+                }}
                 className={`h-[41px] font-roboto font-bold rounded-md text-white  border-[2px] bg-btn-col text-center `}
               >
-
                 Explore
               </Button>
             </div>
           </div>
           <div className="right-hero w-[100%] lg:w-[40%]">
             <div>
-              <img className="lg:h-[600px] lg:w-auto w-[90%] mx-auto" src={heroHeader} alt="Hero-Header" />
+              <img
+                className="lg:h-[500px] lg:w-auto w-[90%] mx-auto"
+                src={heroHeader}
+                alt="Hero-Header"
+              />
             </div>
           </div>
         </div>
       </div>
       <div>
-        <achieveGoalCard/>
+        <AchieveGoal />
       </div>
+      <div>
+        <TrustUs/>
+      </div>
+      
     </div>
   );
 };
