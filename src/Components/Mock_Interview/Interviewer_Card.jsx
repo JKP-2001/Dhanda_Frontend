@@ -37,7 +37,7 @@ const Interviewer_Card = ({instructer}) => {
         <div className="select-none">
             <Card className="mt-5 mx-5 md:w-11/12 border-2 shadow-lg hover:shadow-2xl border-gray-200 hover:border-gray-300">
                 <div className="price absolute right-4 top-2 text-black font-inter">
-                    ₹ 500 (45 mins)
+                    {`₹  (mins)`}
                 </div>
 
                 <div className="info mt-2">
@@ -51,13 +51,13 @@ const Interviewer_Card = ({instructer}) => {
                             {name}
                         </div>
                         <div className="name font-inter text-sm">
-                            SDE 1 at Zomato, Internship at Razorpay
+                          asdf
                         </div>
 
                         <div className="flex flex-wrap mt-2 -ml-1">
                             <GradeOutlinedIcon />
                             <div className="rating">
-                                4.4/5 (10 Done)
+                                {`/5 (sdf Done)`}
                             </div>
                         </div>
 
