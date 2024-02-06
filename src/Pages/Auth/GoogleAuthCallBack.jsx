@@ -17,7 +17,8 @@ const GoogleAuthCallBack = () => {
 
     useEffect(() => {
         if (status === "success" && authToken) {
-            localStorage.setItem('token', authToken);
+            localStorage.setItem('unique', authToken);
+            localStorage.setItem("token", authToken);
             navigate('/');
 
             showToast({
@@ -38,6 +39,15 @@ const GoogleAuthCallBack = () => {
                 type: 'success',
                 duration: 3000
             })
+        }
+
+        else if(status==="nonSocialUser"){
+            navigate('/signin');
+            showToast({
+                msg: 'User already registered with different signin method.',
+                type: 'error',
+                duration: 3000
+            });
         }
 
         else {
