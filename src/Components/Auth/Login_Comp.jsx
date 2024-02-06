@@ -156,22 +156,24 @@ const Login = (props) => {
                                         </div>
                                     </button>}
 
-                                <div className=''>
+                                <div className="md:flex md:justify-between md:space-x-2 space-y-2 md:space-y-0">
+                                    <div className=''>
 
-                                    <div className="w-full  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
-                                        <FcGoogle fontSize={20}/>
-                                        <div className="textT">
-                                            Continue with Google
+                                        <div className="w-full hover:scale-[102%]  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
+                                            <FcGoogle fontSize={35} />
+                                            <div className="textT mt-2 md:mt-0">
+                                                Continue with Google
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className=''>
+                                    <div className=''>
 
-                                    <div className="w-full  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleMicroLogin}>
-                                        <PiMicrosoftOutlookLogoLight fontSize={20}/>
-                                        <div className="textT">
-                                            Continue with Microsoft
+                                        <div className="w-full hover:scale-[102%]  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleMicroLogin}>
+                                            <PiMicrosoftOutlookLogoLight fontSize={35} />
+                                            <div className="textT mt-2 md:mt-0">
+                                                Continue with Microsoft
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

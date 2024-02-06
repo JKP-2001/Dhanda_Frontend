@@ -8,6 +8,10 @@ import showToast from '../../Utils/showToast'
 import { Signup, verifyEmail } from '../../APIs/Auth_API'
 import Loader from '../../Utils/Loader'
 
+import { FcGoogle } from "react-icons/fc";
+
+import { PiMicrosoftOutlookLogoLight } from "react-icons/pi";
+
 
 const Asterik = () => {
     return (<span className="text-red-500 ml-[0.1px]">*</span>)
@@ -399,7 +403,7 @@ const SignUp_Comp = (props) => {
 
     const handleNext = async (e) => {
 
-        if(loading){
+        if (loading) {
             return;
         }
 
@@ -516,6 +520,16 @@ const SignUp_Comp = (props) => {
     }
 
 
+    const handleGoogleLogin = () => {
+        const googleURL = `http://localhost:5000/auth/google?role=${props.user}`;
+        window.location.href = googleURL;
+    }
+
+    const handleMicroLogin = () => {
+        const msURL = `http://localhost:5000/auth/microsoft?role=${props.user}`;
+        window.location.href = msURL;
+    }
+
 
 
     const variants = {
@@ -567,6 +581,27 @@ const SignUp_Comp = (props) => {
                                             Processing....
                                         </div>
                                     </button>}
+                            </div>
+                            <div className="md:flex md:justify-between md:space-x-2 space-y-2 md:space-y-0">
+                                <div className=''>
+
+                                    <div className="w-full hover:scale-[102%]  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
+                                        <FcGoogle fontSize={35} />
+                                        <div className="textT mt-2 md:mt-0">
+                                            Continue with Google
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className=''>
+
+                                    <div className="w-full hover:scale-[102%]  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleMicroLogin}>
+                                        <PiMicrosoftOutlookLogoLight fontSize={35} />
+                                        <div className="textT mt-2 md:mt-0">
+                                            Continue with Microsoft
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <p className="text-sm font-medium text-gray-500 dark:text-gray-400 font-inter">
                                 Already have an account? <Link to="/signin" className=" text-light-blue-900 font-bold hover:underline dark:text-primary-500">Sign in</Link>
