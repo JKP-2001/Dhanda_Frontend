@@ -85,11 +85,10 @@ const Nav = () => {
     const security_key = process.env.REACT_APP_SECURITY_KEY;
 
 
-
     if (authToken) {
       const response = await logOut();
 
-      console.log({ response });
+      Cookies.remove("authToken");
     }
 
     localStorage.removeItem("token");
