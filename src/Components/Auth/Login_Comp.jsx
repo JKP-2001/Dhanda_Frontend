@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux'
 import { getUserData } from '../../APIs/User_API'
 import { getUserSuccess } from '../../Redux/user/userSlice'
 
+import { FcGoogle } from "react-icons/fc";
+
 const Login = (props) => {
 
     const dispatch = useDispatch();
@@ -50,7 +52,7 @@ const Login = (props) => {
 
         const response = await Signin(userState);
 
-        console.log({response});
+        console.log({ response });
 
 
 
@@ -105,6 +107,11 @@ const Login = (props) => {
 
     }
 
+    const handleGoogleLogin = () => {
+        const googleURL = `http://localhost:5000/auth/google?role=${props.user}`;
+        window.location.href = googleURL;
+    }
+
 
     return (
         <motion.div>
@@ -141,6 +148,17 @@ const Login = (props) => {
                                             Processing....
                                         </div>
                                     </button>}
+
+                                <div className=''>
+
+                                    <div className="w-full  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
+                                        <FcGoogle fontSize={20}/>
+                                        <div className="textT">
+                                            Continue with Google
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 font-inter">
                                     Don’t have an account yet? <Link to="/signup" className=" text-light-blue-900 font-bold hover:underline dark:text-primary-500">Sign up</Link>
                                 </p>
