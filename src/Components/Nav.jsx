@@ -19,6 +19,9 @@ import { FiLogIn } from "react-icons/fi";
 import { LuPlusSquare } from "react-icons/lu";
 import showToast from "../Utils/showToast";
 
+import Cookies from "js-cookie";
+import { logOut } from "../APIs/Auth_API";
+
 const Avatar = (props) => {
 
   const navigate = useNavigate();
@@ -70,23 +73,36 @@ const Nav = () => {
 
   }, []);
 
-  const loggedSignIn = localStorage.getItem("token")?true:false;
+  const loggedSignIn = localStorage.getItem("token") ? true : false;
 
   const navigate = useNavigate();
 
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+
+    const authToken = Cookies.get("authToken");
+
+    const security_key = process.env.REACT_APP_SECURITY_KEY;
+
+
+
+    if (authToken) {
+      const response = await logOut();
+
+      console.log({ response });
+    }
 
     localStorage.removeItem("token");
-    
+
     showToast({
       msg: "Logout Successful",
       type: "success",
       duration: 3000,
     });
-
-    
     navigate("/signin");
+
+
+
   }
 
 
@@ -124,9 +140,9 @@ const Nav = () => {
                   </Typography>
                 ))}
                 {loggedSignIn ? <><Avatar setIcon={setIcon} icon={icon} />
-                <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block hover:scale-110`} onClick={handleLogout}>
-                      <span>Log out</span>
-                    </Button>
+                  <Button variant="gradient" size="sm" className={`${window.location.pathname.includes("/signup") ? 'bg-blue-800' : ""}lg:inline-block hover:scale-110`} onClick={handleLogout}>
+                    <span>Log out</span>
+                  </Button>
                 </>
                   : <>
 

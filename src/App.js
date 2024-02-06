@@ -30,6 +30,7 @@ import showToast from './Utils/showToast';
 import { decryptFromJson } from './Utils/functions';
 import { getUserSuccess } from './Redux/user/userSlice';
 import { useDispatch } from 'react-redux';
+import GoogleAuthCallBack from './Pages/Auth/GoogleAuthCallBack';
 
 
 
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/user/profile/:user" element={<ProtectedRoute ele={<User_Profile />} />} />
           <Route path="/new-feeds" element={<ProtectedRoute ele={<New_Feeds />} />} />
 
+          <Route path="/google/auth/callback" element={<GoogleAuthCallBack />} />
 
         </Routes>
       </Router>

@@ -160,4 +160,25 @@ export const changePassword = async (data) => {
     }
 }
 
+export const logOut = async () => {
+
+    try{
+
+        const response = await fetch("http://localhost:5000/auth/google/logout", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "security-key": security_key
+            }
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    }catch(err){
+        return { success: false, msg: err.toString() }
+    }
+}
+
 
