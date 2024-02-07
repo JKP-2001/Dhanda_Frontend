@@ -11,25 +11,34 @@ import { useDispatch } from "react-redux";
 import { fetchCompanyWiseInstructors } from "../../Redux/instructers/companyWiseInstructorAction";
 
 const Sorting_Button = (props) => {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleItemClick = (menuitem) => {
     if (props.tag !== "comp") {
-      if(props.setSortByItem)
-      {
+      if (props.setSortByItem) {
         props.setSortByItem(menuitem);
       }
       props.updateSortBy(menuitem);
-      return ;
+      dispatch(
+        fetchCompanyWiseInstructors({ companies: props.comp, sortBy: menuitem })
+      );
+      return;
     }
+
     const company = menuitem;
     if (props.comp && props.comp.includes(company)) {
       return;
     }
-    dispatch(fetchCompanyWiseInstructors(company));
+
+    dispatch(
+      fetchCompanyWiseInstructors({
+        companies: [...(props.comp || []), company],
+        sortBy: props.sortBy,
+      })
+    );
     props.setComp([...(props.comp || []), company]);
-    props.location.search=props.comp;
+    props.location.search = props.comp;
     props.updateCompanies([...(props.comp || []), company]);
   };
 
@@ -38,9 +47,7 @@ const Sorting_Button = (props) => {
   };
 
   const filteredMenuItems = props.menuItems
-    .filter((item) =>
-      item.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    .filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter((item) => !props.comp || !props.comp.includes(item));
 
   return (
@@ -64,6 +71,7 @@ const Sorting_Button = (props) => {
           value={searchTerm}
           onChange={handleSearch}
         />
+        {props.tag !== "comp"&&<MenuItem onClick={()=>{props.setSortByItem(""); dispatch(fetchCompanyWiseInstructors({ companies: props.comp, sortBy: "" }))}}>None</MenuItem>}
         {filteredMenuItems.map((menuItem, index) => (
           <MenuItem key={index} onClick={() => handleItemClick(menuItem)}>
             {menuItem}

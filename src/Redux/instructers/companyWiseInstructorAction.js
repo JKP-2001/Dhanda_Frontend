@@ -1,14 +1,16 @@
 import { fetchInstructorsFail,fetchInstructorsLoading,fetchInstructorSuccess } from "./companyWiseInstructorSlice";
 import {companyWiseFetchInstructor} from "../../APIs/Instructer_API"
-import { encryptToJson } from "../../Utils/functions";
+import { decryptFromJson, encryptToJson } from "../../Utils/functions";
 
-export const fetchCompanyWiseInstructors=(company)=> async (dispatch,getState)=>{
+export const fetchCompanyWiseInstructors=(data)=> async (dispatch,getState)=>{
     try{
         dispatch(fetchInstructorsLoading());
-        const fetchId=encryptToJson({company:company,companies:[],page:1,limit:6});
-        console.log(fetchId);
+        data["page"]=1;
+        data["limit"]=6;
+        const fetchId=encryptToJson(data);
         const instructers = await companyWiseFetchInstructor(localStorage.getItem("token"),fetchId);
-        console.log(instructers);
+        const decryptedInstructers = decryptFromJson(instructers.payload);
+        console.log(decryptedInstructers);
         
     }
     catch(error)

@@ -12,7 +12,7 @@ const store = configureStore({
         user: userReducer,
         instructers:instructerReducer,
         companyWiseInstructor:companyWiseInstructorReducer,
-        posts:post
+        posts:postReducer
     },
 });
 

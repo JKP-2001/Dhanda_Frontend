@@ -1,9 +1,12 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchCompanyWiseInstructors } from '../../Redux/instructers/companyWiseInstructorAction';
 
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 
 const CompanyTag = (props) => {
+  const dispatch=useDispatch();
 
   let selectedComp = props.comp;
 
@@ -15,6 +18,7 @@ const CompanyTag = (props) => {
 
     selectedComp.splice(index,1);
     
+    dispatch(fetchCompanyWiseInstructors({companies:selectedComp,sortBy:props.sortBy}));
 
     props.setComp([...selectedComp]);
     props.updateURLWithCompanies();

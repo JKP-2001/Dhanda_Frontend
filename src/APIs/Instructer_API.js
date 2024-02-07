@@ -2,10 +2,10 @@ const security_key = process.env.REACT_APP_SECURITY_KEY;
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const fetchInstructers = async (token, page) => {
+export const fetchInstructers = async (token, fetchId) => {
   try {
     const response = await fetch(
-      BASE_URL + `/interviewers/all?limit=6&page=${page}`,
+      BASE_URL + `/interviewers/all?fetchId=${encodeURIComponent(fetchId)}`,
       {
         method: "GET",
         headers: {
@@ -22,7 +22,7 @@ export const fetchInstructers = async (token, page) => {
   }
 };
 
-export const companyWiseFetchInstructor = async (token,fetchId) => {
+export const companyWiseFetchInstructor = async (token, fetchId) => {
   try {
     const response = await fetch(
       BASE_URL + `/interviewers/all?fetchId=${encodeURIComponent(fetchId)}`,

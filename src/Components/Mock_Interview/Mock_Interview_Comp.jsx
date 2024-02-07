@@ -14,7 +14,6 @@ import Loading from "../../Utils/Loading.gif";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
-
 const Mock_Interview_Comp = () => {
   const Spinner = () => {
     return (
@@ -33,7 +32,9 @@ const Mock_Interview_Comp = () => {
   const totalResults = useSelector((state) => state.instructers.totalResults);
   const location = useLocation();
   const [sortByItem, setSortByItem] = useState("");
-  const companyWiseInstructors=useSelector((state)=> state.companyWiseInstructor.instructor);
+  const companyWiseInstructors = useSelector(
+    (state) => state.companyWiseInstructor.instructor
+  );
 
   const companies = [
     "Amazon",
@@ -75,11 +76,23 @@ const Mock_Interview_Comp = () => {
   };
 
   const fetchMoreData = async () => {
-    dispatch(fetchInstructer());
+    const data = {
+      companies: comp,
+      page: currPage,
+      limit: 6,
+      sortBy: sortByItem,
+    };
+    dispatch(fetchInstructer(data));
   };
 
   useEffect(() => {
-    dispatch(fetchInstructer());
+    const data = {
+      companies: comp,
+      page: currPage,
+      limit: 6,
+      sortBy: sortByItem,
+    };
+    dispatch(fetchInstructer(data));
     console.log(location);
   }, []);
 
@@ -147,6 +160,7 @@ const Mock_Interview_Comp = () => {
               tag="comp"
               comp={comp}
               updateCompanies={updateCompanies}
+              sortBy={sortByItem}
             />
             <Sorting_Button
               sortByItem={sortByItem}
@@ -155,10 +169,16 @@ const Mock_Interview_Comp = () => {
               menuItems={sort_by}
               location={location}
               updateSortBy={updateSortBy}
+              comp={comp}
             />
           </div>
         </motion.div>
-        <CompanyTag comp={comp} updateURLWithCompanies={updateURLWithCompanies} setComp={setComp} />
+        <CompanyTag
+          comp={comp}
+          sortBy={sortByItem}
+          updateURLWithCompanies={updateURLWithCompanies}
+          setComp={setComp}
+        />
         <InfiniteScroll
           dataLength={instructers.length}
           next={fetchMoreData}
@@ -166,16 +186,17 @@ const Mock_Interview_Comp = () => {
           loader={<Spinner />}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
-            {comp.length===0&&sortByItem===""&&instructers.map((ins, idx) => {
-              return <Interviewer_Card key={idx} instructer={ins} />;
-            })}
-            {
-              comp.length!==0&&Object.keys(companyWiseInstructors).map((key)=>{
-                companyWiseInstructors[key].map((ins,idx)=>{
+            {comp.length === 0 &&
+              sortByItem === "" &&
+              instructers.map((ins, idx) => {
+                return <Interviewer_Card key={idx} instructer={ins} />;
+              })}
+            {comp.length !== 0 &&
+              Object.keys(companyWiseInstructors).map((key) => {
+                companyWiseInstructors[key].map((ins, idx) => {
                   return <Interviewer_Card key={idx} instructer={ins} />;
-                })
-              })
-            }
+                });
+              })}
           </div>
         </InfiniteScroll>
       </div>
