@@ -25,7 +25,7 @@ export const fetchInstructers = async (token, page) => {
 export const companyWiseFetchInstructor = async (token,fetchId) => {
   try {
     const response = await fetch(
-      BASE_URL + `/interviewers/all?fetchId=${fetchId}`,
+      BASE_URL + `/interviewers/all?fetchId=${encodeURIComponent(fetchId)}`,
       {
         method: "GET",
         headers: {

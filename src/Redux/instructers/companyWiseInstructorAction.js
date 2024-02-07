@@ -6,6 +6,7 @@ export const fetchCompanyWiseInstructors=(company)=> async (dispatch,getState)=>
     try{
         dispatch(fetchInstructorsLoading());
         const fetchId=encryptToJson({company:company,companies:[],page:1,limit:6});
+        console.log(fetchId);
         const instructers = await companyWiseFetchInstructor(localStorage.getItem("token"),fetchId);
         console.log(instructers);
         
