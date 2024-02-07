@@ -17,6 +17,7 @@ const CompanyTag = (props) => {
     
 
     props.setComp([...selectedComp]);
+    props.updateURLWithCompanies();
   }
 
   return (

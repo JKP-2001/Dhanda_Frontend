@@ -7,19 +7,30 @@ import {
   MenuItem,
   Input,
 } from "@material-tailwind/react";
+import { useDispatch } from "react-redux";
+import { fetchCompanyWiseInstructors } from "../../Redux/instructers/companyWiseInstructorAction";
 
 const Sorting_Button = (props) => {
+  const dispatch=useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleItemClick = (menuitem) => {
     if (props.tag !== "comp") {
-      return;
+      if(props.setSortByItem)
+      {
+        props.setSortByItem(menuitem);
+      }
+      props.updateSortBy(menuitem);
+      return ;
     }
     const company = menuitem;
     if (props.comp && props.comp.includes(company)) {
       return;
     }
+    dispatch(fetchCompanyWiseInstructors(company));
     props.setComp([...(props.comp || []), company]);
+    props.location.search=props.comp;
+    props.updateCompanies([...(props.comp || []), company]);
   };
 
   const handleSearch = (e) => {
