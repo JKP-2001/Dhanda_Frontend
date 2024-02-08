@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from "@material-tailwind/react";
 import EducationCard from './Education/EducationCard';
 import ExperienceCard from './Experience/ExperienceCard';
 import FeedbackCard from './FeedBacks/FeedbackCard';
 
 import { motion } from "framer-motion"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import GridOnOutlinedIcon from '@mui/icons-material/GridOnOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
@@ -13,6 +13,13 @@ import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import PostCard from '../New_Feeds/PostCard';
 import UserList_Modal from '../../Utils/UserList_Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllPostOfUser } from '../../APIs/Post_API';
+import { setUserPosts } from '../../Redux/user/userSlice';
+import NothingFoundCard from '../../Utils/NothingFoundCard';
+import showToast from '../../Utils/showToast';
+import { getUserDataById } from '../../APIs/User_API';
+import { getSearchUserSuccess } from '../../Redux/searchUser/searchUser';
 
 
 const dummy = [
@@ -131,12 +138,16 @@ const Account = (props) => {
 
     const handleClick = props.handleClick;
 
+    const searchUserRedux = useSelector((state) => state.searchUser);
+
+  
+
     return (
-        <>
+        searchUserRedux.data && <>
             <motion.div
                 className='ml-3 lg:ml-7 mt-5'>
 
-                <ExperienceCard />
+                <ExperienceCard exp={searchUserRedux}/>
 
             </motion.div>
 
@@ -146,7 +157,7 @@ const Account = (props) => {
                 transition={{ duration: 0.5 }}
                 className='ml-3 lg:ml-7 mt-5'>
 
-                <EducationCard />
+                <EducationCard edu={searchUserRedux}/>
 
             </motion.div>
 
@@ -194,14 +205,64 @@ const Slider = () => {
 
 const Posts = () => {
 
-    const items = dummy;
+    const [items, setItems] = useState([]);
+
+    const params = useParams();
+
+    const userRedux = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    const getItemsOfUser = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            showToast({
+                msg: 'Login Required',
+                type: 'error',
+                duration: 3000
+            })
+            return;
+        }
+
+
+
+        const id = params.user_id;
+        const role = params.role;
+
+        const response = await getAllPostOfUser(1, 10, token, id, role);
+
+        if (response.success) {
+            dispatch(setUserPosts(response.data.result));
+            setItems(response.data.result);
+        }
+
+        else {
+            showToast({
+                msg: 'Something went wrong',
+                type: 'error',
+                duration: 3000
+            })
+        }
+    }
+
+    useEffect(() => {
+        getItemsOfUser();
+        setItems(userRedux.posts ? userRedux.posts : []);
+    }, [userRedux.data]);
+
+
 
     return (
-        <div>
+
+        userRedux.posts &&
+            userRedux.posts.length > 0 ? <div >
             {items.map((item, index) => (
-                <PostCard type="saved" key={index} name={item.name} bio={item.bio} text={item.text} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} follow={true} />
+                <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt ? item.updatedAt : item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
             ))}
-        </div>
+            {/* <PostCard type="feed" follow={true} /> */}
+        </div> :
+            <NothingFoundCard heading={"No Posts Found"} description={"Some new posts will be added and that will appear here 😁"} />
+
 
     )
 }
@@ -247,17 +308,51 @@ const MockInterview = () => {
         document.body.style.overflow = 'auto';
     }
 
-    
+    const params = useParams();
+    const dispatch = useDispatch();
+
+    const searchUserRedux = useSelector((state) => state.searchUser);
+
+    const getTheUserData = async () => {
+
+        const token = localStorage.getItem("token");
+
+        const role = params.role;
+        const id = params.user_id;
+
+        const userData = await getUserDataById(role, id);
+
+        if (userData.success === false) {
+
+            showToast({
+                msg: userData.msg,
+                type: 'error',
+                duration: 3000,
+            });
+
+        } else {
+            dispatch(getSearchUserSuccess(userData.data));
+        }
+    }
+
+    // fetch user data on loading page
+
+    useEffect(() => {
+        getTheUserData();
+    }, []);
+
+
+
 
 
 
 
 
     return (
-        <>
+        searchUserRedux.data && <>
 
             <motion.div className='select-none'
-                
+
             >
                 <div className="select-none mt-3 ml-0 lg:mt-20 lg:ml-48 mb-10">
                     <div className='ml-3 sm:ml-4 flex'>
@@ -304,8 +399,13 @@ const MockInterview = () => {
 
 
                     <div className='ml-5 lg:ml-7'>
-                        <h1 className="font-roboto text-xl font-thin mt-4">Manish Mishra</h1>
-                        <h1 className="font-inter text-sm w-[96%] lg:w-8/12 text-gray-500">Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20</h1>
+                        <h1 className="font-roboto text-xl font-thin mt-4">{
+                            searchUserRedux.data.firstName + (" ") + searchUserRedux.data.lastName
+                        }</h1>
+                        <h1 className="font-inter text-sm w-[96%] lg:w-8/12 text-gray-500">
+                            {/* Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20 */}
+                            {searchUserRedux.data.bio}
+                        </h1>
                     </div>
 
                     <div className='ml-5 lg:ml-7 description font-inter w-11/12 lg:w-7/12  mt-10 text-sm'>
@@ -334,7 +434,7 @@ const MockInterview = () => {
                         </Button>
                     </div>
 
-                    <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-11/12 lg:w-8/12 mt-10 text-sm justify-center">
+                    <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-[100%] lg:w-8/12 mt-10 text-sm justify-center">
                         <motion.div
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
@@ -364,9 +464,9 @@ const MockInterview = () => {
 
                     </div>
 
-                    {icon === 'account' ? <Account handleClick={handleClick} /> : icon === 'grid' ? <div className='flex justify-center w-[96%] lg:w-8/12'><Posts /></div> : null}
+                    {icon === 'account' ? <Account handleClick={handleClick} /> : icon === 'grid' ? <div className='flex justify-center w-[100%] lg:w-8/12'><Posts /></div> : null}
 
-                    {followers?<UserList_Modal handleClose={closeFollowers} heading={"Followers"} />:following?<UserList_Modal handleClose={closeFollowing} heading={"Following"} />:null}
+                    {followers ? <UserList_Modal handleClose={closeFollowers} heading={"Followers"} /> : following ? <UserList_Modal handleClose={closeFollowing} heading={"Following"} /> : null}
 
                 </div>
 

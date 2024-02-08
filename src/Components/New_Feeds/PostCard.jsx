@@ -9,6 +9,9 @@ import { IoChatbubbleOutline } from "react-icons/io5";
 import { BsSend } from "react-icons/bs";
 import { CiLocationArrow1 } from "react-icons/ci";
 
+import copy from 'copy-to-clipboard';
+
+
 import { IoBookmarkOutline } from "react-icons/io5";
 import { IoRepeat } from "react-icons/io5";
 
@@ -61,7 +64,7 @@ const PostCard = (props) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
     const [postTime, setPostTime] = useState(getTimeDifference(props.createdAt));
-    const [updatedTime, setUpdatedTime] = useState(props.updatedAt?getTimeDifference(props.updatedAt):null);
+    const [updatedTime, setUpdatedTime] = useState(props.updatedAt ? getTimeDifference(props.updatedAt) : null);
 
     const userRedux = useSelector((state) => state.user);
     const postRedux = useSelector((state) => state.post);
@@ -80,7 +83,7 @@ const PostCard = (props) => {
 
     const checkLike = () => {
 
-        if(userRedux.data){
+        if (userRedux.data) {
             for (let i = 0; i < props.likes.length; i++) {
                 if (props.likes[i]._id === userRedux.data._id) {
                     setIsLike(true);
@@ -91,8 +94,8 @@ const PostCard = (props) => {
     }
 
     const checkBookMark = () => {
-        
-        if(userRedux.data){
+
+        if (userRedux.data) {
             for (let i = 0; i < props.bookMarks.length; i++) {
                 if (props.bookMarks[i]._id === userRedux.data._id) {
                     setIsBookmark(true);
@@ -124,7 +127,7 @@ const PostCard = (props) => {
 
     const [bookMarks, setBookMarks] = useState(props.bookMarks.length);
 
-    
+
 
     const handleLike = async () => {
 
@@ -142,13 +145,13 @@ const PostCard = (props) => {
 
         const response = await likePost(props.postId, token);
 
-        if(response.success) {
+        if (response.success) {
             if (isLike) {
                 setNumLikes(numLikes - 1);
                 setIsLike(false);
             }
             else {
-    
+
                 setNumLikes(numLikes + 1);
                 setIsLike(true);
             }
@@ -160,7 +163,7 @@ const PostCard = (props) => {
             });
         }
 
-        else{
+        else {
 
             showToast({
                 msg: response.msg,
@@ -168,9 +171,9 @@ const PostCard = (props) => {
                 duration: 3000,
             });
         }
-        
 
-        
+
+
     };
 
 
@@ -190,7 +193,7 @@ const PostCard = (props) => {
 
         const response = await bookMarkPost(props.postId, token);
 
-        if(response.success) {
+        if (response.success) {
             if (isBookmark) {
                 setIsBookmark(false);
                 setBookMarks(bookMarks - 1);
@@ -200,14 +203,21 @@ const PostCard = (props) => {
                 setBookMarks(bookMarks + 1);
             }
 
+            handleCloseSettings();
+
             showToast({
                 msg: response.msg,
                 type: 'success',
                 duration: 3000,
             });
+
+            
+
+                
+            
         }
 
-        else{
+        else {
 
             showToast({
                 msg: response.msg,
@@ -216,7 +226,7 @@ const PostCard = (props) => {
             });
         }
 
-        
+
     };
 
     const openShare = () => {
@@ -342,7 +352,7 @@ const PostCard = (props) => {
 
             let newData = [...itemRedux.data];
             let updatedData = newData.filter((item, index) => index !== props.index);
-            
+
             dispatch(getPostSuccess(updatedData));
 
             showToast({
@@ -354,7 +364,7 @@ const PostCard = (props) => {
             handleCloseSettings();
         }
 
-        else{
+        else {
 
             showToast({
                 msg: response.msg,
@@ -365,11 +375,29 @@ const PostCard = (props) => {
     }
 
 
+    const copyPostLink = () => {
+        const postLink = `http://localhost:3000/post/${props.postId}`;
+        copy(postLink);
+        showToast({
+            msg: 'Link copied to clipboard!',
+            type: 'success',
+            duration: 3000,
+        });
+        handleCloseSettings();
+    };
+
+    const goToPost = () => {
+        const postLink = `/post/${props.postId}`;
+        navigate(postLink);
+        handleCloseSettings();
+    };
+
+
     return (
-        userRedux.data && postRedux.data && <div className={`my-5 select-none ${type === "feed" ? "items-center flex justify-center" : ""}`}>
+        userRedux.data && postRedux.data && <div className={`my-5 select-none ${(type === "feed" || type==="ind") ? "items-center flex justify-center" : ""}`}>
 
 
-            <div className={`mx-2 md:mx-2 w-full ${type === "feed" ? "max-w-2xl" : "max-w-3xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
+            <div className={`mx-2 md:mx-2 w-full ${type === "feed" || type === "ind" ? "max-w-3xl" : "max-w-4xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
                 <div className='flex my-2 justify-between'>
                     <div className="flex">
                         <div className='ml-3'>
@@ -391,13 +419,13 @@ const PostCard = (props) => {
                             {!follow ? <IoPersonAddSharp fontSize={17} className="font-bold text-white hover:cursor-pointer block  sm:mr-1" /> : <RiUserFollowFill fontSize={17} className="text-white hover:cursor-pointer block  sm:mr-1" />}
                         </button> */}
 
-                        <IoSettingsOutline onClick={handleOpenSettings} fontSize={20} className='hover:cursor-pointer hover:text-blue-600' />
+                        {props.type === 'ind' ? null : <IoSettingsOutline onClick={handleOpenSettings} fontSize={20} className='hover:cursor-pointer hover:text-blue-600' />}
                     </div>
                 </div>
 
                 <hr className='border-[0.5px] border-gray-200' />
 
-                {text ? <div className="text mx-2 text-left break-words my-3 text-sm font-inter transition-height duration-300 ease-in-out overflow-hidden">
+                {text ? <div className="text mx-2 text-left break-words my-3 text-sm font-inter transition-height duration-300 ease-in-out overflow-hidden p-1">
                     <div className="1">
                         {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200) + "......." : text) : text}
                         <p
@@ -456,9 +484,9 @@ const PostCard = (props) => {
                     <div className='text-xs ml-4 mb-2 font-inter font-semibold text-gray-500'>
                         Posted {postTime}
                     </div>
-                    {props.updatedAt && props.isUpdated?<div className='text-xs mr-4 mb-2 font-inter font-semibold text-gray-500'>
-                        Edited {updatedTime} 
-                    </div>:null}
+                    {props.updatedAt && props.isUpdated ? <div className='text-xs mr-4 mb-2 font-inter font-semibold text-gray-500'>
+                        Edited {updatedTime}
+                    </div> : null}
                 </div>
             </div>
 
@@ -521,19 +549,15 @@ const PostCard = (props) => {
                                 <h1 className='font-inter font-semibold text-sm text-center'>Edit</h1>
                                 <hr className='border-[1px] border-gray-200 mt-2' />
                             </div> : null}
-                            <div className="shareTo my-1 hover:cursor-pointer">
-                                <h1 className='font-inter font-semibold text-sm text-center'>Share To....</h1>
+                            <div className="bookmark my-1 hover:cursor-pointer" onClick={handleBookmark}>
+                                <h1 className='font-inter font-semibold text-sm text-center'>{isBookmark?"Remove Bookmark":"Bookmark"}</h1>
                                 <hr className='border-[1px] border-gray-200 mt-2' />
                             </div>
-                            <div className="bookmark my-1 hover:cursor-pointer">
-                                <h1 className='font-inter font-semibold text-sm text-center'>Bookmark</h1>
-                                <hr className='border-[1px] border-gray-200 mt-2' />
-                            </div>
-                            <div className="gototpost my-1 hover:cursor-pointer">
+                            <div className="gototpost my-1 hover:cursor-pointer" onClick={goToPost}>
                                 <h1 className='font-inter font-semibold text-sm text-center'>Go To Post</h1>
                                 <hr className='border-[1px] border-gray-200 mt-2' />
                             </div>
-                            <div className="copylink my-1 hover:cursor-pointer">
+                            <div className="copylink my-1 hover:cursor-pointer" onClick={copyPostLink}>
                                 <h1 className='font-inter font-semibold text-sm text-center'>Copy Link</h1>
 
                             </div>

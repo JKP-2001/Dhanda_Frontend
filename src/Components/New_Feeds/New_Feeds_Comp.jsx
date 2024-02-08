@@ -129,7 +129,7 @@ const New_Feeds_Comp = () => {
             {!open ? <input
 
               placeholder="Start A Post"
-              className="w-full  font-inter text-sm"
+              className="w-full  font-inter text-sm outline-none"
               onClick={() => { setOpen(true); document.body.style.overflow = 'hidden'; }}
             /> :
               <Post_Modal open={open} setOpen={setOpen} text={text} setText={setText} images={images} setImages={setImages} handlePost={handlePost} />}

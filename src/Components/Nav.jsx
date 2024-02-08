@@ -21,15 +21,21 @@ import showToast from "../Utils/showToast";
 
 import Cookies from "js-cookie";
 import { logOut } from "../APIs/Auth_API";
+import { useSelector } from "react-redux";
 
 const Avatar = (props) => {
 
   const navigate = useNavigate();
   const { setIcon, icon } = props;
+
+  const userRedux = useSelector((state) => state.user);
+
+
   return (
 
+    userRedux.data && 
 
-    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => { navigate("/user/profile/:user"); setIcon("avatar") }} />
+    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => { navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`); setIcon("avatar") }} />
 
 
 

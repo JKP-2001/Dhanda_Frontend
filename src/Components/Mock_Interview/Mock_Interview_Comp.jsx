@@ -141,7 +141,7 @@ const Mock_Interview_Comp = () => {
 
   return (
     <div className="flex items-center justify-center ">
-      <div className="pb-10 w-[80%] mt-10 ">
+      <div className="pb-10 w-[98%] md:w-[80%] mt-10 ">
         <motion.div
           className="category"
           initial="hidden"

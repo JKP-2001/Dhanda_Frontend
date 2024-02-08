@@ -3,7 +3,7 @@ import { Button } from "@material-tailwind/react";
 
 
 import { motion } from "framer-motion"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import EducationCard from '../Mock_Interviewer/Education/EducationCard';
 
 import GridOnOutlinedIcon from '@mui/icons-material/GridOnOutlined';
@@ -22,125 +22,14 @@ import PostCard from '../New_Feeds/PostCard';
 import UserList_Modal from '../../Utils/UserList_Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import ExperienceCard from '../Mock_Interviewer/Experience/ExperienceCard';
-import { getAllPostOfUser } from '../../APIs/Post_API';
+import { getAllPostOfUser, getBookmarkedPostUser } from '../../APIs/Post_API';
 import showToast from '../../Utils/showToast';
-import { setUserPosts } from '../../Redux/user/userSlice';
+import { setUserBookMarkedPosts, setUserPosts } from '../../Redux/user/userSlice';
+import NothingFoundCard from '../../Utils/NothingFoundCard';
 
 
 const localizer = momentLocalizer(moment);
 
-
-
-const dummy = [
-    {
-        name: "Emma Wilson",
-        bio: "Product Manager | Innovator | Solving Problems with Technology",
-        text: "Passionate about building products that make a difference in people's lives. Let's create something amazing together! 🚀",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 55,
-        comments: 15,
-        reposts: 28
-    },
-    {
-        name: "James Rodriguez",
-        bio: "Data Scientist | Analytics Enthusiast | Coffee Drinker",
-        text: "Transforming data into insights. Fuelled by coffee and a curiosity to explore the hidden patterns in the numbers. ☕📊",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 42,
-        comments: 20,
-        reposts: 22
-    },
-    {
-        name: "Sophia Miller",
-        bio: "Travel Blogger | Adventure Seeker | Exploring the World",
-        text: "Embarking on new adventures and sharing the beauty of different cultures. Join me on this journey of discovery! 🌍✈️",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 60,
-        comments: 18,
-        reposts: 30
-    },
-    {
-        name: "Ryan Turner",
-        bio: "Fitness Trainer | Health Enthusiast | Inspiring Healthy Lifestyles",
-        text: "Dedicated to helping others achieve their fitness goals and lead a healthy, active life. Let's sweat it out together! 💪🏋️‍♂️",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 48,
-        comments: 12,
-        reposts: 25
-    },
-    {
-        name: "Olivia Clark",
-        bio: "Freelance Artist | Creative Mind | Expressing Emotions through Art",
-        text: "Brush strokes of emotions on the canvas. Art is not what you see but what you make others see. 🎨✨",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 55,
-        comments: 14,
-        reposts: 27
-    },
-    {
-        name: "Ethan Walker",
-        bio: "Entrepreneur | Startup Enthusiast | Building the Future",
-        text: "Turning dreams into reality, one startup at a time. Embracing the challenges and learning from every step of the journey. 💼🚀",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 50,
-        comments: 16,
-        reposts: 23
-    },
-    {
-        name: "Ava Garcia",
-        bio: "Foodie | Culinary Explorer | Tasting the World's Flavors",
-        text: "From street food to fine dining, on a mission to explore and savor the diverse and delicious tastes of the world. 🍜🌮",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 58,
-        comments: 19,
-        reposts: 26
-    },
-    {
-        name: "Logan Hill",
-        bio: "Science Enthusiast | Exploring the Wonders of the Universe",
-        text: "From microorganisms to galaxies, constantly fascinated by the mysteries of the cosmos. Join me on this cosmic journey! 🔭🌌",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 53,
-        comments: 17,
-        reposts: 29
-    },
-    {
-        name: "Chloe Baker",
-        bio: "Environmental Activist | Nature Lover | Protecting Our Planet",
-        text: "On a mission to raise awareness and take action for a greener and more sustainable future. Every small effort counts! 🌿🌎",
-        images: ['https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=600'],
-
-        likes: 47,
-        comments: 13,
-        reposts: 24
-    },
-];
 
 
 const variants = {
@@ -215,7 +104,7 @@ const Calendar_Part = (props) => {
                 style={{ height: `550px` }}
                 onSelectEvent={handleEventClick}
                 selectable
-                className='font-inter font-semibold'
+                className='font-inter font-semibold bg-white'
             />
         </div>
     )
@@ -227,6 +116,8 @@ const Calendar_Part = (props) => {
 const Posts = () => {
 
     const [items, setItems] = useState([]);
+    
+    const params = useParams();
 
     const userRedux = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -243,7 +134,12 @@ const Posts = () => {
             return;
         }
 
-        const response = await getAllPostOfUser(1, 10, token);
+        
+
+        const id = params.id;
+        const role = params.role;
+
+        const response = await getAllPostOfUser(1, 10, token, id, role);
 
         if(response.success){
             dispatch(setUserPosts(response.data.result));
@@ -268,28 +164,76 @@ const Posts = () => {
 
     return (
 
-        userRedux.posts && <div >
+        userRedux.posts && 
+        userRedux.posts.length > 0 ? <div >
             {items.map((item, index) => (
                 <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
             ))}
             {/* <PostCard type="feed" follow={true} /> */}
-        </div>
+        </div>:
+        <NothingFoundCard heading={"No Posts Found"} description={"Some new posts will be added and that will appear here 😁"}/>
+            
 
     )
 }
 
 
 const BookMarked = () => {
-    const items = dummy;
+    const [items, setItems] = useState([]);
+
+    const userRedux = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    const params = useParams();
+
+    const getItemsOfUser = async () => {
+        const token = localStorage.getItem("token");
+
+        if(!token){
+            showToast({
+                msg: 'Login Required',
+                type: 'error',
+                duration: 3000
+            })
+            return;
+        }
+
+        const user_id = params.id;
+        const role = params.role;
+
+        const response = await getBookmarkedPostUser(1, 10, token, user_id, role);
+
+        if(response.success){
+            dispatch(setUserBookMarkedPosts(response.data.result));
+            setItems(response.data.result);
+        }
+
+        else{
+            showToast({
+                msg: 'Something went wrong',
+                type: 'error',
+                duration: 3000
+            })
+        }
+    }
+
+    useEffect(() => {
+        getItemsOfUser();
+        setItems(userRedux.bookMarkedPosts?userRedux.bookMarkedPosts:[]);
+    },[userRedux.data]);
+
+
 
     return (
 
-        <div >
+        userRedux.bookMarkedPosts && 
+        userRedux.bookMarkedPosts.length > 0 ? <div >
             {items.map((item, index) => (
-                <PostCard type="book" key={index} name={item.name} bio={item.bio} text={item.text} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} follow={true} />
+                <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
             ))}
             {/* <PostCard type="feed" follow={true} /> */}
-        </div>
+        </div>:
+        <NothingFoundCard heading={"No Bookmarked Posts Found"} description={"Posts that will be bookmarked, will appear here 😁"}/>
 
     )
 }
@@ -371,7 +315,7 @@ const User_Profile_Comp = () => {
 
 
             <div className="mt-2 ml-0 lg:mt-12 lg:ml-48 mb-10">
-                <div className='ml-3 sm:ml-4 flex'>
+                <div className='mx-3 sm:mx-4 flex'>
                     <img
                         className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
                         src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
@@ -477,7 +421,7 @@ const User_Profile_Comp = () => {
 
                 </div>
 
-                {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-[96%] lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-[96%] lg:w-9/12"><BookMarked /></div> : <></>}
+                {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-[100%] lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-[100%] lg:w-9/12"><BookMarked /></div> : <></>}
 
 
 

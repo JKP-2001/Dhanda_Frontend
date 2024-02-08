@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     data:null,
@@ -10,28 +9,28 @@ const initialState = {
 }
 
 const userSlice = createSlice({
-    name:"user",
+    name:"searchUser",
     initialState,
     reducers:{
 
-        getUserStart:(state)=>{
+        getSearchUserStart:(state)=>{
             state.loading = true
         },
-        getUserSuccess:(state,action)=>{
+        getSearchUserSuccess:(state,action)=>{
             state.data = action.payload
             state.loading = false
         },
 
-        setUserPosts:(state,action)=>{
+        setSearchUserPosts:(state,action)=>{
             state.posts = action.payload
             state.loading = false
         },
 
-        setUserBookMarkedPosts:(state,action)=>{
+        setSearchUserBookMarkedPosts:(state,action)=>{
             state.bookMarkedPosts = action.payload
             state.loading = false
         },
-        getUserFailure:(state,action)=>{
+        getSearchUserFailure:(state,action)=>{
             state.error = action.payload
             state.loading = false
         }
@@ -41,6 +40,6 @@ const userSlice = createSlice({
 
 const {reducer,actions}=userSlice;
 
-export const {getUserStart,getUserSuccess,getUserFailure, setUserPosts, setUserBookMarkedPosts} = actions;
+export const {getSearchUserStart,getSearchUserSuccess,getSearchUserFailure, setSearchUserPosts, setSearchUserBookMarkedPosts} = actions;
 
 export default reducer;

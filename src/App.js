@@ -31,6 +31,7 @@ import { decryptFromJson } from './Utils/functions';
 import { getUserSuccess } from './Redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import GoogleAuthCallBack from './Pages/Auth/GoogleAuthCallBack';
+import SinglePost from './Pages/SinglePost';
 
 
 
@@ -54,13 +55,14 @@ const App = () => {
 
 
           <Route path='/' element={<ProtectedRoute ele={<Home />} />} />
-          <Route path="/mock-interview" element={<Mock_Interview />} />
-          <Route path='/mock-interview/:user_id' element={<ProtectedRoute ele={<MockInterviewProfile />} />} />
+          <Route path="/mock-interview" element={<ProtectedRoute ele={<Mock_Interview />} />} />
+          <Route path='/mock-interview/:role/:user_id' element={<ProtectedRoute ele={<MockInterviewProfile />} />} />
           <Route path="/test" element={<ProtectedRoute ele={<Interviewer_Card />} />} />   {/* Use to test component */}
           <Route path="*" element={<NotFound />} />
           <Route path="/mock-interview/schedule/:user" element={<ProtectedRoute ele={<Calendar_Page />} />} />
-          <Route path="/user/profile/:user" element={<ProtectedRoute ele={<User_Profile />} />} />
+          <Route path="/user/profile/:role/:id" element={<ProtectedRoute ele={<User_Profile />} />} />
           <Route path="/new-feeds" element={<ProtectedRoute ele={<New_Feeds />} />} />
+          <Route path="/post/:id" element={<ProtectedRoute ele={<SinglePost />} /> }/>
 
           <Route path="/google/auth/callback" element={<GoogleAuthCallBack />} />
 
