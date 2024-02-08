@@ -13,6 +13,7 @@ import Loader from "../../Utils/Loader";
 import Loading from "../../Utils/Loading.gif";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
+import { fetchCompanyWiseInstructors } from "../../Redux/instructers/companyWiseInstructorAction";
 
 const Mock_Interview_Comp = () => {
   const Spinner = () => {
@@ -125,6 +126,14 @@ const Mock_Interview_Comp = () => {
     navigate(`?${searchParams.toString()}`);
   };
 
+  const categories=["All","SDE","Data Science","Analyst"];
+
+  const [selectedCat,setSelectedCat]= useState(0);
+  const handleCat=(idx)=>{
+    setSelectedCat(idx);
+    dispatch(fetchCompanyWiseInstructors({sortBy:"",companies:[],category:categories[idx]}));
+  }
+
   return (
     <div className="flex items-center justify-center ">
       <div className="pb-10 w-[80%] mt-10 ">
@@ -137,10 +146,11 @@ const Mock_Interview_Comp = () => {
         >
           <div className="flex flex-wrap  space-x-4">
             <div></div>
-            <CatButton type={"All"} active={true} />
-            <CatButton type={"SDE"} active={false} />
-            <CatButton type={"Data Science"} active={false} />
-            <CatButton type={"Analyst"} active={false} />
+            {
+              categories.map((cat,idx)=>{
+                return <CatButton handleCat={handleCat} key={idx} type={cat} active={selectedCat===idx?true:false} num={idx} />
+              })
+            }
           </div>
         </motion.div>
         <motion.div
