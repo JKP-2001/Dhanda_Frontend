@@ -36,7 +36,7 @@ import PostCommentsCard from '../../Utils/PostCommentsCard';
 import { getTimeDifference } from '../../Utils/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import Edit_Modal from './Edit_Modal';
-import { deletePost } from '../../APIs/Post_API';
+import { deletePost, likePost } from '../../APIs/Post_API';
 import showToast from '../../Utils/showToast';
 import { getPostSuccess } from '../../Redux/post/postSlice';
 
@@ -63,6 +63,9 @@ const PostCard = (props) => {
     const [postTime, setPostTime] = useState(getTimeDifference(props.createdAt));
     const [updatedTime, setUpdatedTime] = useState(props.updatedAt?getTimeDifference(props.updatedAt):null);
 
+    const userRedux = useSelector((state) => state.user);
+    const postRedux = useSelector((state) => state.post);
+
     const goToPreviousImage = () => {
         setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
     };
@@ -86,19 +89,53 @@ const PostCard = (props) => {
 
     const [bookMarks, setBookMarks] = useState(props.bookMarks.length);
 
-    const userRedux = useSelector((state) => state.user);
-    const postRedux = useSelector((state) => state.post);
+    
 
-    const handleLike = () => {
-        if (isLike) {
-            setNumLikes(numLikes - 1);
-            setIsLike(false);
-        }
-        else {
+    const handleLike = async () => {
 
-            setNumLikes(numLikes + 1);
-            setIsLike(true);
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+
+            showToast({
+                msg: 'Login Required',
+                type: 'error',
+                duration: 3000,
+            });
+            return;
         }
+
+        const response = await likePost(props.postId, token);
+
+        if(response.success) {
+            if (isLike) {
+                setNumLikes(numLikes - 1);
+                setIsLike(false);
+            }
+            else {
+    
+                setNumLikes(numLikes + 1);
+                setIsLike(true);
+            }
+
+            showToast({
+                msg: response.msg,
+                type: 'success',
+                duration: 3000,
+            });
+        }
+
+        else{
+
+            showToast({
+                msg: response.msg,
+                type: 'error',
+                duration: 3000,
+            });
+        }
+        
+
+        
     };
 
 
