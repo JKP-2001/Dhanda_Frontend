@@ -177,9 +177,9 @@ const Account = (props) => {
             className='mt-5 ml-3 md:ml-5 space-y-8'
         >
 
-            <div>
+            {userRedux.data && userRedux.data.experience.length>0?<div>
                 <ExperienceCard exp={userRedux} />
-            </div>
+            </div>:null}
             
             <div>
                 <EducationCard edu={userRedux} />
