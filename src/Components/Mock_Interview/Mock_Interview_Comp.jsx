@@ -33,9 +33,6 @@ const Mock_Interview_Comp = () => {
   const totalResults = useSelector((state) => state.instructers.totalResults);
   const location = useLocation();
   const [sortByItem, setSortByItem] = useState("");
-  const companyWiseInstructors = useSelector(
-    (state) => state.companyWiseInstructor.instructor
-  );
 
   const companies = [
     "Amazon",
@@ -126,13 +123,21 @@ const Mock_Interview_Comp = () => {
     navigate(`?${searchParams.toString()}`);
   };
 
-  const categories=["All","SDE","Data Science","Analyst"];
+  const categories = ["All", "SDE", "Data Science", "Analyst"];
 
-  const [selectedCat,setSelectedCat]= useState(0);
-  const handleCat=(idx)=>{
+  const [selectedCat, setSelectedCat] = useState(0);
+  const handleCat = (idx) => {
     setSelectedCat(idx);
-    dispatch(fetchCompanyWiseInstructors({sortBy:"",companies:[],category:categories[idx]}));
-  }
+    dispatch(
+      fetchCompanyWiseInstructors({
+        sortBy: "",
+        companies: [],
+        category: categories[idx],
+        page:1,
+        limit:6
+      })
+    );
+  };
 
   return (
     <div className="flex items-center justify-center ">
@@ -146,11 +151,17 @@ const Mock_Interview_Comp = () => {
         >
           <div className="flex flex-wrap  space-x-4">
             <div></div>
-            {
-              categories.map((cat,idx)=>{
-                return <CatButton handleCat={handleCat} key={idx} type={cat} active={selectedCat===idx?true:false} num={idx} />
-              })
-            }
+            {categories.map((cat, idx) => {
+              return (
+                <CatButton
+                  handleCat={handleCat}
+                  key={idx}
+                  type={cat}
+                  active={selectedCat === idx ? true : false}
+                  num={idx}
+                />
+              );
+            })}
           </div>
         </motion.div>
         <motion.div
@@ -196,17 +207,9 @@ const Mock_Interview_Comp = () => {
           loader={<Spinner />}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
-            {comp.length === 0 &&
-              sortByItem === "" &&
-              instructers.map((ins, idx) => {
-                return <Interviewer_Card key={idx} instructer={ins} />;
-              })}
-            {comp.length !== 0 &&
-              Object.keys(companyWiseInstructors).map((key) => {
-                companyWiseInstructors[key].map((ins, idx) => {
-                  return <Interviewer_Card key={idx} instructer={ins} />;
-                });
-              })}
+            {instructers.map((ins, idx) => {
+              return <Interviewer_Card key={idx} instructer={ins} />;
+            })}
           </div>
         </InfiniteScroll>
       </div>

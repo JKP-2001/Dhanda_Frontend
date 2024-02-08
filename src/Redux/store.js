@@ -5,12 +5,13 @@ import instructerReducer from "./instructers/instructerSlice"
 import postReducer from "./post/postSlice"
 
 
+
 const store = configureStore({
 
     reducer: {
         user: userReducer,
         instructers: instructerReducer,
-        post: postReducer
+        post: postReducer,
     },
 });
 
