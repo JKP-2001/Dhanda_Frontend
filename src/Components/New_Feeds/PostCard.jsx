@@ -36,7 +36,7 @@ import PostCommentsCard from '../../Utils/PostCommentsCard';
 import { getTimeDifference } from '../../Utils/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import Edit_Modal from './Edit_Modal';
-import { deletePost, likePost } from '../../APIs/Post_API';
+import { bookMarkPost, deletePost, likePost } from '../../APIs/Post_API';
 import showToast from '../../Utils/showToast';
 import { getPostSuccess } from '../../Redux/post/postSlice';
 
@@ -75,6 +75,41 @@ const PostCard = (props) => {
     };
 
     const [isLike, setIsLike] = useState(false);
+
+    // check if userRedux.data._id is present in props.likes[i]._id
+
+    const checkLike = () => {
+
+        if(userRedux.data){
+            for (let i = 0; i < props.likes.length; i++) {
+                if (props.likes[i]._id === userRedux.data._id) {
+                    setIsLike(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    const checkBookMark = () => {
+        
+        if(userRedux.data){
+            for (let i = 0; i < props.bookMarks.length; i++) {
+                if (props.bookMarks[i]._id === userRedux.data._id) {
+                    setIsBookmark(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+
+        checkLike();
+        checkBookMark();
+
+    }, [userRedux.data])
+
+
     const [isRepost, setIsRepost] = useState(false);
     const [isBookmark, setIsBookmark] = useState(false);
 
@@ -139,15 +174,49 @@ const PostCard = (props) => {
     };
 
 
-    const handleBookmark = () => {
-        if (isBookmark) {
-            setIsBookmark(false);
-            setBookMarks(bookMarks - 1);
+    const handleBookmark = async () => {
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+
+            showToast({
+                msg: 'Login Required',
+                type: 'error',
+                duration: 3000,
+            });
+            return;
         }
-        else {
-            setIsBookmark(true);
-            setBookMarks(bookMarks + 1);
+
+        const response = await bookMarkPost(props.postId, token);
+
+        if(response.success) {
+            if (isBookmark) {
+                setIsBookmark(false);
+                setBookMarks(bookMarks - 1);
+            }
+            else {
+                setIsBookmark(true);
+                setBookMarks(bookMarks + 1);
+            }
+
+            showToast({
+                msg: response.msg,
+                type: 'success',
+                duration: 3000,
+            });
         }
+
+        else{
+
+            showToast({
+                msg: response.msg,
+                type: 'error',
+                duration: 3000,
+            });
+        }
+
+        
     };
 
     const openShare = () => {
@@ -387,7 +456,7 @@ const PostCard = (props) => {
                     <div className='text-xs ml-4 mb-2 font-inter font-semibold text-gray-500'>
                         Posted {postTime}
                     </div>
-                    {props.updatedAt&&props.isUpdated?<div className='text-xs mr-4 mb-2 font-inter font-semibold text-gray-500'>
+                    {props.updatedAt && props.isUpdated?<div className='text-xs mr-4 mb-2 font-inter font-semibold text-gray-500'>
                         Edited {updatedTime} 
                     </div>:null}
                 </div>
