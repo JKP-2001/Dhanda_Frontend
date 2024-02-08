@@ -5,7 +5,7 @@ import whyChoose from "../../Utils/Images/why-choose-us.jpg";
 function TrustUs() {
   return (
     <div>
-      <div className="mt-16 w-[100%]">
+      <div className="mt-28 w-[100%]">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10 w-[80%] mx-auto">
           <img src={trustImage}></img>
           <div className="flex flex-col justify-center gap-6">
@@ -26,7 +26,7 @@ function TrustUs() {
           </div>
         </div>
       </div>
-      <div className="mt-16 w-[100%]">
+      <div className="mt-28 w-[100%]">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-[80%] mx-auto">
           <div className="flex flex-col justify-center gap-4">
             <div className="text-center lg:text-left font-custom  text-4xl ">

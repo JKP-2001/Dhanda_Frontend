@@ -22,6 +22,27 @@ export const getAllPost = async (page, limit) => {
 }
 
 
+export const getAllPostOfUser = async (page, limit, token) => {
+
+    try {
+        const response = await fetch(BASE_URL + `/get-all-posts-of-user?page=${page}&limit=${limit}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": token
+            }
+        })
+        const json = await response.json();
+        return json;
+    } catch (err) {
+        return { success: false, msg: err.toString() }
+    }
+}
+
+
+
+
+
 export const createPost = async (content, imageFiles, token) => {
     try {
 
@@ -121,6 +142,27 @@ export const likePost = async (post_id, token) => {
         const json = await response.json();
         return json;
     } catch (err) {
+        return { success: false, msg: err.toString() };
+    }
+}
+
+
+export const bookMarkPost = async (post_id, token) => {
+    try{
+
+        const response = await fetch(BASE_URL + `/bookmark-post/${post_id}`, {
+            method: "PATCH",
+            headers: {
+                "security-key": security_key,
+                "auth-token": token
+            }
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    }catch(err){
         return { success: false, msg: err.toString() };
     }
 }

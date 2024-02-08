@@ -7,7 +7,10 @@ import { useNavigate } from "react-router-dom";
 import AchieveGoal from "../Components/HomeComponents/AchieveGoal";
 import TrustUs from "../Components/HomeComponents/TrustUs";
 import OpenWindow from "../Components/HomeComponents/OpenWindow";
-
+import Service from "../Components/OurServices/Service";
+import Accordion from "../Components/Faq/Accordion";
+import Footer from "../Components/Footer/Footer";
+import Portfolio from "../Components/TopCreators/Portfolio";
 
 const Home = () => {
   useEffect(() => {
@@ -62,9 +65,20 @@ const Home = () => {
         <AchieveGoal />
       </div>
       <div>
-        <TrustUs/>
+        <TrustUs />
       </div>
-      
+      <div>
+        <Portfolio />
+      </div>
+      <div>
+        <Service />
+      </div>
+      <div>
+        <Accordion />
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };

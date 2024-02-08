@@ -20,8 +20,11 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import PostCard from '../New_Feeds/PostCard';
 import UserList_Modal from '../../Utils/UserList_Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ExperienceCard from '../Mock_Interviewer/Experience/ExperienceCard';
+import { getAllPostOfUser } from '../../APIs/Post_API';
+import showToast from '../../Utils/showToast';
+import { setUserPosts } from '../../Redux/user/userSlice';
 
 
 const localizer = momentLocalizer(moment);
@@ -223,13 +226,51 @@ const Calendar_Part = (props) => {
 
 const Posts = () => {
 
-    const items = dummy;
+    const [items, setItems] = useState([]);
+
+    const userRedux = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    const getItemsOfUser = async () => {
+        const token = localStorage.getItem("token");
+
+        if(!token){
+            showToast({
+                msg: 'Login Required',
+                type: 'error',
+                duration: 3000
+            })
+            return;
+        }
+
+        const response = await getAllPostOfUser(1, 10, token);
+
+        if(response.success){
+            dispatch(setUserPosts(response.data.result));
+            setItems(response.data.result);
+        }
+
+        else{
+            showToast({
+                msg: 'Something went wrong',
+                type: 'error',
+                duration: 3000
+            })
+        }
+    }
+
+    useEffect(() => {
+        getItemsOfUser();
+        setItems(userRedux.posts?userRedux.posts:[]);
+    },[userRedux.data]);
+
+
 
     return (
 
-        <div >
+        userRedux.posts && <div >
             {items.map((item, index) => (
-                <PostCard type="saved" key={index} name={item.name} bio={item.bio} text={item.text} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} follow={true} />
+                <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
             ))}
             {/* <PostCard type="feed" follow={true} /> */}
         </div>

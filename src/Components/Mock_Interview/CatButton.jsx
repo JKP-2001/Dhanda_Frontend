@@ -1,10 +1,13 @@
 import { Button } from "@material-tailwind/react";
 import React from "react";
 
-const CatButton = ({ active,type }) => {
+const CatButton = ({ active, type, handleCat, num }) => {
   if (active) {
     return (
       <Button
+        onClick={() => {
+          handleCat(num);
+        }}
         className={`w-[147.39px] h-[41px] font-inter font-bold rounded-3xl text-white  border-[2px] bg-btn-col text-center my-2`}
       >
         {type}
@@ -13,6 +16,9 @@ const CatButton = ({ active,type }) => {
   } else
     return (
       <Button
+        onClick={() => {
+          handleCat(num);
+        }}
         className={`w-[147.39px] h-[41px] font-inter font-bold rounded-3xl text-btn-col border-[2px] border-btn-col  bg-white text-center my-2`}
       >
         {type}

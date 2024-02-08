@@ -35,15 +35,6 @@ const New_Feeds_Comp = () => {
     const result = await getAllPost(1, 10);
     if (result.success) {
       dispatch(getPostSuccess(result.data.result));
-
-      //reverse the items
-
-
-      showToast({
-        msg: "Posts Fetched Successfully",
-        type: "success",
-        duration: 3000
-      });
     }
     else {
       showToast({
@@ -151,7 +142,7 @@ const New_Feeds_Comp = () => {
       <div >
         {itemRedux.data.map((item, index) => (
 
-          <PostCard type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt}/>
+          <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
         ))}
         {/* <PostCard type="feed" follow={true} /> */}
       </div>

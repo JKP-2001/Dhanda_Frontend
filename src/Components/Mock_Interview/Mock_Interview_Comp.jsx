@@ -11,9 +11,11 @@ import { setCurrentPage } from "../../Redux/instructers/instructerSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "../../Utils/Loader";
 import Loading from "../../Utils/Loading.gif";
+import { useLocation } from "react-router";
+import { useNavigate } from "react-router";
+import { fetchCompanyWiseInstructors } from "../../Redux/instructers/companyWiseInstructorAction";
 
 const Mock_Interview_Comp = () => {
-
   const Spinner = () => {
     return (
       <div className=" mt-8 flex items-center justify-center">
@@ -22,11 +24,15 @@ const Mock_Interview_Comp = () => {
     );
   };
 
+  const navigate = useNavigate();
+
   const [comp, setComp] = useState([]);
   const dispatch = useDispatch();
   const currPage = useSelector((state) => state.instructers.currPage);
   const instructers = useSelector((state) => state.instructers.instructers);
   const totalResults = useSelector((state) => state.instructers.totalResults);
+  const location = useLocation();
+  const [sortByItem, setSortByItem] = useState("");
 
   const companies = [
     "Amazon",
@@ -55,24 +61,83 @@ const Mock_Interview_Comp = () => {
     "Airbnb",
     "IBM",
   ];
-  const sort_by = ["Company", "Date", "Rating"];
+  const sort_by = [
+    "Company",
+    "Price Low to High",
+    "Price High to Low",
+    "Rating",
+  ];
 
   const variants = {
     hidden: { x: -30 },
     visible: { x: 0 },
   };
 
-
-
   const fetchMoreData = async () => {
-    dispatch(fetchInstructer());
+    const data = {
+      companies: comp,
+      page: currPage,
+      limit: 6,
+      sortBy: sortByItem,
+    };
+    dispatch(fetchInstructer(data));
   };
 
-  useEffect(()=>{
-    dispatch(fetchInstructer());
-  },[]);
+  useEffect(() => {
+    const data = {
+      companies: comp,
+      page: currPage,
+      limit: 6,
+      sortBy: sortByItem,
+    };
+    dispatch(fetchInstructer(data));
+    console.log(location);
+  }, []);
 
- 
+  const updateSortBy = (sortBy) => {
+    const searchParams = new URLSearchParams();
+    searchParams.set("sortBy", sortBy);
+    if (comp.length !== 0) {
+      searchParams.append("company", comp);
+    }
+    navigate(`?${searchParams.toString()}`);
+  };
+
+  const updateCompanies = (companies) => {
+    const searchParams = new URLSearchParams();
+    companies.forEach((company) => {
+      searchParams.append("company", company);
+    });
+    if (sortByItem !== "") {
+      searchParams.append("sortBy", sortByItem);
+    }
+
+    navigate(`?${searchParams.toString()}`);
+  };
+
+  const updateURLWithCompanies = () => {
+    const searchParams = new URLSearchParams();
+    comp.forEach((company) => {
+      searchParams.append("company", company);
+    });
+    navigate(`?${searchParams.toString()}`);
+  };
+
+  const categories = ["All", "SDE", "Data Science", "Analyst"];
+
+  const [selectedCat, setSelectedCat] = useState(0);
+  const handleCat = (idx) => {
+    setSelectedCat(idx);
+    dispatch(
+      fetchCompanyWiseInstructors({
+        sortBy: "",
+        companies: [],
+        category: categories[idx],
+        page:1,
+        limit:6
+      })
+    );
+  };
 
   return (
     <div className="flex items-center justify-center ">
@@ -86,10 +151,17 @@ const Mock_Interview_Comp = () => {
         >
           <div className="flex flex-wrap  space-x-4">
             <div></div>
-            <CatButton type={"All"} active={true} />
-            <CatButton type={"SDE"} active={false} />
-            <CatButton type={"Data Science"} active={false} />
-            <CatButton type={"Analyst"} active={false} />
+            {categories.map((cat, idx) => {
+              return (
+                <CatButton
+                  handleCat={handleCat}
+                  key={idx}
+                  type={cat}
+                  active={selectedCat === idx ? true : false}
+                  num={idx}
+                />
+              );
+            })}
           </div>
         </motion.div>
         <motion.div
@@ -103,15 +175,31 @@ const Mock_Interview_Comp = () => {
             <div></div>
             <Sorting_Button
               type={"Company"}
+              location={location}
               menuItems={companies}
               setComp={setComp}
               tag="comp"
               comp={comp}
+              updateCompanies={updateCompanies}
+              sortBy={sortByItem}
             />
-            <Sorting_Button type={"Sort By"} menuItems={sort_by} />
+            <Sorting_Button
+              sortByItem={sortByItem}
+              setSortByItem={setSortByItem}
+              type={"Sort By"}
+              menuItems={sort_by}
+              location={location}
+              updateSortBy={updateSortBy}
+              comp={comp}
+            />
           </div>
         </motion.div>
-        <CompanyTag comp={comp} setComp={setComp} />
+        <CompanyTag
+          comp={comp}
+          sortBy={sortByItem}
+          updateURLWithCompanies={updateURLWithCompanies}
+          setComp={setComp}
+        />
         <InfiniteScroll
           dataLength={instructers.length}
           next={fetchMoreData}
@@ -119,7 +207,7 @@ const Mock_Interview_Comp = () => {
           loader={<Spinner />}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
-            {instructers.map((ins,idx) => {
+            {instructers.map((ins, idx) => {
               return <Interviewer_Card key={idx} instructer={ins} />;
             })}
           </div>
