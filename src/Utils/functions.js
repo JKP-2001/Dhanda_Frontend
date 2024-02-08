@@ -143,4 +143,46 @@ export function decryptFromJson(encryptedData) {
 }
 
 
+export const getTimeDifference = (isoString) => {
+  
+  const pastDate = new Date(isoString);
+  const currentDate = new Date();
+
+
+  const timeDifference = currentDate - pastDate;
+
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(timeDifference / (1000 * 60));
+  const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  const months = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30.44)); 
+  const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365.25)); 
+
+ 
+  let timeUnit, timeValue;
+  if (years >= 1) {
+    timeUnit = 'year';
+    timeValue = years;
+  } else if (months >= 1) {
+    timeUnit = 'month';
+    timeValue = months;
+  } else if (days >= 1) {
+    timeUnit = 'day';
+    timeValue = days;
+  } else if (hours >= 1) {
+    timeUnit = 'hour';
+    timeValue = hours;
+  } else if(minutes >= 1) {
+    timeUnit = 'minute';
+    timeValue = minutes;
+  } else{
+    timeUnit = 'second';
+    timeValue = seconds+2;
+  }
+
+
+  return `${timeValue} ${timeUnit}${timeValue > 1 ? 's' : ''} ago`;
+};
+
+
 

@@ -12,7 +12,7 @@ const Carousel_Comp = (props) => {
       {images.map((image, index) => (
         <img
           key={index}
-          src={image}
+          src={`http://localhost:5000/${image}`} 
           alt={`image ${index + 1}`}
           className="h-full w-full object-cover hover:cursor-pointer bg-black"
           onClick={() => openImageModal(index)}
