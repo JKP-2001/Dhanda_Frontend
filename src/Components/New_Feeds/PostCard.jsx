@@ -350,7 +350,7 @@ const PostCard = (props) => {
                     <div className='text-xs ml-4 mb-2 font-inter font-semibold text-gray-500'>
                         Posted {postTime}
                     </div>
-                    {props.updatedAt?<div className='text-xs mr-4 mb-2 font-inter font-semibold text-gray-500'>
+                    {props.updatedAt&&props.isUpdated?<div className='text-xs mr-4 mb-2 font-inter font-semibold text-gray-500'>
                         Edited {updatedTime} 
                     </div>:null}
                 </div>
