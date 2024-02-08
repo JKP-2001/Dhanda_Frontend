@@ -34,7 +34,7 @@ const UserList_Modal = (props) => {
     );
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20 px-2">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40 px-2">
 
             <div className="block w-[96%] lg:w-[40%] max-w-lg pb-2 pt-0 z-20 bg-white border border-gray-200 rounded-lg shadow h-[400px] ">
 

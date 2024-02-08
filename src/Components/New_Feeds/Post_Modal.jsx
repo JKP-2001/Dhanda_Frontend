@@ -25,12 +25,22 @@ const Post_Modal = (props) => {
 
   const [uploading, setUploading] = useState(false);
 
+  const [imageFiles, setImageFiles] = useState([]);
+
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   const handleImageUpload = (newImages) => {
     setImages([...images, ...newImages]);
   };
+
+  const handleImageFiles = (files) => {
+    setImageFiles([...imageFiles, ...files]);
+  }
+
+  
+
+  
 
   const handleFileChange = (e) => {
     const newImages = [];
@@ -62,6 +72,7 @@ const Post_Modal = (props) => {
         if (newImages.length === files.length) {
           // All images have been processed
           handleImageUpload(newImages);
+          handleImageFiles(files);
           toast.dismiss(toastId); // Dismiss the loading toaster
 
           success = true;
@@ -106,8 +117,13 @@ const Post_Modal = (props) => {
 
   const removeImage = (index) => {
     const updatedImages = [...images];
+    const updateImageFiles = [...imageFiles];
+
     updatedImages.splice(index, 1);
+    updateImageFiles.splice(index, 1);
+
     setImages(updatedImages);
+    setImageFiles(updateImageFiles);
   };
 
   return (
@@ -146,7 +162,7 @@ const Post_Modal = (props) => {
                     onChange={handleFileChange}
                   /></>:<div className='uploading font-inter font-semibold'> Uploading...</div>}
                 </div>
-                <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={handlePost}>
+                <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={()=>handlePost(imageFiles)}>
                   Post
                 </button>
               </div>

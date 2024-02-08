@@ -7,6 +7,7 @@ const Editor = (props) => {
   const {length, text, setText} = props;
 
   const quillRef = useRef(null);
+  
 
 
 
