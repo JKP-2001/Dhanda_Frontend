@@ -7,13 +7,13 @@ const Service = () => {
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
             <div className="mx-auto mb-12 max-w-[510px] text-center lg:mb-20">
-              <span className="mb-2 block text-lg font-semibold text-primary font-roboto">
-                Our Services
-              </span>
               <h2 className="mb-3 text-3xl font-bold leading-[1.2] font-custom text-dark dark:text-white sm:text-4xl md:text-[40px]">
                 What We Offer
               </h2>
-              
+
+              <span className="mb-2 block text-xl font-semibold text-primary font-roboto">
+                Our Services
+              </span>
             </div>
           </div>
         </div>
