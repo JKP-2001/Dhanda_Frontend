@@ -7,8 +7,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import MockInterviewProfile from "./Pages/Mock_Interviewer/MockInterviewProfile";
-import Home from "./Pages/Home";
 
 import MockInterviewProfile from './Pages/Mock_Interviewer/MockInterviewProfile';
 import Home from './Pages/Home';
