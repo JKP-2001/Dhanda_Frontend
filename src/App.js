@@ -31,11 +31,12 @@ import { getUserSuccess } from './Redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import GoogleAuthCallBack from './Pages/Auth/GoogleAuthCallBack';
 import SinglePost from './Pages/SinglePost';
+import Discussion from "./Pages/Discussion/Discussion";
 
 const getLoginUser = async (dispatch) => {
   const token = localStorage.getItem('token');
 
-  if(!token){
+  if (!token) {
     return;
   }
 
@@ -48,7 +49,7 @@ const getLoginUser = async (dispatch) => {
       type: 'error',
       duration: 3000,
     });
-    
+
   } else {
 
     if (userData.success === false) {
@@ -72,9 +73,9 @@ const getLoginUser = async (dispatch) => {
 const App = () => {
   const dispatch = useDispatch();
 
-  useEffect(()=>{
+  useEffect(() => {
     getLoginUser(dispatch);
-  },[]);
+  }, []);
 
   return (
     <>
@@ -96,6 +97,10 @@ const App = () => {
           <Route path="/user/profile/:role/:id" element={<ProtectedRoute ele={<User_Profile />} />} />
           <Route path="/new-feeds" element={<ProtectedRoute ele={<New_Feeds />} />} />
           <Route path="/post/:id" element={<ProtectedRoute ele={<SinglePost />} />} />
+          <Route
+            path="/discuss"
+            element={<ProtectedRoute ele={<Discussion />} />}
+          />
 
           <Route path="/google/auth/callback" element={<GoogleAuthCallBack />} />
 
