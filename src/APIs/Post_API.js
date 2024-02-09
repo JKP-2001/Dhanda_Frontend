@@ -22,10 +22,27 @@ export const getAllPost = async (page, limit) => {
 }
 
 
-export const getAllPostOfUser = async (page, limit, token) => {
+export const getAllPostOfUser = async (page, limit, token, id , role) => {
 
     try {
-        const response = await fetch(BASE_URL + `/get-all-posts-of-user?page=${page}&limit=${limit}`, {
+        const response = await fetch(BASE_URL + `/get-all-posts-of-user/${role}/${id}??page=${page}&limit=${limit}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": token
+            }
+        })
+        const json = await response.json();
+        return json;
+    } catch (err) {
+        return { success: false, msg: err.toString() }
+    }
+}
+
+export const getBookmarkedPostUser = async (page, limit, token, user_id, role) => {
+
+    try {
+        const response = await fetch(BASE_URL + `/get-book-marked-post/${role}/${user_id}?page=${page}&limit=${limit}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -163,6 +180,27 @@ export const bookMarkPost = async (post_id, token) => {
         return json;
 
     }catch(err){
+        return { success: false, msg: err.toString() };
+    }
+}
+
+
+export const getAPost = async (post_id) => {
+
+    try {
+
+        const response = await fetch(BASE_URL + `/get-post/${post_id}`, {
+            method: "GET",
+            headers: {
+                "security-key": security_key,
+            }
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    } catch (err) {
         return { success: false, msg: err.toString() };
     }
 }

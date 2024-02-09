@@ -242,7 +242,7 @@ const Edit_Modal = (props) => {
                                         {images.map((image, index) => (
                                             <div key={index} className='relative'>
                                                 <img
-                                                    src={image.includes("uploads") ? `http://localhost:5000/${image}` : image}   // if image contains src\uploads
+                                                    src={image}   // if image contains src\uploads
                                                     alt={`Uploaded ${index + 1}`}
                                                     className='max-w-[100px] max-h-[130px] m-2 rounded-md object-cover hover:cursor-pointer'
                                                     onClick={() => openImageModal(index)}
@@ -263,7 +263,7 @@ const Edit_Modal = (props) => {
                                 <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 flex justify-center items-center'>
                                     <div className='mx-2 max-w-[650px] max-h-[650px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden relative'>
                                         <img
-                                            src={images[selectedImageIndex].includes("uploads") ? `http://localhost:5000/${images[selectedImageIndex]}` : images[selectedImageIndex]}
+                                            src={images[selectedImageIndex]}
                                             alt={`Image ${selectedImageIndex + 1}`}
                                             className='max-w-full max-h-full object-cover '
                                         />

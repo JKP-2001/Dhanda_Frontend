@@ -32,6 +32,29 @@ export const getUserData = async (token) => {
 }
 
 
+export const getUserDataById = async (role, id) => {
+
+    try {
+
+        const response = await fetch(BASE_URL + `/user/user-data/${role}/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "security-key": security_key,
+            }
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    } catch (err) {
+
+        return { success: false, msg: err.toString() };
+    }
+}
+
+
 export const callOnBoardingProcess = async (data, token) => {
 
     try {
