@@ -10,7 +10,6 @@ import {
 import MockInterviewProfile from "./Pages/Mock_Interviewer/MockInterviewProfile";
 import Home from "./Pages/Home";
 
-<<<<<<< HEAD
 import MockInterviewProfile from './Pages/Mock_Interviewer/MockInterviewProfile';
 import Home from './Pages/Home';
 
@@ -71,28 +70,6 @@ const getLoginUser = async (dispatch) => {
 
 
 
-=======
-import Mock_Interview from "./Pages/Mock_Interview/Mock_Interview";
-import NotFound from "./Pages/NotFound";
-import Interviewer_Card from "./Components/Mock_Interview/Interviewer_Card";
-import SignUp from "./Pages/Auth/SignUp";
-import { Toaster } from "react-hot-toast";
-import ForgotPassword from "./Pages/Auth/ForgotPassword";
-import NewPassword from "./Pages/Auth/NewPassword";
-import SignIn from "./Pages/Auth/SignIn";
-import Calendar_Page from "./Pages/Schedule_Interview/Calendar_Page";
-import User_Profile from "./Pages/Profile/User_Profile";
-import New_Feeds from "./Pages/New_Feeds";
-import ProtectedRoute from "./Utils/ProtectedRoute";
-import { useEffect } from "react";
-import { getUserData } from "./APIs/User_API";
-import showToast from "./Utils/showToast";
-import { decryptFromJson } from "./Utils/functions";
-import { getUserSuccess } from "./Redux/user/userSlice";
-import { useDispatch } from "react-redux";
-import GoogleAuthCallBack from "./Pages/Auth/GoogleAuthCallBack";
-import Discussion from "./Pages/Discussion/Discussion";
->>>>>>> 6451a5618588455e80f25ba8a05d7df574a7b438
 
 const App = () => {
   const dispatch = useDispatch();
