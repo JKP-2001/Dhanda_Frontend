@@ -8,7 +8,7 @@ const CatButton = ({ active, type, handleCat, num }) => {
         onClick={() => {
           handleCat(num);
         }}
-        className={`w-[147.39px] h-[41px] font-inter font-bold rounded-3xl text-white  border-[2px] bg-btn-col text-center my-2`}
+        className={`w-[147.39px] h-[41px] font-inter font-bold rounded-md text-white  border-[2px] bg-btn-col text-center my-2`}
       >
         {type}
       </Button>
@@ -19,7 +19,7 @@ const CatButton = ({ active, type, handleCat, num }) => {
         onClick={() => {
           handleCat(num);
         }}
-        className={`w-[147.39px] h-[41px] font-inter font-bold rounded-3xl text-btn-col border-[2px] border-btn-col  bg-white text-center my-2`}
+        className={`w-[147.39px] h-[41px] font-inter font-bold rounded-md text-btn-col border-[2px] border-btn-col  bg-white text-center my-2`}
       >
         {type}
       </Button>
