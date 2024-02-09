@@ -494,7 +494,7 @@ const PostCard = (props) => {
                 <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 flex justify-center items-center'>
                     <div className='mx-2 p-1 max-w-[650px] max-h-[650px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden '>
                         <img
-                            src={`http://localhost:5000/${images[selectedImageIndex]}`}
+                            src={`${images[selectedImageIndex]}`}
                             alt={`Image ${selectedImageIndex + 1}`}
                             className='w-full max-h-full object-fill rounded-lg'
                         />

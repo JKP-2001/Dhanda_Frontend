@@ -33,7 +33,39 @@ import { useDispatch } from 'react-redux';
 import GoogleAuthCallBack from './Pages/Auth/GoogleAuthCallBack';
 import SinglePost from './Pages/SinglePost';
 
+const getLoginUser = async (dispatch) => {
+  const token = localStorage.getItem('token');
 
+  if(!token){
+    return;
+  }
+
+  const userData = await getUserData(token);
+
+  if (userData.success === false) {
+
+    showToast({
+      msg: userData.msg,
+      type: 'error',
+      duration: 3000,
+    });
+    
+  } else {
+
+    if (userData.success === false) {
+      showToast({
+        msg: userData.msg,
+        type: 'error',
+        duration: 2000,
+      });
+      return;
+    }
+
+    const decryptedData = decryptFromJson(userData.data);
+
+    dispatch(getUserSuccess(decryptedData));
+  }
+}
 
 
 
@@ -41,6 +73,10 @@ import SinglePost from './Pages/SinglePost';
 const App = () => {
 
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    getLoginUser(dispatch);
+  },[]);
 
   return (
     <>
@@ -62,7 +98,7 @@ const App = () => {
           <Route path="/mock-interview/schedule/:user" element={<ProtectedRoute ele={<Calendar_Page />} />} />
           <Route path="/user/profile/:role/:id" element={<ProtectedRoute ele={<User_Profile />} />} />
           <Route path="/new-feeds" element={<ProtectedRoute ele={<New_Feeds />} />} />
-          <Route path="/post/:id" element={<ProtectedRoute ele={<SinglePost />} /> }/>
+          <Route path="/post/:id" element={<ProtectedRoute ele={<SinglePost />} />} />
 
           <Route path="/google/auth/callback" element={<GoogleAuthCallBack />} />
 
