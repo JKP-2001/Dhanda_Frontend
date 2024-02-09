@@ -87,7 +87,6 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<NewPassword />} />
-<<<<<<< HEAD
 
 
           <Route path='/' element={<ProtectedRoute ele={<Home />} />} />
@@ -102,40 +101,6 @@ const App = () => {
 
           <Route path="/google/auth/callback" element={<GoogleAuthCallBack />} />
 
-=======
-          <Route path="/" element={<ProtectedRoute ele={<Home />} />} />
-          <Route path="/mock-interview" element={<Mock_Interview />} />
-          <Route
-            path="/mock-interview/:user_id"
-            element={<ProtectedRoute ele={<MockInterviewProfile />} />}
-          />
-          <Route
-            path="/test"
-            element={<ProtectedRoute ele={<Interviewer_Card />} />}
-          />{" "}
-          {/* Use to test component */}
-          <Route path="*" element={<NotFound />} />
-          <Route
-            path="/mock-interview/schedule/:user"
-            element={<ProtectedRoute ele={<Calendar_Page />} />}
-          />
-          <Route
-            path="/user/profile/:user"
-            element={<ProtectedRoute ele={<User_Profile />} />}
-          />
-          <Route
-            path="/new-feeds"
-            element={<ProtectedRoute ele={<New_Feeds />} />}
-          />
-          <Route
-            path="/discuss"
-            element={<ProtectedRoute ele={<Discussion />} />}
-          />
-          <Route
-            path="/google/auth/callback"
-            element={<GoogleAuthCallBack />}
-          />
->>>>>>> 6451a5618588455e80f25ba8a05d7df574a7b438
         </Routes>
       </Router>
     </>
