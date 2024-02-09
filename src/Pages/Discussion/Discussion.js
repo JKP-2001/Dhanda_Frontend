@@ -14,7 +14,7 @@ const categories = [
 
 function Discussion() {
   return (
-    <div className="w-full">
+    <div className="w-full pb-10">
       <Nav />
       <div className="w-[80%] mx-auto mt-4">
         <div>
