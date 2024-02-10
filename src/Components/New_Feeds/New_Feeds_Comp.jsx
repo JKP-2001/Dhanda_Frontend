@@ -116,7 +116,7 @@ const New_Feeds_Comp = () => {
     itemRedux.data && <div>
 
       <div className="flex justify-center">
-        <div className={`mx-2 mt-5 w-full max-w-2xl bg-white border border-gray-200 rounded-lg shadow  p-2`}>
+        <div className={`mx-2 mt-5 w-full max-w-3xl bg-white border border-gray-200 rounded-lg shadow  p-2`}>
           <div className="flex  mx-5 space-x-4">
             <img
               className="hover:underline hover:cursor-pointer mt-2 sm:mt-0 w-[40px] sm:h-[40px]  border-2 border-gray-500 rounded-full object-cover object-center"
@@ -129,7 +129,7 @@ const New_Feeds_Comp = () => {
             {!open ? <input
 
               placeholder="Start A Post"
-              className="w-full  font-inter text-sm outline-none"
+              className="w-full  max-w-3xl font-inter text-sm outline-none"
               onClick={() => { setOpen(true); document.body.style.overflow = 'hidden'; }}
             /> :
               <Post_Modal open={open} setOpen={setOpen} text={text} setText={setText} images={images} setImages={setImages} handlePost={handlePost} />}
@@ -142,7 +142,7 @@ const New_Feeds_Comp = () => {
       <div >
         {itemRedux.data.map((item, index) => (
 
-          <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
+          <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} role={item.author.role} authorId={item.author._id} />
         ))}
         {/* <PostCard type="feed" follow={true} /> */}
       </div>

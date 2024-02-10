@@ -143,7 +143,7 @@ const Post_Modal = (props) => {
               <hr className='mt-1 border-[0.1px] border-gray-200' />
             </div>
 
-            <Editor length={images.length} text={text} setText={setText} />
+            <Editor length={images.length} text={text} setText={setText} placeholder={'What do you want to talk about?'}/>
 
             <div className='absolute -bottom-1 w-full pb-2 mr-2'>
               <hr className='mt-1 border-[0.1px] border-gray-200 ' />

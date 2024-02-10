@@ -206,3 +206,92 @@ export const getAPost = async (post_id) => {
 }
 
 
+
+export const getCommentsOfAPost = async (post_id, page, limit) =>{
+
+    try {
+
+        const response = await fetch(BASE_URL + `/post/comments/${post_id}?page=${page}&limit=${limit}`, {
+            method: "GET",
+            headers: {
+                "security-key": security_key,
+            }
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    } catch (err) {
+        return { success: false, msg: err.toString() };
+    }
+}
+
+export const getRepliesOfAPost = async (comment_id, page, limit) =>{
+
+    try {
+
+        const response = await fetch(BASE_URL + `/comments/replies/${comment_id}?page=${page}&limit=${limit}`, {
+            method: "GET",
+            headers: {
+                "security-key": security_key,
+            }
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    } catch (err) {
+        return { success: false, msg: err.toString() };
+    }
+}
+
+
+export const postAComment = async (post_id, content, token) => {
+
+    try {
+
+        const response = await fetch(BASE_URL + `/comment/${post_id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "security-key": security_key,
+                "auth-token": token
+            },
+            body: JSON.stringify({"content":content})
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    } catch (err) {
+        return { success: false, msg: err.toString() };
+    }
+}
+
+
+export const postAReply = async (comment_id, content, token) => {
+
+    try {
+
+        const response = await fetch(BASE_URL + `/reply/comment/${comment_id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "security-key": security_key,
+                "auth-token": token
+            },
+            body: JSON.stringify({"content":content})
+        });
+
+        const json = await response.json();
+
+        return json;
+
+    } catch (err) {
+        return { success: false, msg: err.toString() };
+    }
+}
+
