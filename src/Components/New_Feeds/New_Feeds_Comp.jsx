@@ -142,7 +142,7 @@ const New_Feeds_Comp = () => {
       <div >
         {itemRedux.data.map((item, index) => (
 
-          <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
+          <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} role={item.author.role} authorId={item.author._id} />
         ))}
         {/* <PostCard type="feed" follow={true} /> */}
       </div>

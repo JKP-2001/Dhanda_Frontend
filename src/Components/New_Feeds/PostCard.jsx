@@ -53,6 +53,8 @@ const PostCard = (props) => {
 
     const index = props.index;
 
+    const {role, authorId} = props;
+
 
     const [follow, setFollow] = useState(props.follow);
 
@@ -324,6 +326,7 @@ const PostCard = (props) => {
     const handleEdit = () => {
         openSettings ? handleCloseSettings() : handleOpenSettings();
         setEditOpen(true);
+        document.body.style.overflow = 'hidden';
     };
 
     const itemRedux = useSelector((state) => state.post);
@@ -425,11 +428,11 @@ const PostCard = (props) => {
 
                 <hr className='border-[0.5px] border-gray-200' />
 
-                {text ? <div className="text mx-2 text-left break-words my-3 text-sm font-inter transition-height duration-300 ease-in-out overflow-hidden p-1">
+                {text ? <div className="text mx-2 break-words my-3 text-sm font-inter transition-height duration-300  p-1">
                     <div className="1">
                         {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200) + "......." : text) : text}
                         <p
-                            className="text-blue-600 hover:underline hover:cursor-pointer transition-opacity duration-300 ease-in-out"
+                            className="text-blue-600 mt-3 hover:underline hover:cursor-pointer transition-opacity duration-300 ease-in-out"
                             onClick={() => seeMoreClicked(!seeMore)}
                         >
                             {rawText.length > 200 ? seeMore ? "See Less" : "See More" : ""}
@@ -564,7 +567,8 @@ const PostCard = (props) => {
                         </div>
                     </div>
                 </div>
-                : shareOpen ? <UserList_Modal handleClose={closeShare} heading={"Share To"} /> : openComment ? <PostCommentsCard handleClose={handleCloseComment} heading={"Comments"} /> : null}
+                : shareOpen ? <UserList_Modal handleClose={closeShare} heading={"Share To"} /> : openComment ? <PostCommentsCard handleClose={handleCloseComment} postId={props.postId} heading={"Comments"} authorName={props.name} role={role}  
+                authorId={authorId} postComment={openComment} handlePostComment={setOpenComment} numComments={numComments} setNumComments={setNumComments}/> : null}
 
             {editOpen ? <Edit_Modal postId={props.postId} open={editOpen} setOpen={setEditOpen} text={props.text} setText={props.setText} images={images} setImages={setImages} handlePost={() => setEditOpen(false)} /> : null}
 
