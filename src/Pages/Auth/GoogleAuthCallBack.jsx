@@ -12,7 +12,10 @@ const GoogleAuthCallBack = () => {
 
     const status = urlParams.get('status');
 
-    const authToken = Cookies.get('authToken');
+    const authToken = urlParams.get('token');
+
+
+    // const authToken = Cookies.get('authToken');
 
 
     useEffect(() => {
