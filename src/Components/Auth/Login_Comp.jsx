@@ -109,13 +109,15 @@ const Login = (props) => {
 
     }
 
+    const REACT_APP_LOGIN_URL = process.env.REACT_APP_LOGIN_URL
+
     const handleGoogleLogin = () => {
-        const googleURL = `http://localhost:5000/auth/google?role=${props.user}`;
+        const googleURL = `${REACT_APP_LOGIN_URL}/auth/google?role=${props.user}`;
         window.location.href = googleURL;
     }
 
     const handleMicroLogin = () => {
-        const msURL = `http://localhost:5000/auth/microsoft?role=${props.user}`;
+        const msURL = `${REACT_APP_LOGIN_URL}/auth/microsoft?role=${props.user}`;
         window.location.href = msURL;
     }
 
