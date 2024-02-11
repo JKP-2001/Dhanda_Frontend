@@ -41,7 +41,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Edit_Modal from './Edit_Modal';
 import { bookMarkPost, deletePost, likePost } from '../../APIs/Post_API';
 import showToast from '../../Utils/showToast';
-import { getPostSuccess } from '../../Redux/post/postSlice';
+import { getPostSuccess, setComments } from '../../Redux/post/postSlice';
 
 
 
@@ -135,6 +135,8 @@ const PostCard = (props) => {
 
         const token = localStorage.getItem("token");
 
+        
+
         if (!token) {
 
             showToast({
@@ -145,24 +147,22 @@ const PostCard = (props) => {
             return;
         }
 
+        if (isLike) {
+            setNumLikes(numLikes - 1);
+            setIsLike(false);
+        }
+        else {
+
+            setNumLikes(numLikes + 1);
+            setIsLike(true);
+        }
+
         const response = await likePost(props.postId, token);
 
         if (response.success) {
-            if (isLike) {
-                setNumLikes(numLikes - 1);
-                setIsLike(false);
-            }
-            else {
+            
 
-                setNumLikes(numLikes + 1);
-                setIsLike(true);
-            }
-
-            showToast({
-                msg: response.msg,
-                type: 'success',
-                duration: 3000,
-            });
+            
         }
 
         else {
@@ -193,30 +193,20 @@ const PostCard = (props) => {
             return;
         }
 
+        if (isBookmark) {
+            setIsBookmark(false);
+            setBookMarks(bookMarks - 1);
+            handleCloseSettings();
+        }
+        else {
+            setIsBookmark(true);
+            setBookMarks(bookMarks + 1);
+            handleCloseSettings();
+        }
+
         const response = await bookMarkPost(props.postId, token);
 
         if (response.success) {
-            if (isBookmark) {
-                setIsBookmark(false);
-                setBookMarks(bookMarks - 1);
-            }
-            else {
-                setIsBookmark(true);
-                setBookMarks(bookMarks + 1);
-            }
-
-            handleCloseSettings();
-
-            showToast({
-                msg: response.msg,
-                type: 'success',
-                duration: 3000,
-            });
-
-            
-
-                
-            
         }
 
         else {
@@ -247,6 +237,7 @@ const PostCard = (props) => {
     }
 
     const handleCloseComment = () => {
+        dispatch(setComments([]));
         setOpenComment(false);
         document.body.style.overflow = 'auto';
     }
@@ -258,7 +249,7 @@ const PostCard = (props) => {
 
     const [repost, setRepost] = useState(false);
 
-    const [text, setText] = useState(props.text ? parse(props.text) : null);
+    const [text, setText] = useState(props.text ? parse(props.text) : "");
 
 
 

@@ -126,6 +126,10 @@ const Post_Modal = (props) => {
     setImageFiles(updateImageFiles);
   };
 
+  const handlePostItem = (imageFiles) => {
+    handlePost(imageFiles);
+  }
+
   return (
     <div>
       {open ? (
@@ -162,7 +166,7 @@ const Post_Modal = (props) => {
                     onChange={handleFileChange}
                   /></>:<div className='uploading font-inter font-semibold'> Uploading...</div>}
                 </div>
-                <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={()=>handlePost(imageFiles)}>
+                <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={()=>handlePostItem(imageFiles)}>
                   Post
                 </button>
               </div>

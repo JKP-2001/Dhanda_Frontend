@@ -6,8 +6,10 @@ import Editor_Utils from './Editor_Utils';
 import Editor from './Editor';
 import { getCommentsOfAPost, postAComment, postAReply } from '../APIs/Post_API';
 import { useDispatch, useSelector } from 'react-redux';
-import { setComments } from '../Redux/post/postSlice';
+import { getPostRequest, setComments } from '../Redux/post/postSlice';
 import showToast from './showToast';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Spinner } from '@material-tailwind/react';
 
 
 
@@ -16,10 +18,13 @@ const PostCommentsCard = (props) => {
     const handleClose = props.handleClose;
     const heading = props.heading;
 
-    const { postComment,  authorName } = props;
+    const { postComment, authorName } = props;
 
     const comments = [];
     const [replies, setReplies] = useState([]);
+
+    const [page, setPage] = useState(2);
+    const [limit, setLimit] = useState(10);
 
     const [text, setText] = useState('');
     const [openComment, setOpenComment] = useState(false);
@@ -28,23 +33,45 @@ const PostCommentsCard = (props) => {
     const [comment_id, setComment_id] = useState('');
     const [replyName, setReplyName] = useState('');
 
+    const [totalComments, setTotalComments] = useState(0);
+
 
 
     const handleComment = (comment_id) => {
-       
-            setOpenComment(true);
-            setOpenCommentBox(false);
 
-            if(comment_id){
-                setComment_id(comment_id);
-            }
+        setOpenComment(true);
+        setOpenCommentBox(false);
 
+        if (comment_id) {
+            setComment_id(comment_id);
+        }
+
+    }
+
+    const postRedux = useSelector((state) => state.post);
+
+    const fetchMoreComments = async () => {
+        dispatch(getPostRequest());
+        const comments = await getCommentsOfAPost(props.postId, page, limit);
+        if (comments.success) {
+            dispatch(setComments([...postRedux.currOpenPostComments, ...comments.data.result]));
+
+            // setReplies([...comments.data.result, ...replies]);
+            setPage(page + 1);
+        }
+        else {
+            showToast({
+                msg: comments.msg,
+                type: "error",
+                duration: 3000
+            });
+        }
     }
 
     const handlePostReply = async () => {
         const token = localStorage.getItem("token");
 
-        if(!token){
+        if (!token) {
             showToast({
                 msg: "Login Required",
                 type: "error",
@@ -53,38 +80,44 @@ const PostCommentsCard = (props) => {
             return;
         }
 
-        else{
+        else {
             const postReply = await postAReply(comment_id, text, token);
 
-            if(postReply.success) {
-                const randomNumber = Math.floor(Math.random() * 1000000) + 1;
+            if (postReply.success) {
+                // const randomNumber = Math.floor(Math.random() * 1000000) + 1;
 
-                
 
-                const temp = {
-                    _id: randomNumber.toString(),
-                    creationDateAndTime:Date.now(),
-                    author_id:{
-                        firstName:userRedux.data ? userRedux.data.firstName : "",
-                        lastName: userRedux.data ? userRedux.data.lastName : "",
-                        role: userRedux.data ? userRedux.data.role : "",
-                        _id: userRedux.data ? userRedux.data._id : "",
-                    },
-                    content: text,
-                    replies:[],
-                }
 
-                setReplies([temp,...replies]);
-                
+                // const temp = {
+                //     _id: randomNumber.toString(),
+                //     creationDateAndTime: Date.now(),
+                //     author_id: {
+                //         firstName: userRedux.data ? userRedux.data.firstName : "",
+                //         lastName: userRedux.data ? userRedux.data.lastName : "",
+                //         role: userRedux.data ? userRedux.data.role : "",
+                //         _id: userRedux.data ? userRedux.data._id : "",
+                //     },
+                //     content: text,
+                //     replies: [],
+                // }
+
+                // setReplies([temp, ...replies]);
+
                 setText('');
                 setOpenCommentBox(true);
                 setOpenComment(false);
 
+                showToast({
+                    msg: postReply.msg,
+                    type: "success",
+                    duration: 3000
+                })
+
                 return;
 
-                
+
             }
-            else{
+            else {
                 showToast({
                     msg: postReply.msg,
                     type: "error",
@@ -96,25 +129,27 @@ const PostCommentsCard = (props) => {
         }
     }
 
-    
+
 
 
     const dispatch = useDispatch();
 
 
-    const fetchAllComments = async ()=>{
+    const fetchAllComments = async () => {
         const allComments = await getCommentsOfAPost(props.postId, 1, 10);
 
-        if(allComments.success){
+        dispatch(getPostRequest());
+
+        if (allComments.success) {
             dispatch(setComments(allComments.data.result));
+            setTotalComments(allComments.data.totalResults);
         }
     }
 
-    const postRedux = useSelector((state) => state.post);
-    
+
     const userRedux = useSelector((state) => state.user);
 
-    
+
 
 
     const handlePostComment = async () => {
@@ -131,28 +166,28 @@ const PostCommentsCard = (props) => {
             return;
         }
 
-        else{
+        else {
 
             const response = await postAComment(props.postId, text, token);
 
-            if(response.success){
+            if (response.success) {
 
-                
+
 
                 const randomNumber = Math.floor(Math.random() * 1000000) + 1;
 
 
                 const temp = {
                     _id: randomNumber.toString(),
-                    creationDateAndTime:Date.now(),
-                    author_id:{
-                        firstName:userRedux.data ? userRedux.data.firstName : "",
+                    creationDateAndTime: Date.now(),
+                    author_id: {
+                        firstName: userRedux.data ? userRedux.data.firstName : "",
                         lastName: userRedux.data ? userRedux.data.lastName : "",
                         role: userRedux.data ? userRedux.data.role : "",
                         _id: userRedux.data ? userRedux.data._id : "",
                     },
                     content: text,
-                    replies:[],
+                    replies: [],
                 }
 
                 dispatch(setComments([temp, ...postRedux.currOpenPostComments]));
@@ -166,7 +201,7 @@ const PostCommentsCard = (props) => {
                     type: 'success',
                     duration: 3000,
                 });
-            }else{
+            } else {
 
                 showToast({
                     msg: response.msg,
@@ -178,12 +213,12 @@ const PostCommentsCard = (props) => {
 
 
     }
-    
 
-    useEffect(()=>{
+
+    useEffect(() => {
         fetchAllComments();
-    },[]);
-    
+    }, []);
+
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 ">
@@ -204,14 +239,27 @@ const PostCommentsCard = (props) => {
                 {postRedux.currOpenPostComments.length !== 0 ?
 
 
-                    <div className={`overflow-y-scroll ${(openComment || postComment) ? 'h-[63%] md:h-[65%]' : 'h-[90%] md:h-[90%]'}`}>
+                    <div className=''>
+                        <InfiniteScroll
+                            dataLength={postRedux.currOpenPostComments.length} //This is important field to render the next data
+                            next={fetchMoreComments}
+                            hasMore={totalComments !== postRedux.currOpenPostComments.length}
+                            loader={<div className='flex justify-center pb-2 font-inter text-sm md:text-base'>
+                                <div>Loading More Comments.....</div>
+                            </div>}
+                            height={340}
+                            className="pr-0 overflow-y-auto"
+                        >
 
-                        {postRedux.currOpenPostComments.map((comment) => {
+                            {postRedux.loading ? <div className='flex justify-center mt-5'><Spinner /></div> : null}
+                            
+                            {postRedux.currOpenPostComments.map((comment) => {
 
-                            return (
-                                <CommentCard key={comment._id} index={comment._id} createdAt={comment.creationDateAndTime} author={comment.author_id} content={comment.content} handleComment={handleComment} repliesLength={comment.replies.length} setReplyName={setReplyName} text={text} setText={setText} setOpenComment={setOpenComment} setOpenCommentBox={setOpenCommentBox}  replies={replies} setReplies={setReplies} />
-                            )
-                        })}
+                                return (
+                                    <CommentCard key={comment._id} index={comment._id} createdAt={comment.creationDateAndTime} author={comment.author_id} content={comment.content} handleComment={handleComment} repliesLength={comment.replies.length} setReplyName={setReplyName} text={text} setText={setText} setOpenComment={setOpenComment} setOpenCommentBox={setOpenCommentBox}  />
+                                )
+                            })}
+                        </InfiniteScroll>
                     </div>
                     :
                     <div className='relative'>
@@ -239,13 +287,13 @@ const PostCommentsCard = (props) => {
                         </div>
 
                     </div>}
-                
-                
-                {openCommentBox ? <div className='flex justify-end pt-5 md:py-2'>
+
+
+                {openCommentBox ? <div className='flex justify-end pt-5 md:py-2 mr-2'>
                     <button className='bg-blue-500 text-white  font-bold font-inter px-2 py-1 rounded-lg hover:cursor-pointer hover:bg-blue-600 text-xs' onClick={handlePostComment}>Comment</button>
                 </div> : null}
 
-                {openComment ? <div className='flex justify-end pt-5 md:py-2'>
+                {openComment ? <div className='flex justify-end pt-5 md:py-2 mr-2'>
                     <button className='bg-blue-500 text-white  font-bold font-inter px-2 py-1 rounded-lg hover:cursor-pointer hover:bg-blue-600 text-xs' onClick={handlePostReply}>Post Reply</button>
                 </div> : null}
 

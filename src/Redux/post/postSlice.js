@@ -19,6 +19,7 @@ const postSlice = createSlice({
         },
         setComments:(state,action)=>{
             state.currOpenPostComments = action.payload  
+            state.loading = false
         },
         getPostFailure:(state,action)=>{
             state.error = action.payload
