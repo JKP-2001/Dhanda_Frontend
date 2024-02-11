@@ -141,7 +141,7 @@ const CommentCard = (props) => {
                 </div>
             </div>:null}
 
-            <hr className='border-[1px] border-gray-300' />
+            {!props.last?<hr className='border-[0.5px] border-gray-200' />:null}
         </div>
     )
 }
