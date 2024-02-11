@@ -6,7 +6,7 @@ import Editor_Utils from './Editor_Utils';
 import Editor from './Editor';
 import { getCommentsOfAPost, postAComment, postAReply } from '../APIs/Post_API';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostRequest, setComments } from '../Redux/post/postSlice';
+import { getPostRequest, getPostSuccess, setComments } from '../Redux/post/postSlice';
 import showToast from './showToast';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Spinner } from '@material-tailwind/react';
@@ -51,7 +51,9 @@ const PostCommentsCard = (props) => {
     const postRedux = useSelector((state) => state.post);
 
     const fetchMoreComments = async () => {
+
         dispatch(getPostRequest());
+
         const comments = await getCommentsOfAPost(props.postId, page, limit);
         if (comments.success) {
             dispatch(setComments([...postRedux.currOpenPostComments, ...comments.data.result]));
@@ -136,9 +138,10 @@ const PostCommentsCard = (props) => {
 
 
     const fetchAllComments = async () => {
+        dispatch(getPostRequest());
+
         const allComments = await getCommentsOfAPost(props.postId, 1, 10);
 
-        dispatch(getPostRequest());
 
         if (allComments.success) {
             dispatch(setComments(allComments.data.result));
@@ -216,6 +219,7 @@ const PostCommentsCard = (props) => {
 
 
     useEffect(() => {
+        dispatch(getPostRequest());
         fetchAllComments();
     }, []);
 
@@ -236,39 +240,43 @@ const PostCommentsCard = (props) => {
 
 
 
-                {postRedux.currOpenPostComments.length !== 0 ?
 
 
-                    <div className=''>
-                        <InfiniteScroll
-                            dataLength={postRedux.currOpenPostComments.length} //This is important field to render the next data
-                            next={fetchMoreComments}
-                            hasMore={totalComments !== postRedux.currOpenPostComments.length}
-                            loader={<div className='flex justify-center pb-2 font-inter text-sm md:text-base'>
-                                <div>Loading More Comments.....</div>
-                            </div>}
-                            height={340}
-                            className="pr-0 overflow-y-auto"
-                        >
 
-                            {postRedux.loading ? <div className='flex justify-center mt-5'><Spinner /></div> : null}
-                            
-                            {postRedux.currOpenPostComments.map((comment) => {
+                {postRedux.currOpenPostComments.length > 0 ? <div className=''>
+                    <InfiniteScroll
+                        dataLength={postRedux.currOpenPostComments.length} //This is important field to render the next data
+                        next={fetchMoreComments}
+                        hasMore={totalComments !== postRedux.currOpenPostComments.length}
+                        height={props.loading ? 10 : 340}
+                        className="pr-0 overflow-y-auto"
+                    >
 
-                                return (
-                                    <CommentCard key={comment._id} index={comment._id} createdAt={comment.creationDateAndTime} author={comment.author_id} content={comment.content} handleComment={handleComment} repliesLength={comment.replies.length} setReplyName={setReplyName} text={text} setText={setText} setOpenComment={setOpenComment} setOpenCommentBox={setOpenCommentBox}  />
-                                )
-                            })}
-                        </InfiniteScroll>
+                        {postRedux.currOpenPostComments.map((comment, i) => {
+
+                            return (
+                                <CommentCard last={i === postRedux.currOpenPostComments.length - 1} key={comment._id} index={comment._id} createdAt={comment.creationDateAndTime} author={comment.author_id} content={comment.content} handleComment={handleComment} repliesLength={comment.replies.length} setReplyName={setReplyName} text={text} setText={setText} setOpenComment={setOpenComment} setOpenCommentBox={setOpenCommentBox} />
+                            )
+                        })}
+                    </InfiniteScroll>
+                </div>:null}
+                {postRedux.loading ?
+                    postRedux.currOpenPostComments.length === 0 ?
+                    <div className='flex justify-center my-8'><div className='flex justify-center space-x-2'><Spinner /><div className='font-handwritten2 text-sm mt-1'>Loading Comments...</div></div></div> : 
+                    <div className='flex justify-center space-x-2 -mt-4'>
+                        <Spinner />
+                        <div className='font-handwritten2 text-sm'>Loading More Comments...</div>
+                    </div>  : null
+                }
+                {(postRedux.currOpenPostComments.length === 0 && !postRedux.loading) ? <div className='relative'>
+                    <div className='w-full text-center font-custom text-xl  md:text-3xl absolute mt-56'>
+                        No Comments Yet 😟
                     </div>
-                    :
-                    <div className='relative'>
-                        <div className='w-full text-center font-custom text-xl  md:text-3xl absolute mt-56'>
-                            No Comments Yet 😟
-                        </div>
-                    </div>}
+                </div> : null}
 
-                {openComment &&
+
+
+                {(openComment && !props.loading) ?
                     <div className='sticky  bg-white z-10 h-[110px] -px-[2px]'>
                         <hr className='border-[1.5px] border-gray-300' />
                         <div className=''>
@@ -276,24 +284,25 @@ const PostCommentsCard = (props) => {
                             <Editor length={0} text={text} setText={setText} comment={true} placeholder={`Replying to ${replyName}'s Comment...`} />
                         </div>
 
-                    </div>}
+                    </div> : null}
 
-                {openCommentBox &&
-                    <div className='sticky  bg-white z-10 h-[110px] -px-[2px]'>
+                {openCommentBox?
+
+                    !props.loading?<div className='sticky  bg-white z-10 h-[110px] -px-[2px]'>
                         <hr className='border-[1.5px] border-gray-300' />
                         <div className=''>
                             {/* <Editor_Utils placeholder={"Write something here..."} /> */}
                             <Editor length={0} text={text} setText={setText} comment={true} placeholder={`Comment on ${authorName}'s Post...`} />
                         </div>
 
-                    </div>}
+                    </div> : null : null}
 
 
-                {openCommentBox ? <div className='flex justify-end pt-5 md:py-2 mr-2'>
+                {(openCommentBox && !props.loading) ? <div className='flex justify-end pt-5 md:py-2 mr-2'>
                     <button className='bg-blue-500 text-white  font-bold font-inter px-2 py-1 rounded-lg hover:cursor-pointer hover:bg-blue-600 text-xs' onClick={handlePostComment}>Comment</button>
                 </div> : null}
 
-                {openComment ? <div className='flex justify-end pt-5 md:py-2 mr-2'>
+                {(openComment && !props.loading) ? <div className='flex justify-end pt-5 md:py-2 mr-2'>
                     <button className='bg-blue-500 text-white  font-bold font-inter px-2 py-1 rounded-lg hover:cursor-pointer hover:bg-blue-600 text-xs' onClick={handlePostReply}>Post Reply</button>
                 </div> : null}
 

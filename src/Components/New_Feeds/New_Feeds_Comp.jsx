@@ -5,7 +5,7 @@ import Post_Modal from './Post_Modal';
 import showToast from '../../Utils/showToast';
 import { createPost, getAllPost } from '../../APIs/Post_API';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostSuccess } from '../../Redux/post/postSlice';
+import { getPostRequest, getPostSuccess } from '../../Redux/post/postSlice';
 import Edit_Modal from './Edit_Modal';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Spinner } from '@material-tailwind/react';
@@ -37,6 +37,8 @@ const New_Feeds_Comp = () => {
   const dispatch = useDispatch();
 
   const getAllPostAPI = async () => {
+
+    dispatch(getPostRequest());
 
     const result = await getAllPost(page, limit);
     if (result.success) {
@@ -147,20 +149,25 @@ const New_Feeds_Comp = () => {
 
       </div>
 
-      <InfiniteScroll 
+      
+
+      {<InfiniteScroll 
         dataLength={itemRedux.data.length}
         next={getAllPostAPI}
         hasMore={itemRedux.data.length !== totalPosts}
-        loader={<div className='flex justify-center pt-10 font-inter text-2xl'>
-          <div>Loading More Posts.....</div>
-        </div>}
       >
         {itemRedux.data.map((item, index) => (
 
           <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} role={item.author.role} authorId={item.author._id} />
         ))}
         {/* <PostCard type="feed" follow={true} /> */}
-      </InfiniteScroll>
+      </InfiniteScroll>}
+
+      {itemRedux.loading?<div className='flex justify-center pt-10 font-inter text-base md:text-2xl'>
+        <Spinner/>
+        <div className='font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
+      </div>:null}
+
     </div>
   )
 }
