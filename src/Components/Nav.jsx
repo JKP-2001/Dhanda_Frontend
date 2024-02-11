@@ -88,6 +88,8 @@ const Nav = () => {
 
     const authToken = Cookies.get("authToken");
 
+    console.log({ authToken });
+
     const security_key = process.env.REACT_APP_SECURITY_KEY;
 
 
