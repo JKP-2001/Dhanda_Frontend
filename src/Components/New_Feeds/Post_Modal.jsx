@@ -126,6 +126,10 @@ const Post_Modal = (props) => {
     setImageFiles(updateImageFiles);
   };
 
+  const handlePostItem = (imageFiles) => {
+    handlePost(imageFiles);
+  }
+
   return (
     <div>
       {open ? (
@@ -143,7 +147,7 @@ const Post_Modal = (props) => {
               <hr className='mt-1 border-[0.1px] border-gray-200' />
             </div>
 
-            <Editor length={images.length} text={text} setText={setText} />
+            <Editor length={images.length} text={text} setText={setText} placeholder={'What do you want to talk about?'}/>
 
             <div className='absolute -bottom-1 w-full pb-2 mr-2'>
               <hr className='mt-1 border-[0.1px] border-gray-200 ' />
@@ -162,7 +166,7 @@ const Post_Modal = (props) => {
                     onChange={handleFileChange}
                   /></>:<div className='uploading font-inter font-semibold'> Uploading...</div>}
                 </div>
-                <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={()=>handlePost(imageFiles)}>
+                <button className='py-[6px] px-3 font-inter bg-blue-600 rounded-xl text-white' onClick={()=>handlePostItem(imageFiles)}>
                   Post
                 </button>
               </div>

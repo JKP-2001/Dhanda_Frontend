@@ -170,6 +170,7 @@ const Edit_Modal = (props) => {
                 });
                 toast.dismiss(toastId);
                 setOpen(false);
+                document.body.style.overflow = 'auto';
             }
 
 

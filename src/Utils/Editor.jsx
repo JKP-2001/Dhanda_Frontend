@@ -3,8 +3,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const Editor = (props) => {
-  const { length, text, setText } = props;
+  const { length, text, setText, comment, placeholder } = props;
   const quillRef = useRef(null);
+
 
   const handleContentChange = (newContent) => {
     setText(newContent);
@@ -14,27 +15,31 @@ const Editor = (props) => {
     <ReactQuill
       theme="snow"
       value={text}
-      placeholder='What do you want to talk about?'
+      placeholder={placeholder}
       onChange={handleContentChange}
-      formats={[
-        "header",
-        "bold",
-        "italic",
-        "underline",
-        "list",
-        "link",
-        "color", // Added color format
-      ]}
-      modules={{
-        toolbar: [
-          [{ 'header': [false, 1, 2, 3, 4, 5, 6] }],
-          ['bold', 'italic', 'underline', 'list', 'link', 'color'], // Added color to the toolbar
-        ],
-      }}
-      className={`p-3 rounded-md font-inter ${length > 0 ? "h-[45%]" : "h-[70%]"} font-inter`}
+      modules={Editor.modules}
+      formats={Editor.formats}
+      className={` rounded-md font-inter ${comment?"h-[75px] sm:h-[65px]":length > 0 ? "h-[45%]" : "h-[70%]"} font-inter`}
       ref={quillRef}
     />
   );
 };
+
+Editor.modules = {
+  toolbar: [
+    
+    ['bold', 'italic', 'underline', 'strike'],
+    ['link'],
+    [{ 'color': [] }],
+  ],
+  clipboard: {
+    matchVisual: false,
+  }
+};
+
+Editor.formats = [
+  'bold', 'italic', 'underline', 'strike',
+  'link', 'color'
+];
 
 export default Editor;

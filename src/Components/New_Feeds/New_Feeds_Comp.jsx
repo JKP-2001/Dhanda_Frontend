@@ -5,8 +5,10 @@ import Post_Modal from './Post_Modal';
 import showToast from '../../Utils/showToast';
 import { createPost, getAllPost } from '../../APIs/Post_API';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostSuccess } from '../../Redux/post/postSlice';
+import { getPostRequest, getPostSuccess } from '../../Redux/post/postSlice';
 import Edit_Modal from './Edit_Modal';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Spinner } from '@material-tailwind/react';
 
 
 
@@ -18,6 +20,10 @@ const New_Feeds_Comp = () => {
   const itemRedux = useSelector((state) => state.post);
 
   const [open, setOpen] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [totalPosts, setTotalPosts] = useState(0);
 
   
 
@@ -32,9 +38,13 @@ const New_Feeds_Comp = () => {
 
   const getAllPostAPI = async () => {
 
-    const result = await getAllPost(1, 10);
+    dispatch(getPostRequest());
+
+    const result = await getAllPost(page, limit);
     if (result.success) {
-      dispatch(getPostSuccess(result.data.result));
+      dispatch(getPostSuccess([...itemRedux.data, ...result.data.result]));
+      setTotalPosts(result.data.totalResults)
+      setPage(page + 1);
     }
     else {
       showToast({
@@ -92,7 +102,7 @@ const New_Feeds_Comp = () => {
         duration: 3000
       })
 
-      await getAllPostAPI();
+      // await getAllPostAPI();
 
       setOpen(false);
 
@@ -139,13 +149,25 @@ const New_Feeds_Comp = () => {
 
       </div>
 
-      <div >
+      
+
+      {<InfiniteScroll 
+        dataLength={itemRedux.data.length}
+        next={getAllPostAPI}
+        hasMore={itemRedux.data.length !== totalPosts}
+      >
         {itemRedux.data.map((item, index) => (
 
-          <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
+          <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt?item.updatedAt:item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} role={item.author.role} authorId={item.author._id} />
         ))}
         {/* <PostCard type="feed" follow={true} /> */}
-      </div>
+      </InfiniteScroll>}
+
+      {itemRedux.loading?<div className='flex justify-center pt-10 font-inter text-base md:text-2xl'>
+        <Spinner/>
+        <div className='font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
+      </div>:null}
+
     </div>
   )
 }

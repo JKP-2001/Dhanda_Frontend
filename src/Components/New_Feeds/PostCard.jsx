@@ -41,7 +41,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Edit_Modal from './Edit_Modal';
 import { bookMarkPost, deletePost, likePost } from '../../APIs/Post_API';
 import showToast from '../../Utils/showToast';
-import { getPostSuccess } from '../../Redux/post/postSlice';
+import { getPostSuccess, setComments } from '../../Redux/post/postSlice';
 
 
 
@@ -52,6 +52,8 @@ const PostCard = (props) => {
     const dispatch = useDispatch();
 
     const index = props.index;
+
+    const {role, authorId} = props;
 
 
     const [follow, setFollow] = useState(props.follow);
@@ -133,6 +135,8 @@ const PostCard = (props) => {
 
         const token = localStorage.getItem("token");
 
+        
+
         if (!token) {
 
             showToast({
@@ -143,24 +147,22 @@ const PostCard = (props) => {
             return;
         }
 
+        if (isLike) {
+            setNumLikes(numLikes - 1);
+            setIsLike(false);
+        }
+        else {
+
+            setNumLikes(numLikes + 1);
+            setIsLike(true);
+        }
+
         const response = await likePost(props.postId, token);
 
         if (response.success) {
-            if (isLike) {
-                setNumLikes(numLikes - 1);
-                setIsLike(false);
-            }
-            else {
+            
 
-                setNumLikes(numLikes + 1);
-                setIsLike(true);
-            }
-
-            showToast({
-                msg: response.msg,
-                type: 'success',
-                duration: 3000,
-            });
+            
         }
 
         else {
@@ -191,30 +193,20 @@ const PostCard = (props) => {
             return;
         }
 
+        if (isBookmark) {
+            setIsBookmark(false);
+            setBookMarks(bookMarks - 1);
+            handleCloseSettings();
+        }
+        else {
+            setIsBookmark(true);
+            setBookMarks(bookMarks + 1);
+            handleCloseSettings();
+        }
+
         const response = await bookMarkPost(props.postId, token);
 
         if (response.success) {
-            if (isBookmark) {
-                setIsBookmark(false);
-                setBookMarks(bookMarks - 1);
-            }
-            else {
-                setIsBookmark(true);
-                setBookMarks(bookMarks + 1);
-            }
-
-            handleCloseSettings();
-
-            showToast({
-                msg: response.msg,
-                type: 'success',
-                duration: 3000,
-            });
-
-            
-
-                
-            
         }
 
         else {
@@ -245,6 +237,7 @@ const PostCard = (props) => {
     }
 
     const handleCloseComment = () => {
+        dispatch(setComments([]));
         setOpenComment(false);
         document.body.style.overflow = 'auto';
     }
@@ -256,7 +249,7 @@ const PostCard = (props) => {
 
     const [repost, setRepost] = useState(false);
 
-    const [text, setText] = useState(props.text ? parse(props.text) : null);
+    const [text, setText] = useState(props.text ? parse(props.text) : "");
 
 
 
@@ -324,6 +317,7 @@ const PostCard = (props) => {
     const handleEdit = () => {
         openSettings ? handleCloseSettings() : handleOpenSettings();
         setEditOpen(true);
+        document.body.style.overflow = 'hidden';
     };
 
     const itemRedux = useSelector((state) => state.post);
@@ -425,11 +419,11 @@ const PostCard = (props) => {
 
                 <hr className='border-[0.5px] border-gray-200' />
 
-                {text ? <div className="text mx-2 text-left break-words my-3 text-sm font-inter transition-height duration-300 ease-in-out overflow-hidden p-1">
+                {text ? <div className="text mx-2 break-words my-3 text-sm font-inter transition-height duration-300  p-1">
                     <div className="1">
                         {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200) + "......." : text) : text}
                         <p
-                            className="text-blue-600 hover:underline hover:cursor-pointer transition-opacity duration-300 ease-in-out"
+                            className="text-blue-600 mt-3 hover:underline hover:cursor-pointer transition-opacity duration-300 ease-in-out"
                             onClick={() => seeMoreClicked(!seeMore)}
                         >
                             {rawText.length > 200 ? seeMore ? "See Less" : "See More" : ""}
@@ -564,7 +558,8 @@ const PostCard = (props) => {
                         </div>
                     </div>
                 </div>
-                : shareOpen ? <UserList_Modal handleClose={closeShare} heading={"Share To"} /> : openComment ? <PostCommentsCard handleClose={handleCloseComment} heading={"Comments"} /> : null}
+                : shareOpen ? <UserList_Modal handleClose={closeShare} heading={"Share To"} /> : openComment ? <PostCommentsCard handleClose={handleCloseComment} postId={props.postId} heading={"Comments"} authorName={props.name} role={role}  
+                authorId={authorId} postComment={openComment} handlePostComment={setOpenComment} numComments={numComments} setNumComments={setNumComments}/> : null}
 
             {editOpen ? <Edit_Modal postId={props.postId} open={editOpen} setOpen={setEditOpen} text={props.text} setText={props.setText} images={images} setImages={setImages} handlePost={() => setEditOpen(false)} /> : null}
 
