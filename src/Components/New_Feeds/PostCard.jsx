@@ -485,7 +485,7 @@ const PostCard = (props) => {
             </div>
 
             {selectedImageIndex !== null && (
-                <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 flex justify-center items-center'>
+                <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 z-30 flex justify-center items-center'>
                     <div className='mx-2 p-1 max-w-[650px] max-h-[650px] bg-white border border-gray-200 rounded-lg shadow overflow-hidden '>
                         <img
                             src={`${images[selectedImageIndex]}`}

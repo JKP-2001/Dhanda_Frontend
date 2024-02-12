@@ -3,6 +3,8 @@ import Nav from "../../Components/Nav";
 import CatButton from "./CatButton";
 import Main from "./Main";
 
+import { useState } from "react";
+
 const categories = [
   "General Discussion",
   "Interview Experience",
@@ -13,6 +15,7 @@ const categories = [
 ];
 
 function Discussion() {
+  
   return (
     <div className="w-full pb-10">
       <Nav />
@@ -26,8 +29,9 @@ function Discussion() {
             })}
           </div>
         </div>
-        <Main />
+        <Main  />
       </div>
+      
     </div>
   );
 }
