@@ -51,7 +51,7 @@ export function DrawerWithForm({ open, setOpen }) {
           <JoditEditor
             ref={editor}
             value={content}
-            onChange={(newContent) => {}}
+            onChange={(newContent) => {setContent(newContent)}}
           />
           <Button>Post</Button>
         </form>

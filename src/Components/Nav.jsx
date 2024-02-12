@@ -119,8 +119,8 @@ const Nav = () => {
     <>
 
 
-      <div className="sticky top-0 z-30 select-none bg-white shadow-sm w-screen ">
-        <div className=" mx-auto py-3 mt-0 w-[96%]  md:w-[90%] ">
+      <div className="sticky left-0 right-0 top-0 z-30 select-none bg-white shadow-sm w-full ">
+        <div className=" mx-auto py-3 mt-0 w-[96%]  md:w-[80%] ">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
               as={Link}
