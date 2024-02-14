@@ -79,16 +79,29 @@ const Mock_Interview_Comp = () => {
       page: currPage,
       limit: 6,
       sortBy: sortByItem,
+      category: categoryMapping[selectedCat],
     };
     dispatch(fetchInstructer(data));
   };
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+
+    let companies = queryParams.getAll("company");
+    const sortBy = queryParams.get("sortBy");
+
+    if (companies.length === 1) {
+      companies = companies[0].split(",");
+    }
+
+    setComp(companies);
+    setSortByItem(sortBy);
     const data = {
-      companies: comp,
+      companies: companies,
       page: currPage,
       limit: 6,
-      sortBy: sortByItem,
+      sortBy: sortBy,
+      category: categoryMapping[selectedCat],
     };
     dispatch(fetchInstructer(data));
     console.log(location);
@@ -111,7 +124,6 @@ const Mock_Interview_Comp = () => {
     if (sortByItem !== "") {
       searchParams.append("sortBy", sortByItem);
     }
-
     navigate(`?${searchParams.toString()}`);
   };
 
@@ -124,6 +136,12 @@ const Mock_Interview_Comp = () => {
   };
 
   const categories = ["All", "SDE", "Data Science", "Analyst"];
+  const categoryMapping = {
+    0: undefined,
+    1: "sde",
+    2: "dataScience",
+    3: "analyst",
+  };
 
   const [selectedCat, setSelectedCat] = useState(0);
   const handleCat = (idx) => {
@@ -132,9 +150,9 @@ const Mock_Interview_Comp = () => {
       fetchCompanyWiseInstructors({
         sortBy: "",
         companies: [],
-        category: categories[idx],
-        page:1,
-        limit:6
+        category: categoryMapping[idx],
+        page: 1,
+        limit: 6,
       })
     );
   };
@@ -182,6 +200,7 @@ const Mock_Interview_Comp = () => {
               comp={comp}
               updateCompanies={updateCompanies}
               sortBy={sortByItem}
+              category={categoryMapping[selectedCat]}
             />
             <Sorting_Button
               sortByItem={sortByItem}
@@ -191,6 +210,7 @@ const Mock_Interview_Comp = () => {
               location={location}
               updateSortBy={updateSortBy}
               comp={comp}
+              category={categoryMapping[selectedCat]}
             />
           </div>
         </motion.div>
