@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
+import logo from "../Utils/Images/logo.png"
 
 
 
@@ -117,18 +118,16 @@ const Nav = () => {
 
   return (
     <>
-
-
       <div className="sticky left-0 right-0 top-0 z-30 select-none bg-white shadow-sm w-full ">
-        <div className=" mx-auto py-3 mt-0 w-[96%]  md:w-[90%] ">
+        <div className=" mx-auto py-3 mt-0 w-[96%]  md:w-[80%]">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
               as={Link}
               to="/"
               variant="h6"
-              className="mr-4 cursor-pointer py-1.5"
+              className="mr-4 cursor-pointer py-[2px]"
             >
-              LOGO
+              <img className="h-[55px]" src={logo} alt="Prepify" />
             </Typography>
             <motion.div className="hidden lg:block">
               <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">

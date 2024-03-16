@@ -24,8 +24,8 @@ const Home = () => {
   return (
     <div className="bg-[#f0f4f9] min-h-screen pb-14">
       <Nav />
-      <div className="main-container min-w-full flex items-center justify-center flex-col">
-        <div className="hero flex flex-col lg:flex-row  items-center justify-between w-[100%] gap-4 p-4 lg:pt-12  lg:w-[80%] pt-12">
+      <div className="main-container w-full flex items-center justify-center flex-col">
+        <div className="hero flex flex-col lg:flex-row  items-center justify-between w-[100%] gap-4 py-4  lg:pt-12  lg:w-[80%] pt-12">
           <div className="left-hero flex flex-col gap-3 lg:w-[60%]">
             <div className="quote text-center lg:text-left font-roboto text-[#002147] text-2xl font-bold">
               Become Master
