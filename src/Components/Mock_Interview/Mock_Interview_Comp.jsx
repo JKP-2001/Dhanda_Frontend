@@ -109,7 +109,9 @@ const Mock_Interview_Comp = () => {
 
   const updateSortBy = (sortBy) => {
     const searchParams = new URLSearchParams();
-    searchParams.set("sortBy", sortBy);
+    if (sortBy.length !== 0) {
+      searchParams.set("sortBy", sortBy);
+    }
     if (comp.length !== 0) {
       searchParams.append("company", comp);
     }
