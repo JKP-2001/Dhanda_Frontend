@@ -43,7 +43,7 @@ import { bookMarkPost, deletePost, likePost } from '../../APIs/Post_API';
 import showToast from '../../Utils/showToast';
 import { getPostSuccess, setComments } from '../../Redux/post/postSlice';
 
-
+import userimg from "../../Utils/Images/user2.jpg"
 
 const PostCard = (props) => {
 
@@ -397,12 +397,12 @@ const PostCard = (props) => {
                         <div className='ml-3'>
                             <img
                                 className="hover:underline hover:cursor-pointer mt-2 sm:mt-0 w-[60px] sm:h-[40px] sm:w-[40px] border-2 border-gray-500 rounded-full object-cover object-center"
-                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                src={userimg}
                                 alt="nature"
-                                onClick={() => navigate("/user/profile/:user")}
+                                onClick={() => navigate(`/user/profile/${props.role}/${props.authorId}`)}
                             />
                         </div>
-                        <div className='ml-3 mt-1 space-y-0.1 hover:cursor-pointer hover:text-blue-800 hover:underline' onClick={() => navigate("/user/profile/:user")}>
+                        <div className='ml-3 mt-1 space-y-0.1 hover:cursor-pointer hover:text-blue-800 hover:underline' onClick={() => navigate(`/user/profile/${props.role}/${props.authorId}`)}>
                             <h1 className='font-inter font-semibold'>{props.name}</h1>
                             <h1 className='font-inter text-xs hover:text-light-blue-800 text-gray-500 w-3/4 md:w-full'>{newBio}</h1>
                         </div>

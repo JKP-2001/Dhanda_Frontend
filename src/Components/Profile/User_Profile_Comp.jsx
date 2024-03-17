@@ -27,6 +27,8 @@ import showToast from '../../Utils/showToast';
 import { setUserBookMarkedPosts, setUserPosts } from '../../Redux/user/userSlice';
 import NothingFoundCard from '../../Utils/NothingFoundCard';
 
+import userimg from "../../Utils/Images/user2.jpg"
+
 
 const localizer = momentLocalizer(moment);
 
@@ -318,7 +320,7 @@ const User_Profile_Comp = () => {
                     <div className='mx-3 sm:mx-4 flex'>
                         <img
                             className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
-                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                            src={userimg}
                             alt="nature"
                         />
 
