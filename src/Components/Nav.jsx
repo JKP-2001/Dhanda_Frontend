@@ -23,6 +23,8 @@ import Cookies from "js-cookie";
 import { logOut } from "../APIs/Auth_API";
 import { useSelector } from "react-redux";
 
+import userimg from "../Utils/Images/user2.jpg"
+
 const Avatar = (props) => {
 
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ const Avatar = (props) => {
 
     userRedux.data && 
 
-    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User dropdown" onClick={() => { navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`); setIcon("avatar") }} />
+    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src={userimg} alt="User dropdown" onClick={() => { navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`); setIcon("avatar") }} />
 
 
 
