@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Nav from '../Components/Nav';
 import { Button } from '@material-tailwind/react';
-import { scrollToTop } from '../Utils/functions';
+import { scrollToTop } from '../Utils/functions'; 
 
 const NotFound = () => {
     const Navigate = useNavigate();

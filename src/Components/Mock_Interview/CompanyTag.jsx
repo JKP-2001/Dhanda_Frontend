@@ -14,12 +14,8 @@ const CompanyTag = (props) => {
 
   const handleClick = (item)=>{
     const index = selectedComp.indexOf(item);
-    
-
     selectedComp.splice(index,1);
-    
-    dispatch(fetchCompanyWiseInstructors({companies:selectedComp,sortBy:props.sortBy}));
-
+    dispatch(fetchCompanyWiseInstructors({companies:selectedComp,sortBy:props.sortBy,page:1,limit:6}));
     props.setComp([...selectedComp]);
     props.updateURLWithCompanies();
   }

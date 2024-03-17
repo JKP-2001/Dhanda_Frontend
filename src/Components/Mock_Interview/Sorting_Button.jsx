@@ -9,10 +9,15 @@ import {
 } from "@material-tailwind/react";
 import { useDispatch } from "react-redux";
 import { fetchCompanyWiseInstructors } from "../../Redux/instructers/companyWiseInstructorAction";
+import { useNavigate } from "react-router-dom";
+
+import { useLocation } from "react-router-dom";
 
 const Sorting_Button = (props) => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
+  const location=useLocation();
+  const navigate = useNavigate();
 
   const handleItemClick = (menuitem) => {
     if (props.tag !== "comp") {
@@ -21,7 +26,13 @@ const Sorting_Button = (props) => {
       }
       props.updateSortBy(menuitem);
       dispatch(
-        fetchCompanyWiseInstructors({ companies: props.comp, sortBy: menuitem })
+        fetchCompanyWiseInstructors({
+          companies: props.comp,
+          sortBy: menuitem,
+          page: 1,
+          limit: 6,
+          category: props.category,
+        })
       );
       return;
     }
@@ -35,6 +46,9 @@ const Sorting_Button = (props) => {
       fetchCompanyWiseInstructors({
         companies: [...(props.comp || []), company],
         sortBy: props.sortBy,
+        page: 1,
+        limit: 6,
+        category: props.category,
       })
     );
     props.setComp([...(props.comp || []), company]);
@@ -71,7 +85,27 @@ const Sorting_Button = (props) => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        {props.tag !== "comp"&&<MenuItem onClick={()=>{props.setSortByItem(""); dispatch(fetchCompanyWiseInstructors({ companies: props.comp, sortBy: "" }))}}>None</MenuItem>}
+        {props.tag !== "comp" && (
+          <MenuItem
+            onClick={() => {
+              const queryParams=new URLSearchParams(location.search);
+              queryParams.delete('sortBy');
+              navigate("/mock-interview");
+              props.setSortByItem("");
+              dispatch(
+                fetchCompanyWiseInstructors({
+                  companies: props.comp,
+                  sortBy: "",
+                  page:1,
+                  limit:6,
+                  category:props.category
+                })
+              );
+            }}
+          >
+            None
+          </MenuItem>
+        )}
         {filteredMenuItems.map((menuItem, index) => (
           <MenuItem key={index} onClick={() => handleItemClick(menuItem)}>
             {menuItem}
