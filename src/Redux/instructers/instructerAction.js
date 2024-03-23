@@ -29,10 +29,12 @@ export const fetchInstructer = (data) => async (dispatch, getState) => {
       return;
     }
 
-    const decryptedInstructers = instructers
+    const decryptedInstructers = instructers.data
+
+    // console.log({decryptedInstructers});
 
     const currentInstructers=getState().instructers.instructers;
-    console.log(decryptedInstructers);
+    console.log({decryptedInstructers});
     const updatedInstructors=[...currentInstructers,...decryptedInstructers.result];
     dispatch(fetchInstructerSuccess(updatedInstructors));
     dispatch(setTotalResults(decryptedInstructers.totalResults))
