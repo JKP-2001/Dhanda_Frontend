@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from "@material-tailwind/react";
+import { Button, Spinner } from "@material-tailwind/react";
 import EducationCard from './Education/EducationCard';
 import ExperienceCard from './Experience/ExperienceCard';
 import FeedbackCard from './FeedBacks/FeedbackCard';
@@ -19,7 +19,7 @@ import { setUserPosts } from '../../Redux/user/userSlice';
 import NothingFoundCard from '../../Utils/NothingFoundCard';
 import showToast from '../../Utils/showToast';
 import { getUserDataById } from '../../APIs/User_API';
-import { getSearchUserSuccess } from '../../Redux/searchUser/searchUser';
+import { getSearchUserStart, getSearchUserSuccess } from '../../Redux/searchUser/searchUser';
 
 import userimg from "../../Utils/Images/user2.jpg"  
 
@@ -212,6 +212,8 @@ const MockInterview = () => {
         const role = params.role;
         const id = params.user_id;
 
+        dispatch(getSearchUserStart());
+
         const userData = await getUserDataById(role, id);
 
         if (userData.success === false) {
@@ -241,6 +243,13 @@ const MockInterview = () => {
 
 
     return (
+
+        searchUserRedux.loading? 
+        <div className='flex justify-center pt-10 font-inter text-base md:text-2xl'>
+            <Spinner/>
+            <div className='font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1'>Loading Profile.....</div>
+        </div> :
+
         searchUserRedux.data && <>
 
             <motion.div className='select-none'

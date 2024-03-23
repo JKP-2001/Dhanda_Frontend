@@ -14,7 +14,7 @@ export const fetchInstructer = (data) => async (dispatch, getState) => {
   try {
     dispatch(fetchInstructersLoading());
     const fetchId = encryptToJson(data);
-    console.log(fetchId);
+    
     const instructers = await fetchInstructers(
       localStorage.getItem("token"),
       fetchId
@@ -28,9 +28,8 @@ export const fetchInstructer = (data) => async (dispatch, getState) => {
       dispatch(fetchInstructersFail(instructers.msg));
       return;
     }
-    console.log("at fetchInstructor, instructors ", instructers);
 
-    const decryptedInstructers = decryptFromJson(instructers.data);
+    const decryptedInstructers = instructers
 
     const currentInstructers=getState().instructers.instructers;
     console.log(decryptedInstructers);

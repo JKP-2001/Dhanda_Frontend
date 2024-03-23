@@ -55,12 +55,12 @@ const getLoginUser = async (dispatch) => {
   const userData = await getUserData(token);
 
   if (userData.success === false) {
+    localStorage.removeItem("token");
     showToast({
       msg: userData.msg,
       type: "error",
       duration: 3000,
     });
-    localStorage.removeItem("token");
     window.location.href = "/signin";
     showToast({
       msg: "Please login first.",
