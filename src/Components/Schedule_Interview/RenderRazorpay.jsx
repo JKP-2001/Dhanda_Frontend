@@ -32,7 +32,9 @@ const RenderRazorpay = ({
     instructorId,
     studentId,
     setGeneratingLink,
-    setMeetingDetails
+    setMeetingDetails,
+    topic,
+    startTime
 }) => {
 
 
@@ -134,7 +136,10 @@ const RenderRazorpay = ({
                     signature: response.razorpay_signature,
                     studentId: studentId,
                     instructorId: instructorId,
-                    transactionId: order.transactionId
+                    transactionId: order.transactionId,
+                    topic: topic,
+                    startTime: startTime,
+                    duration: 60
                 });
                 setGeneratingLink(false);
                 setMeetingDetails(response2.meeting);
