@@ -104,6 +104,8 @@ const Posts = () => {
     const userRedux = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
+    const [loading, setLoading] = useState(false);
+
     const getItemsOfUser = async () => {
         const token = localStorage.getItem("token");
 
@@ -121,7 +123,11 @@ const Posts = () => {
         const id = params.user_id;
         const role = params.role;
 
+        setLoading(true);
+
         const response = await getAllPostOfUser(1, 10, token, id, role);
+
+        setLoading(false);
 
         if (response.success) {
             dispatch(setUserPosts(response.data.result));
@@ -146,6 +152,12 @@ const Posts = () => {
 
     return (
 
+        loading?
+        <div className="flex justify-center items-center mt-20 p-4 bg-white rounded-full">
+            <Spinner color="blue" size="large" /> 
+            <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
+        </div>
+        :
         userRedux.posts &&
             userRedux.posts.length > 0 ? <div >
             {items.map((item, index) => (
@@ -173,7 +185,7 @@ const MockInterview = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate('/mock-interview/schedule/Manish');
+        navigate(`/mock-interview/schedule/${params.user_id}`);
     }
 
     const [followers, setFollowers] = useState(false);
@@ -245,9 +257,9 @@ const MockInterview = () => {
     return (
 
         searchUserRedux.loading? 
-        <div className='flex justify-center pt-10 font-inter text-base md:text-2xl'>
-            <Spinner/>
-            <div className='font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1'>Loading Profile.....</div>
+        <div className='flex justify-center pt-10 font-inter text-base md:text-xl'>
+            <Spinner color='blue' size="large"/>
+            <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>{"   Loading Profile....."}</div>
         </div> :
 
         searchUserRedux.data && <>

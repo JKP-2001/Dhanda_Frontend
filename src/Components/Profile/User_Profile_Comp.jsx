@@ -124,6 +124,8 @@ const Posts = () => {
     const userRedux = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
+    const [loading, setLoading] = useState(false);
+
     const getItemsOfUser = async () => {
         const token = localStorage.getItem("token");
 
@@ -141,7 +143,11 @@ const Posts = () => {
         const id = params.id;
         const role = params.role;
 
+        setLoading(true);
+
         const response = await getAllPostOfUser(1, 10, token, id, role);
+
+        setLoading(false);
 
         if (response.success) {
             dispatch(setUserPosts(response.data.result));
@@ -166,6 +172,12 @@ const Posts = () => {
 
     return (
 
+        loading?
+        <div className="flex justify-center items-center mt-20 py-4 px-8 bg-white rounded-full">
+            <Spinner color="blue" size="large" /> 
+            <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
+        </div>
+        :
         userRedux.posts &&
             userRedux.posts.length > 0 ? <div >
             {items.map((item, index) => (
@@ -188,6 +200,8 @@ const BookMarked = () => {
 
     const params = useParams();
 
+    const [loading, setLoading] = useState(false);
+
     const getItemsOfUser = async () => {
         const token = localStorage.getItem("token");
 
@@ -203,7 +217,11 @@ const BookMarked = () => {
         const user_id = params.id;
         const role = params.role;
 
+        setLoading(true);
+
         const response = await getBookmarkedPostUser(1, 10, token, user_id, role);
+
+        setLoading(false);
 
         if (response.success) {
             dispatch(setUserBookMarkedPosts(response.data.result));
@@ -228,6 +246,13 @@ const BookMarked = () => {
 
     return (
 
+
+        loading?
+        <div className="flex justify-center items-center mt-20 p-4 bg-white rounded-full">
+            <Spinner color="blue" size="large" /> 
+            <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>Loading Bookmarked Posts.....</div>
+        </div>
+        :
         userRedux.bookMarkedPosts &&
             userRedux.bookMarkedPosts.length > 0 ? <div >
             {items.map((item, index) => (
