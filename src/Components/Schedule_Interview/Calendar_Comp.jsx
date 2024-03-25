@@ -12,13 +12,44 @@ import { getUserDataById } from '../../APIs/User_API';
 import axios from 'axios';
 import RenderRazorpay from './RenderRazorpay';
 import { Spinner } from '@material-tailwind/react';
+import { getAllMeetings } from '../../APIs/Meeting_API';
 
 const localizer = momentLocalizer(moment);
 
+
+
 const shouldDisableDate = (date) => {
     const today = new Date();
-    // Return true if the date is before today
-    return date < today;
+
+    // compare date not whole time
+
+
+
+    if (date.getFullYear() === today.getFullYear()) {
+
+        if (date.getMonth() === today.getMonth()) {
+            if (date.getDate() < today.getDate()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        if (date.getMonth() < today.getMonth()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    if (date.getFullYear() < today.getFullYear()) {
+        return true;
+    }
+
+    return false;
+
+
 };
 
 // Custom date cell wrapper to style disabled dates
@@ -30,39 +61,48 @@ const CustomDateCellWrapper = ({ children, value }) => {
     });
 };
 
-const preFilledEvents = [
-    {
-        title: 'Mock Interview with User1',
-        start: new Date(2024, 0, 14, 10, 0),
-        end: new Date(2024, 0, 14, 11, 0),
-    },
-    // Add more events as needed
-];
+
 
 
 function convert(str) {
     var date = new Date(str),
-      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-      day = ("0" + date.getDate()).slice(-2);
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
     return [date.getFullYear(), mnth, day].join("-");
-  }
+}
 
 const Calendar_Comp = () => {
     const [selectedDate, setSelectedDate] = useState(moment().toDate());
     const [selectedTime, setSelectedTime] = useState(null);
-    const [events, setEvents] = useState(preFilledEvents);
+    const [events, setEvents] = useState([]);
     const [showCalendar, setShowCalendar] = useState(true);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState(null);
 
-    console.log({ selectedDate, selectedTime })
+    const [fetchedMeeting, setFetchedMeeting] = useState([]);
+
+    const convertToEvent = () => {
+        var arr = [];
+
+        const length = fetchedMeeting.length;
+
+        for (var i = 0; i < length; i++) {
+            var newEvent = fetchedMeeting[i].calendarEvent
+            newEvent = {...newEvent, meeting_link: fetchedMeeting[i].meeting_link};
+            arr.push(newEvent);
+        }
+
+        setEvents(arr);
+    }
+
+
 
     // convert the selectedDate and selectedTime to ISO string
 
     const convertToISO = () => {
         if (selectedDate && selectedTime) {
-            return convert(selectedDate) + 'T' + selectedTime+":00Z";
+            return convert(selectedDate) + 'T' + selectedTime + ":00Z";
         }
 
         return null;
@@ -88,6 +128,8 @@ const Calendar_Comp = () => {
     }
 
     const userRedux = useSelector(state => state.user);
+
+
 
     const instructorId = params.user;
 
@@ -142,6 +184,33 @@ const Calendar_Comp = () => {
 
     const searchUserRedux = useSelector((state) => state.searchUser);
 
+    const fetchAllMeetings = async () => {
+
+        if (!searchUserRedux.data) {
+            return;
+        }
+
+        // console.log({searchUserRedux})
+
+        const allMeeting = await getAllMeetings(searchUserRedux.data.meetingScheduled);
+
+        if (allMeeting.success) {
+            // console.log({ meetings: allMeeting.data });
+            setFetchedMeeting(allMeeting.data);
+            return;
+        }
+
+        else {
+            showToast({
+                msg: allMeeting.msg,
+                type: 'error',
+                duration: 3000
+            });
+        }
+    }
+
+
+
     const dispatch = useDispatch();
 
 
@@ -175,10 +244,43 @@ const Calendar_Comp = () => {
         getTheUserData();
     }, []);
 
+    useEffect(() => {
+        fetchAllMeetings();
+    }, [searchUserRedux.data]);
+
+    useEffect(() => {
+        convertToEvent();
+    }, [fetchedMeeting]);
+
+    // console.log({ events });
+
     const timeSlots = useMemo(() => {
         const defaultTimeSlots = [
-            '08:00', '09:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
+            '08:00', '09:00', '10:00', '11:00', '13:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
         ];
+
+        // remove the time slot on current day is current time pass the hours 
+
+        const todayAvailableTimeSlot = defaultTimeSlots.filter((slot) => {
+
+            const [hour, minute] = slot.split(':');
+            const [currentHour, currentMinute] = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' }).split(':');
+
+            if (parseInt(hour) < parseInt(currentHour)) {
+                return false;
+            }
+
+            if (parseInt(hour) === parseInt(currentHour) && parseInt(minute) < parseInt(currentMinute)) {
+                return false;
+            }
+
+            return true;
+        })
+
+        if (moment(selectedDate).isSame(new Date(), 'day')) {
+            return todayAvailableTimeSlot;
+        }
+
 
         if (selectedDate) {
             const selectedDateSlots = events
@@ -220,6 +322,28 @@ const Calendar_Comp = () => {
         setSelectedTime(null);
     };
 
+
+    const eventGenerate = () => {
+        const startHour = parseInt(selectedTime.split(':')[0], 10);
+        const startMinute = parseInt(selectedTime.split(':')[1], 10);
+
+        const startDate = new Date(selectedDate);
+        startDate.setHours(startHour);
+        startDate.setMinutes(startMinute);
+
+        const endDate = new Date(startDate);
+        endDate.setHours(startHour + 1);
+
+        const newEvent = {
+            title: `Mock Interview between ${searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName} and ${userRedux.data.firstName + " " + userRedux.data.lastName}`,
+            start: startDate,
+            end: endDate,
+
+        };
+
+        return newEvent
+    }
+
     const handleAddMeeting = () => {
         if (selectedDate && selectedTime) {
             const isSlotAlreadyScheduled = events.some((event) => {
@@ -241,23 +365,10 @@ const Calendar_Comp = () => {
             } else {
 
 
+                // console.log({ meetingDetails });
 
-                const startHour = parseInt(selectedTime.split(':')[0], 10);
-                const startMinute = parseInt(selectedTime.split(':')[1], 10);
-
-                const startDate = new Date(selectedDate);
-                startDate.setHours(startHour);
-                startDate.setMinutes(startMinute);
-
-                const endDate = new Date(startDate);
-                endDate.setHours(startHour + 1);
-
-                const newEvent = {
-                    title: `Mock Interview with ${searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}`,
-                    start: startDate,
-                    end: endDate,
-                };
-
+                var newEvent = eventGenerate();
+                newEvent = {...newEvent, meeting_link: meetingDetails.meeting_url };
                 setEvents([...events, newEvent]);
                 setError(null);
                 showToast({
@@ -299,6 +410,7 @@ const Calendar_Comp = () => {
                 setMeetingDetails={setMeetingDetails}
                 topic={`Mock Interview with ${searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}`}
                 startTime={convertToISO()}
+                eventGenerate={eventGenerate}
 
             />
             :
@@ -395,7 +507,7 @@ const Calendar_Comp = () => {
                                     <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
                                     <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
 
-                                    <p className='text-sm md:text-base font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={meetingDetails ? meetingDetails.meeting_url : ""} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+                                    <p className='text-sm md:text-base font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={selectedEvent.meeting_link} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
 
                                     <div className="flex justify-end">
                                         <button onClick={handleClosePopup} className="mt-2 text-sm md:text-base bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">

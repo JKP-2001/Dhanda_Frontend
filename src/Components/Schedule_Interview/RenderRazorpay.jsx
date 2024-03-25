@@ -4,6 +4,7 @@ import Axios from 'axios';
 import showToast from '../../Utils/showToast';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Co2Sharp } from '@mui/icons-material';
 
 
 
@@ -34,7 +35,8 @@ const RenderRazorpay = ({
     setGeneratingLink,
     setMeetingDetails,
     topic,
-    startTime
+    startTime,
+    eventGenerate
 }) => {
 
 
@@ -130,6 +132,10 @@ const RenderRazorpay = ({
                 })
 
                 setGeneratingLink(true);
+                const newEvent = eventGenerate();
+
+                console.log('new event', newEvent);
+
                 const response2 = await handlePayment('succeeded', {
                     orderId: order.id,
                     paymentId:paymentId.current,
@@ -139,9 +145,11 @@ const RenderRazorpay = ({
                     transactionId: order.transactionId,
                     topic: topic,
                     startTime: startTime,
-                    duration: 60
+                    duration: 60,
+                    newEvent: newEvent
                 });
                 setGeneratingLink(false);
+                
                 setMeetingDetails(response2.meeting);
 
                 handleAddMeeting();
