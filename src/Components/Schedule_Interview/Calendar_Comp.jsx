@@ -75,6 +75,7 @@ const Calendar_Comp = () => {
     const [selectedDate, setSelectedDate] = useState(moment().toDate());
     const [selectedTime, setSelectedTime] = useState(null);
     const [events, setEvents] = useState([]);
+    const [fetchingEvents, setFetchingEvents] = useState(true);
     const [showCalendar, setShowCalendar] = useState(true);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -89,7 +90,7 @@ const Calendar_Comp = () => {
 
         for (var i = 0; i < length; i++) {
             var newEvent = fetchedMeeting[i].calendarEvent
-            newEvent = {...newEvent, meeting_link: fetchedMeeting[i].meeting_link};
+            newEvent = { ...newEvent, meeting_link: fetchedMeeting[i].meeting_link };
             arr.push(newEvent);
         }
 
@@ -190,9 +191,9 @@ const Calendar_Comp = () => {
             return;
         }
 
-        // console.log({searchUserRedux})
-
         const allMeeting = await getAllMeetings(searchUserRedux.data.meetingScheduled);
+
+        setFetchingEvents(false);
 
         if (allMeeting.success) {
             // console.log({ meetings: allMeeting.data });
@@ -240,8 +241,11 @@ const Calendar_Comp = () => {
 
     // fetch user data on loading page
 
+
     useEffect(() => {
         getTheUserData();
+        
+        
     }, []);
 
     useEffect(() => {
@@ -345,7 +349,7 @@ const Calendar_Comp = () => {
     }
 
     const handleAddMeeting = () => {
-        if (selectedDate && selectedTime) {
+        if (selectedDate && selectedTime && meetingDetails) {
             const isSlotAlreadyScheduled = events.some((event) => {
                 const eventStartTime = moment(event.start);
                 const selectedStartTime = moment(selectedDate).set({
@@ -368,7 +372,7 @@ const Calendar_Comp = () => {
                 // console.log({ meetingDetails });
 
                 var newEvent = eventGenerate();
-                newEvent = {...newEvent, meeting_link: meetingDetails.meeting_url };
+                newEvent = { ...newEvent, meeting_link: meetingDetails.meeting_url };
                 setEvents([...events, newEvent]);
                 setError(null);
                 showToast({
@@ -397,129 +401,144 @@ const Calendar_Comp = () => {
 
     return (
 
-        displayRazorpay ?
-            <RenderRazorpay
-                order={orderDetails}
-                keyId={process.env.REACT_APP_RAZORPAY_KEY_ID}
-                keySecret={process.env.REACT_APP_RAZORPAY_KEY_SECRET}
-                setDisplayRazorpay={setDisplayRazorpay}
-                handleAddMeeting={handleAddMeeting}
-                instructorId={instructorId}
-                studentId={userRedux.data._id}
-                setGeneratingLink={setGeneratingLink}
-                setMeetingDetails={setMeetingDetails}
-                topic={`Mock Interview with ${searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}`}
-                startTime={convertToISO()}
-                eventGenerate={eventGenerate}
+        fetchingEvents ?
 
-            />
-            :
-
-            generatingLink ?
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
-                    <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
-                        <div className='flex justify-center  font-inter text-base md:text-2xl space-x-3'>
-                            <Spinner color='blue' size='large' className='mt-1' />
-                            <div>
-                                <div className='font-handwritten2 text-base  ml-2 mt-[1px] md:-mt-1'>Generating Meet Link.</div>
-                                <div className='font-handwritten2 text-base  ml-2 mt-[1px] md:-mt-1'>Please don't refresh the page.
-                                </div></div>
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
+                <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
+                    <div className='flex justify-center  font-inter text-base md:text-2xl space-x-3'>
+                        <Spinner color='blue' size='large' className='' />
+                        <div>
+                            <div className='font-handwritten2 text-base  ml-2'>Loading Calendar....</div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            :
+
+            displayRazorpay ?
+                <RenderRazorpay
+                    order={orderDetails}
+                    keyId={process.env.REACT_APP_RAZORPAY_KEY_ID}
+                    keySecret={process.env.REACT_APP_RAZORPAY_KEY_SECRET}
+                    setDisplayRazorpay={setDisplayRazorpay}
+                    handleAddMeeting={handleAddMeeting}
+                    instructorId={instructorId}
+                    studentId={userRedux.data._id}
+                    setGeneratingLink={setGeneratingLink}
+                    setMeetingDetails={setMeetingDetails}
+                    topic={`Mock Interview with ${searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}`}
+                    startTime={convertToISO()}
+                    eventGenerate={eventGenerate}
+
+                />
                 :
 
-
-                searchUserRedux.data ? <div className='my-3'>
-                    <div className="w-full p-4  text-center">
-                        <h1 className="text-xl font-inter font-bold">
-                            Select time slot for interview with {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
-                        </h1>
-                    </div>
-                    <div className="flex flex-wrap-reverse md:justify-between">
-                        {showCalendar && (
-                            <div className="md:w-3/4 p-4 overflow-y-hidden">
-                                <Calendar
-                                    localizer={localizer}
-                                    events={events}
-                                    startAccessor="start"
-                                    endAccessor="end"
-                                    style={{ height: `550px` }}
-                                    selectable
-                                    onSelectSlot={handleDateClick}
-                                    onSelectEvent={handleEventClick}
-                                    className='bg-white rounded-lg shadow-md font-inter font-semibold'
-                                    components={{
-                                        dateCellWrapper: CustomDateCellWrapper,
-                                    }}
-                                />
+                generatingLink ?
+                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
+                        <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
+                            <div className='flex justify-center  font-inter text-base md:text-2xl space-x-3'>
+                                <Spinner color='blue' size='large' className='mt-1' />
+                                <div>
+                                    <div className='font-handwritten2 text-base  ml-2 mt-[1px] md:-mt-1'>Generating Meet Link.</div>
+                                    <div className='font-handwritten2 text-base  ml-2 mt-[1px] md:-mt-1'>Please don't refresh the page.
+                                    </div></div>
                             </div>
-                        )}
-
-                        <div className="w-full md:w-1/4 p-4 rounded">
-                            <h2 className="text-lg font-inter font-semibold mb-4">Select Time Slot</h2>
-
-                            <div className="date">
-                                <div className='text-sm font-inter font-semibold my-1'> Selected Date</div>
-                                <DatePicker
-                                    selected={selectedDate}
-                                    onChange={handleDateChange}
-                                    dateFormat="dd/MM/yyyy"
-                                    minDate={moment().toDate()}
-                                    className="mb-2 p-2 font-inter font-semibold border border-gray-300 rounded-xl w-3/4"
-                                />
-                            </div>
-                            <div className="grid grid-cols-2 gap-2">
-                                {timeSlots.map((time) => (
-                                    <button
-                                        key={time}
-                                        onClick={() => handleTimeClick(time)}
-                                        className={`p-2   border-[1.5px] border-blue-gray-100 rounded-xl font-inter font-semibold hover:text-white hover:bg-blue-700 focus:outline-none cursor-pointer transition-colors duration-300 ease-in-out ${selectedTime === time ? 'bg-blue-800 text-white' : 'border-blue-400 text-blue-400'
-                                            }`}
-                                    >
-                                        {time}
-                                    </button>
-                                ))}
-                            </div>
-                            <button
-                                onClick={() => handleCreateOrder(1000, 'INR')}
-                                className="bg-blue-500 text-white px-4 py-2 rounded-xl mt-4 hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold"
-                            >
-                                {bookLoading ?
-                                    <div className="flex items-center justify-center">
-                                        <div className="w-4 h-4 border-2 border-t-white rounded-full animate-spin"></div>
-                                        <span className="ml-2">Booking...
-                                        </span>
-                                    </div>
-                                    :
-                                    "Book Schedule"}
-                            </button>
                         </div>
-
-                        {selectedEvent && showModal && (
-                            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
-
-
-                                <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
-                                    <h2 className="text-xl md:text-2xl font-inter font-bold mb-4">Interview Details</h2>
-
-                                    <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Title: {selectedEvent.title}</p>
-                                    <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
-                                    <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
-
-                                    <p className='text-sm md:text-base font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={selectedEvent.meeting_link} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
-
-                                    <div className="flex justify-end">
-                                        <button onClick={handleClosePopup} className="mt-2 text-sm md:text-base bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">
-                                            Close
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        )}
                     </div>
-                </div> : null
+                    :
+
+
+                    searchUserRedux.data ? <div className='my-3'>
+                        <div className="w-full p-4  text-center">
+                            <h1 className="text-xl font-inter font-bold">
+                                Select time slot for interview with {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
+                            </h1>
+                        </div>
+                        <div className="flex flex-wrap-reverse md:justify-between">
+                            {showCalendar && (
+                                <div className="md:w-3/4 p-4 overflow-y-hidden">
+                                    <Calendar
+                                        localizer={localizer}
+                                        events={events}
+                                        startAccessor="start"
+                                        endAccessor="end"
+                                        style={{ height: `550px` }}
+                                        selectable
+                                        onSelectSlot={handleDateClick}
+                                        onSelectEvent={handleEventClick}
+                                        className='bg-white rounded-lg shadow-md font-inter font-semibold'
+                                        components={{
+                                            dateCellWrapper: CustomDateCellWrapper,
+                                        }}
+                                    />
+                                </div>
+                            )}
+
+                            <div className="w-full md:w-1/4 p-4 rounded">
+                                <h2 className="text-lg font-inter font-semibold mb-4">Select Time Slot</h2>
+
+                                <div className="date">
+                                    <div className='text-sm font-inter font-semibold my-1'> Selected Date</div>
+                                    <DatePicker
+                                        selected={selectedDate}
+                                        onChange={handleDateChange}
+                                        dateFormat="dd/MM/yyyy"
+                                        minDate={moment().toDate()}
+                                        className="mb-2 p-2 font-inter font-semibold border border-gray-300 rounded-xl w-3/4"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {timeSlots.map((time) => (
+                                        <button
+                                            key={time}
+                                            onClick={() => handleTimeClick(time)}
+                                            className={`p-2   border-[1.5px] border-blue-gray-100 rounded-xl font-inter font-semibold hover:text-white hover:bg-blue-700 focus:outline-none cursor-pointer transition-colors duration-300 ease-in-out ${selectedTime === time ? 'bg-blue-800 text-white' : 'border-blue-400 text-blue-400'
+                                                }`}
+                                        >
+                                            {time}
+                                        </button>
+                                    ))}
+                                </div>
+                                <button
+                                    onClick={() => handleCreateOrder(1000, 'INR')}
+                                    className="bg-blue-500 text-white px-4 py-2 rounded-xl mt-4 hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold"
+                                >
+                                    {bookLoading ?
+                                        <div className="flex items-center justify-center">
+                                            <div className="w-4 h-4 border-2 border-t-white rounded-full animate-spin"></div>
+                                            <span className="ml-2">Booking...
+                                            </span>
+                                        </div>
+                                        :
+                                        "Book Schedule"}
+                                </button>
+                            </div>
+
+                            {selectedEvent && showModal && (
+                                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
+
+
+                                    <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
+                                        <h2 className="text-xl md:text-2xl font-inter font-bold mb-4">Interview Details</h2>
+
+                                        <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Title: {selectedEvent.title}</p>
+                                        <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
+                                        <p className='text-sm md:text-base font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
+
+                                        <p className='text-sm md:text-base font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={selectedEvent.meeting_link} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+
+                                        <div className="flex justify-end">
+                                            <button onClick={handleClosePopup} className="mt-2 text-sm md:text-base bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">
+                                                Close
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div> : null
     );
 };
 
