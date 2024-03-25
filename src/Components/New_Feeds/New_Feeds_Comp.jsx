@@ -217,8 +217,8 @@ const New_Feeds_Comp = () => {
       </InfiniteScroll>}
 
       {itemRedux.loading?<div className='flex justify-center pt-10 font-inter text-base md:text-2xl'>
-        <Spinner/>
-        <div className='font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
+        <Spinner color='blue' size='large'/>
+        <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
       </div>:null}
 
     </div>
