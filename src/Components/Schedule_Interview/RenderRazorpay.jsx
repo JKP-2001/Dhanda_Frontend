@@ -40,6 +40,9 @@ const RenderRazorpay = ({
 }) => {
 
 
+    // console.log({})
+
+
     const paymentId = useRef(null);
     const paymentMethod = useRef(null);
 
@@ -95,7 +98,7 @@ const RenderRazorpay = ({
     };
 
 
-    
+    console.log({ order });
 
 
 
@@ -146,9 +149,9 @@ const RenderRazorpay = ({
 
                 setGeneratingLink(false);
                 
-                setMeetingDetails(response2.meeting);
+                // await setMeetingDetails(response2.meeting);
 
-                handleAddMeeting();
+                handleAddMeeting(response2.meeting.meeting_url);
         },
         modal: {
             confirm_close: true, // this is set to true, if we want confirmation when clicked on cross button.

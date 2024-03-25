@@ -348,8 +348,8 @@ const Calendar_Comp = () => {
         return newEvent
     }
 
-    const handleAddMeeting = () => {
-        if (selectedDate && selectedTime && meetingDetails) {
+    const handleAddMeeting = (meeting_url) => {
+        if (selectedDate && selectedTime && meeting_url) {
             const isSlotAlreadyScheduled = events.some((event) => {
                 const eventStartTime = moment(event.start);
                 const selectedStartTime = moment(selectedDate).set({
@@ -372,7 +372,7 @@ const Calendar_Comp = () => {
                 // console.log({ meetingDetails });
 
                 var newEvent = eventGenerate();
-                newEvent = { ...newEvent, meeting_link: meetingDetails.meeting_url };
+                newEvent = { ...newEvent, meeting_link: meeting_url };
                 setEvents([...events, newEvent]);
                 setError(null);
                 showToast({
