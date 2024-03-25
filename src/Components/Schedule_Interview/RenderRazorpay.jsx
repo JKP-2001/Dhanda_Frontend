@@ -114,17 +114,10 @@ const RenderRazorpay = ({
             console.log('succeeded');
             console.log(response);
             paymentId.current = response.razorpay_payment_id;
-
-            // Most important step to capture and authorize the payment. This can be done of Backend server.
-            const generated_signature = crypto.HmacSHA256(`${order.id}|${paymentId.current}`, keySecret).toString();
-            console.log({ generated_signature })
-            const succeeded = generated_signature === response.razorpay_signature;
-            
             setDisplayRazorpay(false);
-            
 
             // If successfully authorized. Then we can consider the payment as successful.
-            if (succeeded) {
+         
                 showToast({
                     type: 'success',
                     msg: 'Payment Successful',
@@ -148,17 +141,14 @@ const RenderRazorpay = ({
                     duration: 60,
                     newEvent: newEvent
                 });
+
+                console.log('response', response2);
+
                 setGeneratingLink(false);
                 
                 setMeetingDetails(response2.meeting);
 
                 handleAddMeeting();
-            } else {
-                handlePayment('failed', {
-                    orderId: order.id,
-                    paymentId: response.razorpay_payment_id,
-                });
-            }
         },
         modal: {
             confirm_close: true, // this is set to true, if we want confirmation when clicked on cross button.
