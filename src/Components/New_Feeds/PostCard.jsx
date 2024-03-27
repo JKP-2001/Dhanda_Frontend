@@ -391,7 +391,7 @@ const PostCard = (props) => {
         userRedux.data && postRedux.data && <div className={`my-5 select-none ${(type === "feed" || type==="ind") ? "items-center flex justify-center" : ""}`}>
 
 
-            <div className={`mx-2 md:mx-2 w-full ${type === "feed" || type === "ind" ? "max-w-3xl" : "max-w-4xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
+            <div className={`mx-2 md:mx-2 w-full ${type === "feed" || type === "ind" ? "max-w-xl lg:max-w-3xl" : "max-w-2xl lg:max-w-4xl"} bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`}>
                 <div className='flex my-2 justify-between'>
                     <div className="flex">
                         <div className='ml-3'>

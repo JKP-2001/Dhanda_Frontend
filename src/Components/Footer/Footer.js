@@ -1,4 +1,5 @@
 import React from "react";
+import icon from "../../Utils/Images/icon.png";
 
 const Footer = () => {
   return (
@@ -9,17 +10,15 @@ const Footer = () => {
             <div className="-mx-4 flex flex-wrap">
               <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
                 <div className="mb-10 w-full">
-                  <a href="/#" className="mb-6 inline-block max-w-[160px]">
-                    <img
-                      src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo.svg"
-                      alt="logo"
-                      className="max-w-full dark:hidden"
-                    />
-                    <img
-                      src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-white.svg"
-                      alt="logo"
-                      className="max-w-full hidden dark:block"
-                    />
+                  <a href="/" className="mb-6 inline-block max-w-[160px]">
+                    <div className="flex items-center justify-center">
+                      <img
+                        src={icon}
+                        alt="logo"
+                        className="w-[60px] dark:hidden"
+                      />
+                      <span className="text-4xl font-inter font-semibold">Prepify</span>
+                    </div>
                   </a>
                   <p className="mb-7 text-base text-body-color dark:text-dark-6">
                     Sed ut perspiciatis undmnis is iste natus error sit amet

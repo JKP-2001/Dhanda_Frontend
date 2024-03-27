@@ -75,6 +75,7 @@ const Calendar_Comp = () => {
     const [selectedDate, setSelectedDate] = useState(moment().toDate());
     const [selectedTime, setSelectedTime] = useState(null);
     const [events, setEvents] = useState([]);
+    const [ievents, setIEvents] = useState([]);
     const [fetchingEvents, setFetchingEvents] = useState(true);
     const [showCalendar, setShowCalendar] = useState(true);
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -187,17 +188,19 @@ const Calendar_Comp = () => {
 
     const fetchAllMeetings = async () => {
 
-        if (!searchUserRedux.data) {
+        if (!userRedux.data) {
             return;
         }
 
-        const allMeeting = await getAllMeetings(searchUserRedux.data.meetingScheduled);
+        const allMeeting = await getAllMeetings(userRedux.data.meetingScheduled);
+        const instructorMeetings = await getAllMeetings(searchUserRedux.data.meetingScheduled);
 
         setFetchingEvents(false);
 
         if (allMeeting.success) {
             // console.log({ meetings: allMeeting.data });
             setFetchedMeeting(allMeeting.data);
+            setIEvents(instructorMeetings.data);
             return;
         }
 
@@ -244,13 +247,11 @@ const Calendar_Comp = () => {
 
     useEffect(() => {
         getTheUserData();
-        
-        
     }, []);
 
     useEffect(() => {
         fetchAllMeetings();
-    }, [searchUserRedux.data]);
+    }, [searchUserRedux.data, userRedux.data]);
 
     useEffect(() => {
         convertToEvent();
@@ -281,21 +282,33 @@ const Calendar_Comp = () => {
             return true;
         })
 
-        if (moment(selectedDate).isSame(new Date(), 'day')) {
-            return todayAvailableTimeSlot;
-        }
+        // if () {
+        //     return todayAvailableTimeSlot;
+        // }
 
 
         if (selectedDate) {
-            const selectedDateSlots = events
+            let selectedDateSlots = (ievents)
                 .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
                 .map((event) => moment(event.start).format('HH:mm'));
 
-            return defaultTimeSlots.filter((slot) => !selectedDateSlots.includes(slot));
+            // check in events as well
+
+            selectedDateSlots = (events)
+                .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
+                .map((event) => moment(event.start).format('HH:mm'));
+
+            if(moment(selectedDate).isSame(new Date(), 'day')){
+                return todayAvailableTimeSlot.filter((slot) => !selectedDateSlots.includes(slot));
+            }
+            else{
+
+                return defaultTimeSlots.filter((slot) => !selectedDateSlots.includes(slot));
+            }
         }
 
         return defaultTimeSlots;
-    }, [selectedDate, events]);
+    }, [selectedDate, ievents]);
 
     const handleDateClick = ({ start }) => {
         if (shouldDisableDate(start)) {
@@ -449,15 +462,19 @@ const Calendar_Comp = () => {
                     :
 
 
-                    searchUserRedux.data ? <div className='my-3'>
-                        <div className="w-full p-4  text-center">
+                    searchUserRedux.data ? <div className='mt-3'>
+                        <div className="w-full pt-2  text-center">
                             <h1 className="text-xl font-inter font-bold">
                                 Select time slot for interview with {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
                             </h1>
                         </div>
                         <div className="flex flex-wrap-reverse md:justify-between">
                             {showCalendar && (
-                                <div className="md:w-3/4 p-4 overflow-y-hidden">
+                                <div className="md:w-3/4 p-2 overflow-y-hidden">
+                                    <div>
+                                        {/* tags that display your calendar */}
+                                        <div className="text-center font-inter font-semibold text-base md:text-lg my-2">Your calendar</div>
+                                    </div>
                                     <Calendar
                                         localizer={localizer}
                                         events={events}
@@ -467,7 +484,7 @@ const Calendar_Comp = () => {
                                         selectable
                                         onSelectSlot={handleDateClick}
                                         onSelectEvent={handleEventClick}
-                                        className='bg-white rounded-lg shadow-md font-inter font-semibold'
+                                        className='bg-white rounded-lg shadow-md font-inter font-semibold text-xs md:text-sm '
                                         components={{
                                             dateCellWrapper: CustomDateCellWrapper,
                                         }}

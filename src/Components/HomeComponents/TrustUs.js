@@ -9,13 +9,13 @@ function TrustUs() {
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10 w-[80%] mx-auto">
           <img src={trustImage}></img>
           <div className="flex flex-col justify-center gap-6">
-            <div className="text-center lg:text-left font-custom font-semibold text-5xl ">
+            <div className="text-center lg:text-left font-custom  text-5xl ">
               Trust Us
             </div>
-            <div className="text-center lg:text-left font-custom font-semibold text-4xl ">
+            <div className="text-center lg:text-left font-custom  text-4xl ">
               We Are Here to Help!
             </div>
-            <div className="text-xl font-inter">
+            <div className="text-base font-inter font-[550]">
               If you are looking for a reliable mentors with whom you share your
               mind, thoughts and get the best advice you’ve been looking for, we
               are here. With years of experience in helping college students, we
