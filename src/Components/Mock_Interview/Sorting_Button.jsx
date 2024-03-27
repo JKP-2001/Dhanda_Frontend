@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 const Sorting_Button = (props) => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
-  const location=useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleItemClick = (menuitem) => {
@@ -88,17 +88,18 @@ const Sorting_Button = (props) => {
         {props.tag !== "comp" && (
           <MenuItem
             onClick={() => {
-              const queryParams=new URLSearchParams(location.search);
-              queryParams.delete('sortBy');
-              navigate("/mock-interview");
+              const queryParams = new URLSearchParams(location.search);
+              queryParams.delete("sortBy");
+              // navigate("/mock-interview");
+              props.updateSortBy(props.sortByItem);
               props.setSortByItem("");
               dispatch(
                 fetchCompanyWiseInstructors({
                   companies: props.comp,
                   sortBy: "",
-                  page:1,
-                  limit:6,
-                  category:props.category
+                  page: 1,
+                  limit: 6,
+                  category: props.category,
                 })
               );
             }}

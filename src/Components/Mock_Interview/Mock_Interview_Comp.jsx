@@ -111,7 +111,9 @@ const Mock_Interview_Comp = () => {
 
   const updateSortBy = (sortBy) => {
     const searchParams = new URLSearchParams();
-    searchParams.set("sortBy", sortBy);
+    if (sortBy.length !== 0) {
+      searchParams.set("sortBy", sortBy);
+    }
     if (comp.length !== 0) {
       searchParams.append("company", comp);
     }
@@ -238,7 +240,7 @@ const Mock_Interview_Comp = () => {
             hasMore={totalResults !== instructers.length}
             loader={<Spinner />}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3  gap-2">
               {instructers.map((ins, idx) => {
                 return <Interviewer_Card key={idx} instructer={ins} />;
               })}

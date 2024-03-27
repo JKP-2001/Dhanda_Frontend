@@ -43,10 +43,7 @@ const Account = (props) => {
 
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5 }}
+            <motion.div 
                 className='ml-3 lg:ml-7 mt-5'>
 
                 <EducationCard edu={searchUserRedux}/>
@@ -69,10 +66,7 @@ const Account = (props) => {
                 </Button>
             </div>
 
-            <motion.div initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5 }}
+            <motion.div 
                 className='ml-3 lg:ml-7 mt-10'>
                 <FeedbackCard />
             </motion.div>
@@ -349,8 +343,7 @@ const MockInterview = () => {
 
                     <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-[100%] lg:w-8/12 mt-10 text-sm justify-center">
                         <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
+                            
                             onClick={() => setIcon('account')}
                             className={`cursor-pointer ${icon === 'account' ? 'text-blue-500 underline' : ''}`}
                         >
@@ -362,8 +355,6 @@ const MockInterview = () => {
                         </motion.div>
 
                         <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
                             onClick={() => setIcon('grid')}
                             className={`cursor-pointer ${icon === 'grid' ? 'text-blue-500 underline' : ''}`}
                         >
