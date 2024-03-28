@@ -543,10 +543,10 @@ const SignUp_Comp = (props) => {
     return (
 
 
-        <motion.div  >
+        <motion.div  className='md:ml-52'>
             <section className=" dark:bg-gray-900 mb-5 z-0 overflow-hidden">
 
-                <div className="flex flex-col items-center justify-center px-6  mt-7 mx-auto md:mt-7 lg:py-0 ">
+                <div className="flex flex-col items-center justify-center px-6  mx-auto mt-7 lg:mt-0 lg:py-0 ">
 
                     <div className="w-full bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 z-0">
@@ -573,11 +573,11 @@ const SignUp_Comp = (props) => {
                                 </div>
                             </div>
                             <div className="flex justify-between">
-                                {step === 1 ? null : <button type="submit" className="w-auto text-black border-[1px] border-blue-500  hover:bg-primary-700  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handlePrev}>Prev</button>}
+                                {step === 1 ? null : <button type="submit" className="hover:scale-[102%] w-auto text-black border-[1px] border-blue-500  hover:bg-primary-700  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handlePrev}>Prev</button>}
 
-                                {!loading ? <button type="submit" className="w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step === 4) ? "Submit" : step == 1 ? "Next" : ""}</button> :
+                                {!loading ? <button type="submit" className="hover:scale-[102%] w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step === 4) ? "Submit" : step == 1 ? "Next" : ""}</button> :
 
-                                    <button type="submit" className="w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold flex justify-center" disabled>
+                                    <button type="submit" className="hover:scale-[102%] w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold flex justify-center" disabled>
                                         <Loader />
                                         <div>
                                             Processing....

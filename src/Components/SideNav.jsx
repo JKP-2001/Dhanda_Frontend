@@ -15,8 +15,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { logOut } from '../APIs/Auth_API';
 import showToast from '../Utils/showToast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import userimg from "../Utils/Images/user2.jpg"
+import { getUserSuccess } from '../Redux/user/userSlice';
 
 
 const SideBarItem = ({ icon, title, active, setActive, link }) => {
@@ -56,7 +57,9 @@ const Avatar = (props) => {
 }
 
 
-const SideNav = () => {
+const SideNav = (props) => {
+
+    const {schedule} = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -80,6 +83,7 @@ const SideNav = () => {
         document.body.style.overflow = 'auto';
     }
 
+    const dispatch = useDispatch();
 
     const handleLogout = async () => {
         const authToken = Cookies.get("authToken");
@@ -92,13 +96,15 @@ const SideNav = () => {
             Cookies.remove("authToken");
         }
 
+        
         localStorage.removeItem("token");
-
+        
         showToast({
             msg: "Logout Successful",
             type: "success",
             duration: 3000,
         });
+        dispatch(getUserSuccess(null));
         navigate("/signin");
     };
 
@@ -109,12 +115,20 @@ const SideNav = () => {
             setActive("New Feeds");
         }
 
-        if (url.toLowerCase().includes("mock")) {
+        else if (url.toLowerCase().includes("mock")) {
             setActive("Interview");
         }
 
-        if (url.toLowerCase().includes("profile")) {
+        else if (url.toLowerCase().includes("profile")) {
             setActive("Profile");
+        }
+
+        else if (url.toLowerCase().includes("signin")) {
+            setActive("Signin");
+        }
+        
+        else if (url.toLowerCase().includes("signup")) {
+            setActive("Signup");
         }
 
     }, []);
@@ -123,7 +137,7 @@ const SideNav = () => {
 
     return (
 
-        userRedux.data &&
+         
         <>
 
             {isOpen && (
@@ -143,7 +157,7 @@ const SideNav = () => {
 
             <aside
                 id="default-sidebar"
-                className={`hidden lg:block fixed top-0  left-0 z-50 md:z-20 w-[70%] md:w-60 xl:w-72 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                className={`hidden md:block fixed top-0  left-0 z-50 md:z-20 w-[70%] md:w-60 xl:w-72 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     } sm:translate-x-0 border-2 border-gray-200`}
                 aria-label="Sidebar"
             >
@@ -160,15 +174,20 @@ const SideNav = () => {
                         <SideBarItem icon={<OtherHousesOutlinedIcon />} title="Home" active={active === "Home"} setActive={setActive} link={"/"} />
                         <SideBarItem icon={<AppsOutlinedIcon />} title="New Feeds" active={active === "New Feeds"} setActive={setActive} link={"/new-feeds"} />
                         <SideBarItem icon={<Groups2OutlinedIcon />} title="Interview" active={active === "Interview"} setActive={setActive} link={"/mock-interview"} />
-                        <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active === "Profile"} setActive={setActive} link={`/user/profile/${userRedux.data.role}/${userRedux.data._id}`} />
+                        {userRedux.data ? <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active === "Profile"} setActive={setActive} link={`/user/profile/${userRedux.data.role}/${userRedux.data._id}`} />:null}
                         <SideBarItem icon={<CalendarMonthOutlinedIcon />} title="Calendar" active={active === "Calendar"} setActive={setActive} />
                         <SideBarItem icon={<DialpadOutlinedIcon />} title="Contact Us" active={active === "Contact Us"} setActive=
                             {setActive} />
 
-                        {loggedSignIn ? <SideBarItem icon={<SettingsPowerOutlinedIcon />} title="Logout" active={active === "Logout"} setActive={setActive} /> :
+                        {loggedSignIn ? <li >
+                            <div class={`hover:cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-200 group`} onClick={handleLogout}>
+                                {<SettingsPowerOutlinedIcon />}
+                                <span class="ms-3 font-inter font-semibold">{"Logout"}</span>
+                            </div>
+                        </li> :
                             <>
-                                <SideBarItem icon={<LockOpenOutlinedIcon />} title="Signin" active={active === "Signin"} setActive={setActive} />
-                                <SideBarItem icon={<AssignmentOutlinedIcon />} title="Signup" active={active === "Signup"} setActive={setActive} />
+                                <SideBarItem icon={<LockOpenOutlinedIcon />} title="Signin" active={active === "Signin"} setActive={setActive} link={"/signin"}/>
+                                <SideBarItem icon={<AssignmentOutlinedIcon />} title="Signup" active={active === "Signup"} setActive={setActive} link={"/signup"}/>
                             </>
                         }
 

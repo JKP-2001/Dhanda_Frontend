@@ -32,8 +32,9 @@ import GoogleAuthCallBack from "./Pages/Auth/GoogleAuthCallBack";
 import SinglePost from "./Pages/SinglePost";
 import Discussion from "./Pages/Discussion/Discussion";
 import DiscussionPostDetails from "./Pages/Discussion/DiscussionPostDetails/DiscussionPostDetails";
+import PaymentPage from "./Pages/Payment/PaymentPage";
 
-const getLoginUser = async (dispatch) => {
+export const getLoginUser = async (dispatch, navigate) => {
   const token = localStorage.getItem("token");
 
   const excludedLinks = ["/signin", "/signup","/"];
@@ -43,7 +44,7 @@ const getLoginUser = async (dispatch) => {
   }
 
   if (!token) {
-    window.location.href = "/signin";
+    navigate("/signin");
     showToast({
       msg: "Please login first.",
       type: "error",
@@ -61,7 +62,7 @@ const getLoginUser = async (dispatch) => {
       type: "error",
       duration: 3000,
     });
-    window.location.href = "/signin";
+    navigate("/signin");
     showToast({
       msg: "Please login first.",
       type: "error",
@@ -86,10 +87,9 @@ const getLoginUser = async (dispatch) => {
 
 const App = () => {
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    getLoginUser(dispatch);
-  }, []);
+  
 
   return (
     <>
@@ -109,6 +109,12 @@ const App = () => {
             path="/mock-interview/:role/:user_id"
             element={<ProtectedRoute ele={<MockInterviewProfile />} />}
           />
+
+          <Route
+            path="/payment"
+            element={<ProtectedRoute ele={<PaymentPage />} />}
+          />
+
           <Route
             path="/test"
             element={<ProtectedRoute ele={<Interviewer_Card />} />}
@@ -148,5 +154,7 @@ const App = () => {
     </>
   );
 };
+
+
 
 export default App;

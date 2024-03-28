@@ -6,8 +6,6 @@ export const getAllMeetings = async (meetings) => {
 
     try {
 
-        console.log({meetings})
-
         const response = await fetch(BASE_URL+"/meetings", {
             method: "POST",
             headers: {
