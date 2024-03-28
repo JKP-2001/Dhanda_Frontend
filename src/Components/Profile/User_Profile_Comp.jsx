@@ -109,7 +109,9 @@ const Calendar_Part = (props) => {
 
         for (var i = 0; i < length; i++) {
             var newEvent = fetchedMeeting[i].calendarEvent
-            newEvent = { ...newEvent, meeting_link: fetchedMeeting[i].meeting_link };
+            const start = moment(newEvent.start).toDate();
+            const end = moment(newEvent.end).toDate();
+            newEvent = { ...newEvent, start, end, meeting_link: fetchedMeeting[i].meeting_link };
             arr.push(newEvent);
         }
 
@@ -456,7 +458,7 @@ const User_Profile_Comp = () => {
         userRedux.data ?
 
             <>
-                <SideBarProfile />
+                <SideBarProfile selectedIcon={selectedIcon} handleIconClick={handleIconClick} />
                 <div className="mt-2 ml-0 lg:mt-12 md:ml-[240px] lg:ml-[300px] mb-10">
                     <div className='mx-3 sm:mx-4 flex'>
                         <img

@@ -78,11 +78,10 @@ const AuthSelection = (props) => {
     };
 
     return (
-        <motion.div>
-        
-            <section className="dark:bg-gray-900 justify-center items-center mt-32">
+        <motion.div className='md:ml-52'>
+            <section className="dark:bg-gray-900 justify-center items-center mt-48">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mt-16 mx-auto md:mt-14 lg:py-0">
-                    <div className="w-full md:w-6/12 bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div className="w-full md:w-10/12 bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
 
                         <div className="p-6 space-y-3 md:space-y-2 sm:p-8">
                             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white font-inter">
@@ -95,13 +94,13 @@ const AuthSelection = (props) => {
 
                         <div className='mb-4 mx-10 md:mx-28'>
 
-                            <div className="flex items-center mb-4">
+                            <div className="flex items-center mb-4 hover:scale-[102%] hover:cursor-pointer">
                                 <input
                                     id="default-checkbox"
                                     type="checkbox"
                                     checked={isChecked1}
                                     onChange={() => handleCheckboxChange(1)}
-                                    className="checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                    className=" checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                                 />
                                 <label
                                     htmlFor="default-checkbox"
@@ -111,7 +110,7 @@ const AuthSelection = (props) => {
                                 </label>
                             </div>
 
-                            <div className="flex items-center">
+                            <div className="flex items-center hover:scale-[102%] hover:cursor-pointer">
                                 <input
                                     id="checked-checkbox"
                                     type="checkbox"
@@ -121,7 +120,7 @@ const AuthSelection = (props) => {
                                 />
                                 <label
                                     htmlFor="checked-checkbox"
-                                    className="ms-2 text-sm font-inter font-bold text-gray-900 dark:text-gray-300"
+                                    className="hover:scale-[102%] ms-2 text-sm font-inter font-bold text-gray-900 dark:text-gray-300"
                                 >
                                     Student
                                 </label>
@@ -136,7 +135,7 @@ const AuthSelection = (props) => {
                             <div className="w-auto px-4 mb-4 md:mb-2 mx-3 md:mx-10">
                                 <button
                                     type="button"
-                                    className="w-auto px-4 py-1 text-base font-medium text-center text-white transition duration-200 ease-in bg-[#db2777] rounded-md " onClick={onClickHandler}
+                                    className="hover:scale-[102%] w-auto px-4 py-1 text-base font-medium text-center text-white transition duration-200 ease-in bg-[#db2777] rounded-md " onClick={onClickHandler}
                                 >
                                     Continue
                                 </button>

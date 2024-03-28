@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
@@ -10,14 +10,29 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import OtherHousesOutlinedIcon from '@mui/icons-material/OtherHousesOutlined';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
+import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
+import SettingsPowerOutlinedIcon from '@mui/icons-material/SettingsPowerOutlined';
 import logo from "../../Utils/Images/logo.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { logOut } from '../../APIs/Auth_API';
+import showToast from '../../Utils/showToast';
+import { getUserSuccess } from '../../Redux/user/userSlice';
 
 
-const SideBarItem = ({ icon, title, active, setActive }) => {
+const SideBarItem = ({ icon, title, active, setActive, link }) => {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(link);
+        setActive(title);
+    }
+
     return (
         <li >
-            <div class={`hover:cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${active?"bg-gray-200":"hover:bg-gray-200"} group`} onClick={()=> setActive(title)}>
+            <div class={`hover:cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${active ? "bg-gray-300" : "hover:bg-gray-200"} group`} onClick={handleClick}>
                 {icon}
                 <span class="ms-3 font-inter font-semibold">{title}</span>
             </div>
@@ -37,14 +52,60 @@ const SideBarProfile = () => {
     const [active, setActive] = useState("Profile");
 
 
-    if(isOpen){
+    if (isOpen) {
         document.body.style.overflow = 'hidden';
     }
-    else{
+    else {
         document.body.style.overflow = 'auto';
     }
 
-    
+    const userRedux = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+
+    const handleLogout = async () => {
+        const authToken = Cookies.get("authToken");
+
+        const security_key = process.env.REACT_APP_SECURITY_KEY;
+
+        if (authToken) {
+            const response = await logOut();
+
+            Cookies.remove("authToken");
+        }
+
+        localStorage.removeItem("token");
+        
+        
+        showToast({
+            msg: "Logout Successful",
+            type: "success",
+            duration: 3000,
+        });
+        dispatch(getUserSuccess(null));
+        navigate("/signin");
+    };
+
+
+    useEffect(() => {
+        const url = window.location.pathname;
+
+        if (url.toLowerCase().includes("new-feeds")) {
+            setActive("New Feeds");
+        }
+
+        if (url.toLowerCase().includes("mock")) {
+            setActive("Interview");
+        }
+
+        if (url.toLowerCase().includes("profile")) {
+            setActive("Profile");
+        }
+
+    }, []);
+
+
 
     return (
 
@@ -81,15 +142,21 @@ const SideBarProfile = () => {
                     </div>
                     <hr className='my-2 border-[1px] mb-5 ' />
                     <ul class="space-y-3 font-medium">
-                        <SideBarItem icon={<OtherHousesOutlinedIcon />} title="Home" active={active==="Home"} setActive={setActive}/>
-                        <SideBarItem icon={<Groups2OutlinedIcon />} title="Interview" active={active==="Interview"} setActive={setActive}/>
-                        <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active==="Profile"} setActive={setActive}/>
-                        <SideBarItem icon={<CalendarMonthOutlinedIcon />} title="Calendar" active={active==="Calendar"} setActive={setActive}/>
-                        <SideBarItem icon={<GridOnOutlinedIcon />} title="Post" active={active==="Post"} setActive={setActive}/>
-                        <SideBarItem icon={<BookmarkBorderOutlinedIcon />} title="Bookmarked Post" active={active==="Bookmarked Post"} setActive={setActive}/>
-                        <SideBarItem icon={<RingVolumeOutlinedIcon />} title="Bookings" active={active==="Bookings"} setActive={setActive}/>
-                        <SideBarItem icon={<NoteOutlinedIcon />} title="Priority DM" active={active==="Priority DM"} setActive={setActive}/>
-                        <SideBarItem icon={<AccountBalanceWalletOutlinedIcon />} title="Payment" active={active==="Payment"} setActive={setActive}/>
+                        <SideBarItem icon={<OtherHousesOutlinedIcon />} title="Home" active={active === "Home"} setActive={setActive} link="/" />
+                        <SideBarItem icon={<AppsOutlinedIcon />} title="New Feeds" active={active === "New Feeds"} setActive={setActive} link={"/new-feeds"} />
+                        <SideBarItem icon={<Groups2OutlinedIcon />} title="Interview" active={active === "Interview"} setActive={setActive}
+                            link="/mock-interview" />
+                        <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active === "Profile"} setActive={setActive} link={`/user/profile/${userRedux.data.role}/${userRedux.data._id}`} />
+                        <SideBarItem icon={<CalendarMonthOutlinedIcon />} title="Calendar" active={active === "Calendar"} setActive={setActive} />
+                        <SideBarItem icon={<RingVolumeOutlinedIcon />} title="Bookings" active={active === "Bookings"} setActive={setActive} />
+                        <SideBarItem icon={<NoteOutlinedIcon />} title="Priority DM" active={active === "Priority DM"} setActive={setActive} />
+                        <SideBarItem icon={<AccountBalanceWalletOutlinedIcon />} title="Payment" active={active === "Payment"} setActive={setActive} link="/payment" />
+                        <li >
+                            <div class={`hover:cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-200 group`} onClick={handleLogout}>
+                                {<SettingsPowerOutlinedIcon />}
+                                <span class="ms-3 font-inter font-semibold">{"Logout"}</span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </aside>
