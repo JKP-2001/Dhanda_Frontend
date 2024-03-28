@@ -91,7 +91,11 @@ const Calendar_Comp = () => {
 
         for (var i = 0; i < length; i++) {
             var newEvent = fetchedMeeting[i].calendarEvent
-            newEvent = { ...newEvent, meeting_link: fetchedMeeting[i].meeting_link };
+            const start = moment(newEvent.start).toDate();
+            const end = moment(newEvent.end).toDate();
+
+            newEvent = { ...newEvent, start: start, end: end, meeting_link: fetchedMeeting[i].meeting_link };
+            // newEvent = { ...newEvent,  };
             arr.push(newEvent);
         }
 
@@ -188,7 +192,7 @@ const Calendar_Comp = () => {
 
     const fetchAllMeetings = async () => {
 
-        if (!userRedux.data) {
+        if (!userRedux.data || !searchUserRedux.data) {
             return;
         }
 
@@ -353,8 +357,8 @@ const Calendar_Comp = () => {
 
         const newEvent = {
             title: `Mock Interview between ${searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName} and ${userRedux.data.firstName + " " + userRedux.data.lastName}`,
-            start: startDate,
-            end: endDate,
+            start: moment(startDate).toDate(),
+            end: moment(endDate).toDate(),
 
         };
 
@@ -463,14 +467,16 @@ const Calendar_Comp = () => {
 
 
                     searchUserRedux.data ? <div className='mt-3'>
-                        <div className="w-full pt-2  text-center">
-                            <h1 className="text-xl font-inter font-bold">
-                                Select time slot for interview with {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
-                            </h1>
+                        <div className='md:ml-[290px]'>
+                            <div className="w-full md:w-3/4 pt-2 text-center">
+                                <h1 className="text-xl font-inter font-bold">
+                                    Select time slot for interview with {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
+                                </h1>
+                            </div>
                         </div>
-                        <div className="flex flex-wrap-reverse md:justify-between">
+                        <div className=" lg:flex flex-wrap-reverse md:justify-between md:ml-60 xl:ml-[290px]">
                             {showCalendar && (
-                                <div className="md:w-3/4 p-2 overflow-y-hidden">
+                                <div className=" lg:w-3/4 p-2 overflow-y-hidden ">
                                     <div>
                                         {/* tags that display your calendar */}
                                         <div className="text-center font-inter font-semibold text-base md:text-lg my-2">Your calendar</div>
@@ -488,11 +494,12 @@ const Calendar_Comp = () => {
                                         components={{
                                             dateCellWrapper: CustomDateCellWrapper,
                                         }}
+                                        
                                     />
                                 </div>
                             )}
 
-                            <div className="w-full md:w-1/4 p-4 rounded">
+                            <div className="w-full lg:w-[25%] p-4 rounded">
                                 <h2 className="text-lg font-inter font-semibold mb-4">Select Time Slot</h2>
 
                                 <div className="date">

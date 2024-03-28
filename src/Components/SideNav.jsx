@@ -56,7 +56,9 @@ const Avatar = (props) => {
 }
 
 
-const SideNav = () => {
+const SideNav = (props) => {
+
+    const {schedule} = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -143,7 +145,7 @@ const SideNav = () => {
 
             <aside
                 id="default-sidebar"
-                className={`hidden lg:block fixed top-0  left-0 z-50 md:z-20 w-[70%] md:w-60 xl:w-72 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                className={`hidden md:block fixed top-0  left-0 z-50 md:z-20 w-[70%] md:w-60 xl:w-72 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     } sm:translate-x-0 border-2 border-gray-200`}
                 aria-label="Sidebar"
             >
