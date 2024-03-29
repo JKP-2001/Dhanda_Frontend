@@ -5,6 +5,7 @@ import instructerReducer from "./instructers/instructerSlice"
 import postReducer from "./post/postSlice"
 import searchUserReducer from "./searchUser/searchUser"
 import paymentReducer from "./payment/paymentSlice"
+import bookingReducer from "./bookings/bookingSlice"
 
 
 const store = configureStore({
@@ -14,7 +15,8 @@ const store = configureStore({
         instructers: instructerReducer,
         post: postReducer,
         searchUser: searchUserReducer,
-        payment: paymentReducer
+        payment: paymentReducer,
+        booking: bookingReducer
     },
 });
 

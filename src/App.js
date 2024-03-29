@@ -33,6 +33,7 @@ import SinglePost from "./Pages/SinglePost";
 import Discussion from "./Pages/Discussion/Discussion";
 import DiscussionPostDetails from "./Pages/Discussion/DiscussionPostDetails/DiscussionPostDetails";
 import PaymentPage from "./Pages/Payment/PaymentPage";
+import BookingPage from "./Pages/Booking/BookingPage";
 
 export const getLoginUser = async (dispatch, navigate) => {
   const token = localStorage.getItem("token");
@@ -113,6 +114,10 @@ const App = () => {
           <Route
             path="/payment"
             element={<ProtectedRoute ele={<PaymentPage />} />}
+          />
+          <Route
+            path="/bookings"
+            element={<ProtectedRoute ele={<BookingPage />} />}
           />
 
           <Route

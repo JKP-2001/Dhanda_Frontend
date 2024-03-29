@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { paymentFailure, paymentRequest, paymentSuccess, setTotalResultPage } from '../../Redux/payment/paymentSlice';
 import { fetchTransactions } from '../../APIs/Transaction_API';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { scrollToTop } from '../../Utils/functions';
 import { Spinner } from '@material-tailwind/react';
 
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 const convertISOtoDate = (isoString) => {
@@ -52,54 +52,107 @@ const EarningCard = (props) => {
 const TransactionModal = (props) => {
     const { openTransactionModal, setOpenTransactionModal, selectedTransaction, userRole } = props;
 
+    // const downloadAsPDF = () => {
+    //     const doc = new jsPDF();
+    //     let yPos = 20;
+
+    //     // Add title
+    //     doc.setFontSize(20);
+    //     doc.text(`Transaction Details (${userRole})`, 105, yPos, { align: 'center', font: 'inter' });
+    //     yPos += 20;
+
+    //     // Add fields
+    //     doc.setFontSize(12);
+
+    //     doc.text(`Transaction Id: ${selectedTransaction.transaction_id._id}`, 20, yPos);
+    //     yPos += 10;
+
+    //     doc.text(`Invoice Number: ${selectedTransaction.transaction_id.invoice}`, 20, yPos);
+    //     yPos += 10;
+
+
+
+    //     if (userRole === "instructor") {
+    //         doc.text(`Booked By: ${selectedTransaction.studentId.firstName} ${selectedTransaction.studentId.lastName} ( ${selectedTransaction.studentId.email})`, 20, yPos);
+    //     } else {
+    //         doc.text(`Paid to: ${selectedTransaction.instructorId.firstName} ${selectedTransaction.instructorId.lastName} ( ${selectedTransaction.instructorId.email})`, 20, yPos);
+    //     }
+
+    //     yPos += 10;
+
+
+    //     doc.text(`Payment Date: ${convertISOtoDate(selectedTransaction.transaction_id.confirmTimestamp)}`, 20, yPos);
+    //     yPos += 10;
+
+    //     doc.text(`Payment Time: ${convertISOtoTime(selectedTransaction.transaction_id.confirmTimestamp)}`, 20, yPos);
+    //     yPos += 10;
+
+    //     doc.text(`Payment Id: ${selectedTransaction.transaction_id.razorpayPaymentId}`, 20, yPos);
+    //     yPos += 10;
+
+    //     doc.text(`Amount: ${parseInt(selectedTransaction.transaction_id.amount) / 100}`, 20, yPos);
+    //     yPos += 10;
+
+    //     doc.text(`Payment Status: ${userRole === "instructor" ? selectedTransaction.transaction_id.paymentDoneToReceiver ? "Paid" : "Pending" : selectedTransaction.transaction_id.status}`, 20, yPos);
+    //     yPos += 10;
+
+
+    //     // Save the PDF
+    //     doc.save(`Invoice #${selectedTransaction.transaction_id.invoice}.pdf`);
+    // };
+
     const downloadAsPDF = () => {
         const doc = new jsPDF();
         let yPos = 20;
 
+        // Set background color
+        doc.setFillColor(230, 255, 250); // You can specify RGB values for the color
+        doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F'); // Draw a filled rectangle covering the entire page
+        doc.addFont('inter')
+
         // Add title
         doc.setFontSize(20);
-        doc.text('Transaction Details', 105, yPos, { align: 'center' });
+        doc.setTextColor(41, 128, 185); // Set custom text color
+        // doc.setFont('helvetica', 'bold'); // Set bold font style
+        doc.setFont('inter', 'bold');
+        doc.text(`Transaction Details (${userRole})`, 105, yPos, { align: 'center' }); // Center align the text
         yPos += 20;
 
-        // Add fields
-        doc.setFontSize(12);
+        // Define table columns and rows
+        const columns = ["Attribute", "Details"];
+        const rows = [
+            ["Transaction Id:", selectedTransaction.transaction_id._id],
+            ["Invoice Number:", selectedTransaction.transaction_id.invoice],
+            [userRole === "instructor" ? "Booked By:" : "Paid to:", `${userRole === "instructor" ? selectedTransaction.studentId.firstName + " " + selectedTransaction.studentId.lastName : selectedTransaction.instructorId.firstName + " " + selectedTransaction.instructorId.lastName} (${userRole === "instructor" ? selectedTransaction.studentId.email : selectedTransaction.instructorId.email})`],
+            ["Payment Date:", convertISOtoDate(selectedTransaction.transaction_id.confirmTimestamp)],
+            ["Payment Time:", convertISOtoTime(selectedTransaction.transaction_id.confirmTimestamp)],
+            ["Payment Id:", selectedTransaction.transaction_id.razorpayPaymentId],
+            ["Amount:", `${parseInt(selectedTransaction.transaction_id.amount) / 100}`],
+            ["Payment Status:", userRole === "instructor" ? (selectedTransaction.transaction_id.paymentDoneToReceiver ? "Paid" : "Pending") : selectedTransaction.transaction_id.status],
+            ["Instructor Id:", selectedTransaction.instructorId._id],
+            ["Student Id:", selectedTransaction.studentId._id]
+        ];
 
-        doc.text(`Transaction Id: ${selectedTransaction.transaction_id._id}`, 20, yPos);
-        yPos += 10;
+        // Create table
+        doc.autoTable({
+            startY: yPos,
+            head: [columns],
+            body: rows,
+            theme: 'grid',
+        });
 
-        doc.text(`Invoice Number: ${selectedTransaction.transaction_id.invoice}`, 20, yPos);
-        yPos += 10;
-
-
-
-        if (userRole === "instructor") {
-            doc.text(`Booked By: ${selectedTransaction.studentId.firstName} ${selectedTransaction.studentId.lastName} ( ${selectedTransaction.studentId.email})`, 20, yPos);
-        } else {
-            doc.text(`Paid to: ${selectedTransaction.instructorId.firstName} ${selectedTransaction.instructorId.lastName} ( ${selectedTransaction.instructorId.email})`, 20, yPos);
-        }
-
-        yPos += 10;
-
-
-        doc.text(`Payment Date: ${convertISOtoDate(selectedTransaction.transaction_id.confirmTimestamp)}`, 20, yPos);
-        yPos += 10;
-
-        doc.text(`Payment Time: ${convertISOtoTime(selectedTransaction.transaction_id.confirmTimestamp)}`, 20, yPos);
-        yPos += 10;
-
-        doc.text(`Payment Id: ${selectedTransaction.transaction_id.razorpayPaymentId}`, 20, yPos);
-        yPos += 10;
-
-        doc.text(`Amount: ${parseInt(selectedTransaction.transaction_id.amount) / 100}`, 20, yPos);
-        yPos += 10;
-
-        doc.text(`Status: ${selectedTransaction.transaction_id.status}`, 20, yPos);
-        yPos += 10;
-
+        const signatureYPos = doc.previousAutoTable.finalY + 20; // Position the signature below the table
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0); // Set text color to black
+        doc.setFont('helvetica', 'bold'); // Set bold font style
+        // align to left
+        // doc.text("The Interview Hub Team", 105, signatureYPos, { align: 'right' });/
 
         // Save the PDF
         doc.save(`Invoice #${selectedTransaction.transaction_id.invoice}.pdf`);
     };
+
+
 
     return (
         <div className={`fixed z-50 inset-0 overflow-y-auto ${openTransactionModal ? "block" : "hidden"}`}>
@@ -126,7 +179,7 @@ const TransactionModal = (props) => {
                                         {userRole === "instructor" ?
                                             `Booked By: ${selectedTransaction.studentId.firstName} ${selectedTransaction.studentId.lastName}  ( ${selectedTransaction.studentId.email})` : `Paid to: ${selectedTransaction.instructorId.firstName} ${selectedTransaction.instructorId.lastName}  ( ${selectedTransaction.instructorId.email})`}
                                     </p>
-                                    <p className="text-sm text-gray-700">
+                                    <p className="text-sm text-gray-700 ">
                                         Payment Date: {convertISOtoDate(selectedTransaction.transaction_id.confirmTimestamp)}
                                     </p>
                                     <p className="text-sm text-gray-700">
@@ -139,7 +192,7 @@ const TransactionModal = (props) => {
                                         Amount: ₹ {parseInt(selectedTransaction.transaction_id.amount) / 100}
                                     </p>
                                     <p className="text-sm text-gray-700">
-                                        Status: {userRole === "instructor" ? selectedTransaction.transaction_id.paymentDoneToReceiver ? "Paid" : "Pending" : selectedTransaction.transaction_id.status}
+                                        Payment Status: {userRole === "instructor" ? selectedTransaction.transaction_id.paymentDoneToReceiver ? "Paid" : "Pending" : selectedTransaction.transaction_id.status}
                                     </p>
                                 </div>
                             </div>
@@ -156,7 +209,7 @@ const TransactionModal = (props) => {
                         </button>
                         <button
                             type="button"
-                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="mt-2 md:mt-0 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={downloadAsPDF}
                         >
                             Download as PDF
@@ -232,7 +285,7 @@ const PaymentCard = (props) => {
                         <div className="text-sm md:text-lg font-semibold text-gray-700">
                             {"Amount: ₹ " + amount}
                         </div>
-                        <div className="text-xs md:text-sm font-semibold text-gray-700">
+                        <div className="text-xs md:text-sm font-semibold text-blue-700 mt-2 md:mt-0 underline hover:cursor-pointer hover:text-blue-900" onClick={clickOnPerson}>
                             {role === "instructor" ? "Booked By: " + studentName : "Paid To: " + instructorName}
                         </div>
                     </div>
@@ -374,7 +427,7 @@ const PaymentComponent = () => {
                                     <PaymentCard
                                         key={payment.transaction_id._id}
                                         invoice={payment.transaction_id.invoice}
-                                        title={payment.title}
+                                        title={payment.calendarEvent.title}
                                         studentName={payment.studentId.firstName + " " + payment.studentId.lastName}
                                         instructorName={payment.instructorId.firstName + " " + payment.instructorId.lastName}
                                         instructorId={payment.instructorId._id}

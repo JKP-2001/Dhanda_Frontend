@@ -107,6 +107,10 @@ const SideBarProfile = () => {
             setActive("Payment");
         }
 
+        else if(url.toLowerCase().includes("bookings")){
+            setActive("Bookings");
+        }
+
     }, []);
 
 
@@ -153,7 +157,7 @@ const SideBarProfile = () => {
                                 link="/mock-interview" />
                             <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active === "Profile"} setActive={setActive} link={`/user/profile/${userRedux.data.role}/${userRedux.data._id}`} />
                             <SideBarItem icon={<CalendarMonthOutlinedIcon />} title="Calendar" active={active === "Calendar"} setActive={setActive} />
-                            <SideBarItem icon={<RingVolumeOutlinedIcon />} title="Bookings" active={active === "Bookings"} setActive={setActive} />
+                            <SideBarItem icon={<RingVolumeOutlinedIcon />} title="Bookings" active={active === "Bookings"} setActive={setActive} link="/bookings" />
                             <SideBarItem icon={<NoteOutlinedIcon />} title="Priority DM" active={active === "Priority DM"} setActive={setActive} />
                             <SideBarItem icon={<AccountBalanceWalletOutlinedIcon />} title="Payment" active={active === "Payment"} setActive={setActive} link="/payment" /></> : null}
                         <li >
