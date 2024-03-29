@@ -25,3 +25,5 @@ export const getAllMeetings = async (meetings) => {
         return { success: false, msg: err.toString() }
     }
 }
+
+

@@ -4,6 +4,7 @@ import userReducer from "./user/userSlice";
 import instructerReducer from "./instructers/instructerSlice"
 import postReducer from "./post/postSlice"
 import searchUserReducer from "./searchUser/searchUser"
+import paymentReducer from "./payment/paymentSlice"
 
 
 const store = configureStore({
@@ -12,7 +13,8 @@ const store = configureStore({
         user: userReducer,
         instructers: instructerReducer,
         post: postReducer,
-        searchUser: searchUserReducer
+        searchUser: searchUserReducer,
+        payment: paymentReducer
     },
 });
 
