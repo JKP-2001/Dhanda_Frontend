@@ -31,6 +31,7 @@
     "image-compressor": "^2.0.3",
     "jodit-react": "^4.0.9",
     "js-cookie": "^3.0.5",
+    "jspdf": "^2.5.1",
     "lexical": "^0.12.6",
     "marked": "^11.1.1",
     "react": "^18.2.0",
