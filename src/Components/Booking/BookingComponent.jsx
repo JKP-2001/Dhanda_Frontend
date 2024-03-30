@@ -113,7 +113,7 @@ const TransactionModal = (props) => {
                 </div>
                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-                    <div className="bg-blue-100 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div className="bg-light-blue-100 to-pink-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="sm:flex sm:items-start">
                             <div className="mt-3  sm:mt-0 sm:ml-4 sm:text-left">
                                 <div className="text-lg font-semibold text-gray-900 font-inter" id="modal-headline">
@@ -137,7 +137,7 @@ const TransactionModal = (props) => {
                                         Duration: {selectedTransaction.duration} minutes
                                     </p>
 
-                                    <p className='text-sm text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={selectedTransaction.meeting_link} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+                                    <p className='text-sm text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={selectedTransaction.meeting_link} target="_blank" rel="noopener noreferrer">Link</a></p>
 
                                     <p className="text-sm text-gray-700 font-inter">
                                         Transaction Id: {selectedTransaction.transaction_id._id}
@@ -217,20 +217,17 @@ const BookingCard = (props) => {
 
             <div className="w-full p-4 my-4 bg-white border border-gray-300 rounded-lg shadow hover:shadow-lg hover:cursor-pointer hover:bg-blue-50 " onClick={openSelectedTransaction}>
 
-                <div className="flex justify-between">
+                <div className="flex justify-between w-auto">
                     <div className="invoice font-inter text-lg md:text-xl font-semibold">
                         Booking <span className="invoice-number font-inter text-sm md:text-base text-gray-500">#{invoice}</span>
                     </div>
 
-                    <div className="status">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium ${upcoming ? "bg-blue-100 text-blue-800" : "bg-green-100 text-green-800"}`}>
+                    <div className="invoice font-inter text-lg md:text-xl font-semibold">
+                    <span className={`items-center px-2.5 py-0.5 rounded-md text-xs font-medium ${upcoming ? "bg-blue-100 text-blue-800" : "bg-green-100 text-green-800"}`}>
                             {upcoming ? "upcoming" : "completed"}
                         </span>
-
-                        {/* <span className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800`}>
-                            {"Paid"}
-                        </span> */}
                     </div>
+
                 </div>
                 <hr className='w-[25%] md:w-[10%] mb-2 border-[1px] border-blue-700' />
 
@@ -389,7 +386,7 @@ const BookingComponent = () => {
                                 <select name="" className="sm: mr-4 block w-full whitespace-pre rounded-lg border p-1 pr-10 text-base outline-none focus:shadow sm:text-sm" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                                     <option
                                         className="whitespace-no-wrap text-sm" value="upcoming">upcoming</option>
-                                    <option className="whitespace-no-wrap text-sm" value="past">past</option>
+                                    <option className="whitespace-no-wrap text-sm" value="past">completed</option>
                                 </select>
                             </div>
                         </div>
@@ -424,7 +421,7 @@ const BookingComponent = () => {
                                     bookingRedux.upComing.map(booking => (
                                         <BookingCard
                                             key={booking._id}
-                                            invoice={booking._id}
+                                            invoice={booking.transaction_id.invoice}
                                             title={booking.calendarEvent.title}
                                             studentName={booking.studentId.firstName + " " + booking.studentId.lastName}
                                             instructorName={booking.instructorId.firstName + " " + booking.instructorId.lastName}
@@ -444,7 +441,7 @@ const BookingComponent = () => {
                                     bookingRedux.past.map(booking => (
                                         <BookingCard
                                             key={booking._id}
-                                            invoice={booking._id}
+                                            invoice={booking.transaction_id.invoice}
                                             title={booking.calendarEvent.title}
                                             studentName={booking.studentId.firstName + " " + booking.studentId.lastName}
                                             instructorName={booking.instructorId.firstName + " " + booking.instructorId.lastName}

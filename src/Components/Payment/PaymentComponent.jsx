@@ -3,12 +3,14 @@ import showToast from '../../Utils/showToast';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { paymentFailure, paymentRequest, paymentSuccess, setTotalResultPage } from '../../Redux/payment/paymentSlice';
-import { fetchTransactions } from '../../APIs/Transaction_API';
+import { exportTransactions, fetchTransactions } from '../../APIs/Transaction_API';
 import { scrollToTop } from '../../Utils/functions';
 import { Spinner } from '@material-tailwind/react';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { ContactSupportOutlined } from '@mui/icons-material';
+import toast from 'react-hot-toast';
 
 
 const convertISOtoDate = (isoString) => {
@@ -291,9 +293,70 @@ const PaymentCard = (props) => {
                     </div>
                 </div>
 
+                
+
             </div>
 
         </>
+    )
+}
+
+const ExportTransactionsModal = (props) => {
+
+    const {setOpenExportModal, exportToCSV} = props;
+
+    const handleExport = (month)=>{
+        exportToCSV(month);
+        setOpenExportModal(false);
+    }
+    
+    return(
+        <div>
+            <div className="fixed z-50 inset-0 overflow-y-auto">
+                <div className="flex items-center justify-center mt-32 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+                    <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                    <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                        <div className="bg-blue-100 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div className="sm:flex sm:items-start">
+                                <div className="mt-3  sm:mt-0 sm:ml-4 sm:text-left">
+                                    <div className="text-lg font-semibold text-gray-900 font-inter" id="modal-headline">
+                                        Export Transactions
+                                    </div>
+                                    <div className="mt-2 -ml-2 space-y-2 space-x-2">
+                                        <div className=''></div>
+                                        <button className="text-xs text-gray-700 font-inter p-2 bg-white rounded-lg hover:bg-gray-200 font-semibold hover:scale-[102%]" onClick={() => handleExport(0)}>
+                                            This Month
+                                        </button>
+                                        <button className="text-xs text-gray-700 font-inter p-2 bg-white rounded-lg hover:bg-gray-200 font-semibold hover:scale-[102%]" onClick={() => handleExport(3)}>
+                                            Last 3 Months
+                                        </button>
+                                        <button className="text-xs text-gray-700 font-inter p-2 bg-white rounded-lg hover:bg-gray-200 font-semibold hover:scale-[102%]" onClick={() => handleExport(6)}>
+                                            Last 6 Months
+                                        </button>
+                                        <button className="text-xs text-gray-700 p-2 bg-white rounded-lg hover:bg-gray-200 font-semibold hover:scale-[102%]" onClick={() => handleExport(12)}>
+                                            Last 12 Months
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button
+                            type="button"
+                            className=" w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                            onClick={() => { setOpenExportModal(false); document.body.style.overflow = 'auto'; }}
+                        >
+                            Close
+                        </button>
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>                                    
     )
 }
 
@@ -307,7 +370,27 @@ const PaymentComponent = () => {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [openTransactionModal, setOpenTransactionModal] = useState(false);
 
+    const [openExportModal, setOpenExportModal] = useState(false);
+
     const dispatch = useDispatch();
+
+    const [month, setMonth] = useState(new Date().getMonth());
+
+    const [months, setMonths] = useState([]);
+
+    const covertMonthToIndex = (month) => {
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        return months.indexOf(month);
+    }
+
+    useEffect(() => {
+        // filer months less than equal to current month
+        const currentMonth = new Date().getMonth();
+        const mon = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const filteredMonths = mon.filter((month, index) => index <= currentMonth);
+        setMonths(filteredMonths);
+    }, [month]);
+
 
     const getAllTransaction = async () => {
         try {
@@ -323,12 +406,14 @@ const PaymentComponent = () => {
                 return;
             } else {
                 dispatch(paymentRequest());
-                const result = await fetchTransactions(page, 5);
+                const result = await fetchTransactions(page, 5, month);
 
                 if (result.success) {
                     console.log({ result })
                     dispatch(paymentSuccess([...paymentRedux.data, ...result.data]));
-                    dispatch(setTotalResultPage(result.totalResult));
+                    if (page === 1) {
+                        dispatch(setTotalResultPage(result.totalResult));
+                    }
                     setPage(page + 1);
                 } else {
                     showToast({
@@ -345,6 +430,45 @@ const PaymentComponent = () => {
                 type: "error",
                 duration: 3000
             });
+        }
+    }
+
+    const exportToCSV = async (month) => {
+
+        try{
+
+            const token = localStorage.getItem("token");
+            if(!token){
+                throw new Error("Login Required");
+            }
+
+            const loader = toast.loading("Exporting...");
+            const result = await exportTransactions(month);
+
+            if(result.success){
+                toast.dismiss(loader);
+                showToast({
+                    msg: result.msg,
+                    type: "success",
+                    duration: 3000
+                })
+            }
+
+            else{
+                toast.dismiss(loader);
+                showToast({
+                    msg: result.msg,
+                    type: "error",
+                    duration: 3000
+                })
+            }
+
+        }catch(err){
+            showToast({
+                msg: err,
+                type: "error",
+                duration: 3000
+            })
         }
     }
 
@@ -376,7 +500,13 @@ const PaymentComponent = () => {
             dispatch(paymentSuccess([]));
             setPage(1);
         }
-    }, [])
+    }, [month])
+
+    const handleSortChange = (e) => {
+        setMonth(covertMonthToIndex(e.target.value))
+        setPage(1);
+        dispatch(paymentSuccess([]));
+    }
 
     return (
         userRedux.data && <div className="w-full font-inter text-xl">
@@ -387,10 +517,16 @@ const PaymentComponent = () => {
                         <div className="flex items-center justify-start sm:justify-end">
                             <div className="flex items-center ml-2">
                                 <label htmlFor="" className="mr-2 flex-shrink-0 text-sm font-medium text-gray-900"> Sort by: </label>
-                                <select name="" className="sm: mr-4 block w-full whitespace-pre rounded-lg border p-1 pr-10 text-base outline-none focus:shadow sm:text-sm">
-                                    <option className="whitespace-no-wrap text-sm">Recent</option>
+                                <select name="" className="sm: mr-4 block w-full whitespace-pre rounded-lg border p-1 pr-10 text-base outline-none focus:shadow sm:text-sm" value={months[month]} onChange={handleSortChange}>
+                                    {months.map((month, index) => <option value={month} key={index}>{month}</option>)}
                                 </select>
                             </div>
+                            <button type="button" class="inline-flex cursor-pointer items-center rounded-lg border border-gray-400 bg-white py-2 px-3 text-center text-sm font-medium text-gray-800 shadow hover:bg-gray-100 focus:shadow" onClick={() => {setOpenExportModal(true); document.body.style.overflow = "hidden" }}>
+                                <svg class="mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" class=""></path>
+                                </svg>
+                                Export to CSV
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -403,7 +539,7 @@ const PaymentComponent = () => {
 
 
 
-                    {paymentRedux.loading ?
+                    {(paymentRedux.loading && paymentRedux.data.length === 0) ?
                         <div className="flex justify-center items-center h-full">
                             <div className="loading flex space-x-2">
                                 <Spinner color="blue" fontSize={20} className="mt-[1px]" />
@@ -446,8 +582,9 @@ const PaymentComponent = () => {
 
 
                                 {paymentRedux.data.length < paymentRedux.totalResult ?
-
-                                    <button onClick={getAllTransaction} className=" p-2 text-sm bg-blue-400 bg-slate-500 text-white font-inter rounded-lg mt-3">{paymentRedux.loading ? "Loading" : "Show More"}</button>
+                                    <div className="flex justify-center">
+                                        <button onClick={getAllTransaction} className=" p-2 text-sm bg-blue-400 bg-slate-500 text-white font-inter rounded-lg mt-3">{paymentRedux.loading ? "Loading...." : "Show More"}</button>
+                                    </div>
                                     : null}
 
                             </>}
@@ -457,7 +594,12 @@ const PaymentComponent = () => {
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <TransactionModal openTransactionModal={openTransactionModal} setOpenTransactionModal={setOpenTransactionModal} selectedTransaction={selectedTransaction} userRole={userRedux.data.role} />
                 </div>
-                : null}
+                : 
+                openExportModal?
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <ExportTransactionsModal  setOpenExportModal={setOpenExportModal} exportToCSV={exportToCSV}/>
+                </div>
+            :null}
         </div>
     )
 }
