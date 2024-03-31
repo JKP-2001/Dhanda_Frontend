@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Progressor from './Progressor'
-import { motion } from "framer-motion"
 import { isStrongPassword, isValidEmail, isValidName, validateUsername } from '../../Utils/functions'
 import { Button } from '@mui/material'
 import showToast from '../../Utils/showToast'
@@ -543,7 +542,7 @@ const SignUp_Comp = (props) => {
     return (
 
 
-        <motion.div  className='md:ml-52'>
+        <div  className='md:ml-52'>
             <section className=" dark:bg-gray-900 mb-5 z-0 overflow-hidden">
 
                 <div className="flex flex-col items-center justify-center px-6  mx-auto mt-7 lg:mt-0 lg:py-0 ">
@@ -556,7 +555,7 @@ const SignUp_Comp = (props) => {
 
                             <Progressor totalSteps={4} step={step - 1} setStep={setStep} handleNext={handleNext} handlePrev={handlePrev} />
 
-                            <motion.div key={step} // Add key prop here
+                            <div key={step} // Add key prop here
                                 initial="hidden"
                                 animate="visible"
                                 variants={variants}
@@ -564,7 +563,7 @@ const SignUp_Comp = (props) => {
 
                                 {step === 1 ? <Step1 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext} /> : step === 2 ? <Step2 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext} /> : step === 3 ? <Step3 userState={userState} setStep={setStep} handleNext={handleNext} /> : step === 4 ? <Step4 userState={userState} onChangeHandler={onChangeHandler} handleNext={handleNext} /> : <></>}
 
-                            </motion.div>
+                            </div>
                             <div className="flex justify-between">
                                 <div></div>
                                 <div className="flex required space-x-1">
@@ -612,7 +611,7 @@ const SignUp_Comp = (props) => {
                     </div>
                 </div>
             </section>
-        </motion.div>
+        </div>
 
     )
 }

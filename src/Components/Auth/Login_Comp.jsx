@@ -1,7 +1,6 @@
 import { Card } from '@mui/material'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { motion } from "framer-motion"
 import showToast from '../../Utils/showToast'
 import Asterik from '../../Utils/Asterik'
 import { Signin } from '../../APIs/Auth_API'
@@ -123,7 +122,7 @@ const Login = (props) => {
 
 
     return (
-        <motion.div className='md:ml-52'>
+        <div className='md:ml-52'>
             <section className=" dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mt-4 mx-auto lg:mt-20 xl:mt-28 lg:py-0 ">
 
@@ -188,7 +187,7 @@ const Login = (props) => {
                     </div>
                 </div>
             </section>
-        </motion.div>
+        </div>
     )
 }
 

@@ -34,13 +34,14 @@ import Discussion from "./Pages/Discussion/Discussion";
 import DiscussionPostDetails from "./Pages/Discussion/DiscussionPostDetails/DiscussionPostDetails";
 import PaymentPage from "./Pages/Payment/PaymentPage";
 import BookingPage from "./Pages/Booking/BookingPage";
+import DM from "./Pages/Profile/DM";
 
 export const getLoginUser = async (dispatch, navigate) => {
   const token = localStorage.getItem("token");
 
-  const excludedLinks = ["/signin", "/signup","/"];
+  const excludedLinks = ["/signin", "/signup", "/"];
 
-  if(excludedLinks.includes(window.location.pathname)) {
+  if (excludedLinks.includes(window.location.pathname)) {
     return;
   }
 
@@ -90,7 +91,7 @@ const App = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
 
-  
+
 
   return (
     <>
@@ -115,6 +116,12 @@ const App = () => {
             path="/payment"
             element={<ProtectedRoute ele={<PaymentPage />} />}
           />
+
+          <Route
+            path="/dm"
+            element={<ProtectedRoute ele={<DM />} />}
+          />
+
           <Route
             path="/bookings"
             element={<ProtectedRoute ele={<BookingPage />} />}

@@ -6,6 +6,7 @@ import postReducer from "./post/postSlice"
 import searchUserReducer from "./searchUser/searchUser"
 import paymentReducer from "./payment/paymentSlice"
 import bookingReducer from "./bookings/bookingSlice"
+import dmReducer from "./DM/dmSlice"
 
 
 const store = configureStore({
@@ -16,7 +17,8 @@ const store = configureStore({
         post: postReducer,
         searchUser: searchUserReducer,
         payment: paymentReducer,
-        booking: bookingReducer
+        booking: bookingReducer,
+        dm: dmReducer
     },
 });
 

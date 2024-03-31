@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+
 import { CheckBox } from '@mui/icons-material';
 import showToast from '../../Utils/showToast';
 
@@ -78,7 +78,7 @@ const AuthSelection = (props) => {
     };
 
     return (
-        <motion.div className='md:ml-52'>
+        <div className='md:ml-52'>
             <section className="dark:bg-gray-900 justify-center items-center mt-48">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mt-16 mx-auto md:mt-14 lg:py-0">
                     <div className="w-full md:w-10/12 bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -144,7 +144,7 @@ const AuthSelection = (props) => {
                     </div>
                 </div>
             </section>
-        </motion.div>
+        </div>
     );
 };
 

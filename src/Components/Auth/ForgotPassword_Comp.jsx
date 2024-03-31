@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { motion } from "framer-motion"
 import Asterik from '../../Utils/Asterik';
 import { isValidEmail } from '../../Utils/functions';
 import showToast from '../../Utils/showToast';
@@ -66,7 +65,7 @@ const ForgotPassword_Comp = () => {
     }
 
     return (
-        <motion.div  // Add key prop here
+        <div  // Add key prop here
             initial="hidden"
             animate="visible"
             variants={variants}
@@ -111,7 +110,7 @@ const ForgotPassword_Comp = () => {
                     </div>
                 </div>
             </section>
-        </motion.div>
+        </div>
     )
 }
 
