@@ -24,19 +24,15 @@ const loadScript = src => new Promise((resolve) => {
 });
 
 
-const RenderRazorpay = ({
+const RenderRazorpayDM = ({
     order,
     keyId,
-    keySecret,
     setDisplayRazorpay,
-    handleAddMeeting,
     instructorId,
     studentId,
-    setGeneratingLink,
-    setMeetingDetails,
-    topic,
-    startTime,
-    eventGenerate
+    sendingDM,
+    text,
+    setOpenMessageModal
 }) => {
 
 
@@ -80,7 +76,7 @@ const RenderRazorpay = ({
 
     // informing server about payment
     const handlePayment = async (status, orderDetails = {}) => {
-        const response = await Axios.post(`${serverBaseUrl}/transactions/verify-payment`,
+        const response = await Axios.post(`${serverBaseUrl}/transactions/verify-payment-dm`,
             {
                 status,
                 orderDetails,
@@ -116,8 +112,12 @@ const RenderRazorpay = ({
         handler: async (response) => {
             console.log('succeeded');
             console.log(response);
+            console.log({ paymentMethod });
             paymentId.current = response.razorpay_payment_id;
             setDisplayRazorpay(false);
+            setOpenMessageModal(false);
+
+
 
             // If successfully authorized. Then we can consider the payment as successful.
          
@@ -127,10 +127,7 @@ const RenderRazorpay = ({
                     duration: 4000,
                 })
 
-                setGeneratingLink(true);
-                const newEvent = eventGenerate();
-
-                console.log('new event', newEvent);
+                sendingDM(true);
 
                 const response2 = await handlePayment('succeeded', {
                     orderId: order.id,
@@ -139,20 +136,16 @@ const RenderRazorpay = ({
                     studentId: studentId,
                     instructorId: instructorId,
                     transactionId: order.transactionId,
-                    topic: topic,
-                    startTime: startTime,
-                    duration: 60,
-                    newEvent: newEvent,
+                    question: text,
                     paymentMethod: paymentMethod.current
                 });
 
                 console.log('response', response2);
 
-                setGeneratingLink(false);
+                sendingDM(false);
                 
                 // await setMeetingDetails(response2.meeting);
 
-                handleAddMeeting(response2.meeting.meeting_url);
         },
         modal: {
             confirm_close: true, // this is set to true, if we want confirmation when clicked on cross button.
@@ -213,4 +206,4 @@ const RenderRazorpay = ({
     return null;
 };
 
-export default RenderRazorpay;
+export default RenderRazorpayDM;

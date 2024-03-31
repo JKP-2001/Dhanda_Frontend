@@ -21,7 +21,6 @@ const ExperienceCard = (props) => {
 
     const experienceList = userRedux.data.experience;
 
-    console.log({experienceList})
 
   const visibleExp = showAll ? experienceList : experienceList.slice(0, 2);
 
