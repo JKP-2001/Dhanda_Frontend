@@ -266,6 +266,11 @@ const PriorityDM = () => {
 
     useEffect(() => {
         fetchDM();
+
+        return() => {
+            dispatch(dmSuccess([]));
+            dispatch(setTotalDMPage(0));
+        }
     }, [type])
 
     return (

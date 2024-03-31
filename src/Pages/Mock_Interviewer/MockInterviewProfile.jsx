@@ -14,6 +14,8 @@ const MockInterviewProfile = () => {
     scrollToTop();
   }, [])
 
+  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {

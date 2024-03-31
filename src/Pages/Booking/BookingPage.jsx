@@ -1,10 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Nav from '../../Components/Nav'
 import SideNav from '../../Components/SideNav'
 import SideBarProfile from '../../Components/Profile/SideBarProfile'
 import BookingComponent from '../../Components/Booking/BookingComponent'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getLoginUser } from '../../App'
+import { scrollToTop } from '../../Utils/functions'
 
 const BookingPage = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    getLoginUser(dispatch, navigate);
+  },[])
+
+  useEffect(() => {
+    scrollToTop();
+  }, [])
+
+
   return (
     <>
     <Nav />

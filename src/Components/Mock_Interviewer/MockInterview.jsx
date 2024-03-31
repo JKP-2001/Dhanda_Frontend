@@ -136,22 +136,6 @@ const Account = (props) => {
                         Book a Session
                     </Button>
                 </div>
-
-                <div className='ml-3 lg:ml-7 mt-10'>
-                    <Button
-                        color="black"
-                        buttonType="filled"
-                        size="regular"
-                        rounded={false}
-                        block={false}
-                        iconOnly={false}
-                        ripple="light"
-                        className="w-40 h-10 font-inter"
-                    >
-                        Direct Message
-                    </Button>
-                </div>
-
             </div>
 
             <div

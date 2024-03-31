@@ -5,14 +5,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import OnBoarding from '../../Components/Profile/OnBoarding'
 import { getUserData } from '../../APIs/User_API'
 import showToast from '../../Utils/showToast'
-import { decryptFromJson } from '../../Utils/functions'
+import { decryptFromJson, scrollToTop } from '../../Utils/functions'
 import { getUserSuccess } from '../../Redux/user/userSlice'
 import { useNavigate } from 'react-router-dom'
+import { getLoginUser } from '../../App'
 
 const User_Profile = () => {
 
   const userState = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    getLoginUser(dispatch, navigate);
+  },[])
+
+  useEffect(() => {
+    scrollToTop();
+  }, [])
 
   return (
     userState.data ?
