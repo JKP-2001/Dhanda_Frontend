@@ -255,6 +255,13 @@ const PriorityDM = () => {
 
     }
 
+    const handleTypeChange = (e) => {
+        dispatch(setTotalDMPage(0));
+        setType(e.target.value);
+        setPage(1);
+        dispatch(dmSuccess([]));
+    }
+
 
 
     useEffect(() => {
@@ -274,7 +281,7 @@ const PriorityDM = () => {
                         <div className="flex items-center justify-start sm:justify-end">
                             <div className="flex items-center ml-2">
                                 <label htmlFor="" className="mr-2 flex-shrink-0 text-sm font-medium text-gray-900"> Sort by: </label>
-                                <select name="" className="sm: mr-4 block w-full whitespace-pre rounded-lg border p-1 pr-10 text-base outline-none focus:shadow sm:text-sm" value={type} onChange={(e) => { setType(e.target.value); setPage(1) }}>
+                                <select name="" className="sm: mr-4 block w-full whitespace-pre rounded-lg border p-1 pr-10 text-base outline-none focus:shadow sm:text-sm" value={type} onChange={handleTypeChange}>
                                     <option
                                         className="whitespace-no-wrap text-xs" value="unanswered">Unanswered</option>
                                     <option className="whitespace-no-wrap text-xs" value="answered">Answered</option>
@@ -289,9 +296,7 @@ const PriorityDM = () => {
                         <p className="text-xl font-semibold font-inter">Your Messages</p>
                     </div>
 
-                    {dmRedux.data.length === 0 ? <div className="flex justify-center items-center h-full">
-                                <p className="text-xl font-semibold font-inter">No Messages Found</p>
-                            </div>:null}
+                    
 
                     {(dmRedux.loading && dmRedux.data.length === 0) ?
                         <div className="flex justify-center items-center h-full">
@@ -300,6 +305,11 @@ const PriorityDM = () => {
                                 <p className="loading-text text-xl font-semibold font-inter">Loading...</p>
                             </div>
                         </div>
+                        :
+
+                        dmRedux.data.length === 0 ? <div className="flex justify-center items-center h-full">
+                                <p className="text-xl font-semibold font-inter">No Messages Found</p>
+                            </div>
                         :
 
                         dmRedux.data && dmRedux.data.map((item, index) => (
