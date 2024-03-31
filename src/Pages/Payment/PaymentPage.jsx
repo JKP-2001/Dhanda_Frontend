@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideNav from '../../Components/SideNav'
 import PaymentComponent from '../../Components/Payment/PaymentComponent'
 import Nav from '../../Components/Nav'
 import SideBarProfile from '../../Components/Profile/SideBarProfile'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getLoginUser } from '../../App'
+import { scrollToTop } from '../../Utils/functions'
 
 const PaymentPage = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    getLoginUser(dispatch, navigate);
+  },[])
+
+  useEffect(() => {
+    scrollToTop();
+  }, [])
+
   return (
     <>
         <Nav />
