@@ -55,7 +55,10 @@ const EarningCard = (props) => {
 const TransactionModal = (props) => {
     const { openTransactionModal, setOpenTransactionModal, selectedTransaction, userRole } = props;
 
+    const [loading, setLoading] = useState(false);
+
     const downloadAsPDF = () => {
+        setLoading(true);
         const doc = new jsPDF();
         let yPos = 20;
 
@@ -73,7 +76,7 @@ const TransactionModal = (props) => {
         yPos += 20;
 
         // Define table columns and rows
-        const columns = ["Attribute", "Details"];
+        const columns = ["", "Details"];
         const rows = [
             ["Transaction Id:", selectedTransaction.transaction_id._id],
             ["Invoice Number:", selectedTransaction.transaction_id.invoice],
@@ -106,6 +109,13 @@ const TransactionModal = (props) => {
 
         // Save the PDF
         doc.save(`Invoice #${selectedTransaction.transaction_id.invoice}.pdf`);
+        showToast({
+            msg: "Invoice Downloaded Successfully",
+            type: "success",
+            duration: 3000
+        });
+
+        setLoading(false);
     };
 
 
@@ -171,7 +181,7 @@ const TransactionModal = (props) => {
                             className="mt-2 md:mt-0 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={downloadAsPDF}
                         >
-                            Download as PDF
+                            {loading?"Donwloading.....":"Download as PDF"}
                         </button>
                     </div>
                 </div>
@@ -734,7 +744,7 @@ const PaymentComponent = () => {
                                 {months.map((month, index) => <option value={month} key={index}>{month}</option>)}
                             </select>
                         </div>
-                        <button type="button" class="inline-flex cursor-pointer items-center rounded-lg border mt-4 sm:mt-0 border-gray-400 bg-white py-2 px-3 text-center text-sm font-medium text-gray-800 shadow hover:bg-gray-100 focus:shadow" onClick={() => { setOpenExportModal(true); document.body.style.overflow = "hidden" }}>
+                        <button type="button" class="inline-flex cursor-pointer items-center rounded-lg border mt-1 sm:mt-0 border-gray-400 bg-white py-1 sm:py-2 px-3 text-center text-sm font-medium text-gray-800 shadow hover:bg-gray-100 focus:shadow" onClick={() => { setOpenExportModal(true); document.body.style.overflow = "hidden" }}>
                             <svg class="mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" class=""></path>
                             </svg>

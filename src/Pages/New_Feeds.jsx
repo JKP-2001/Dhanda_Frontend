@@ -11,12 +11,14 @@ const New_Feeds = () => {
   const navigate = useNavigate();
   useEffect(() => {
     getLoginUser(dispatch, navigate);
-  },[])
+  }, [])
 
   return (
     <div>
       <Nav />
-      <SideNav/>
+      <div className='md:hidden lg:block'>
+        <SideNav />
+      </div>
       <div className='mb-20 lg:ml-60'>
         <New_Feeds_Comp />
       </div>

@@ -32,6 +32,8 @@ const Message_Modal = (props) => {
 
     const { setOpenMessageModal } = props;
 
+    
+
 
     const handleClose = () => {
         setOpenMessageModal(false);
@@ -84,7 +86,7 @@ const Message_Modal = (props) => {
                                 type="button"
                                 className=" w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm mt-2 md:mt-0" onClick={handleSend}
                             >
-                                Send
+                                {sendLoading ? "Sending..." : "Send"}
                             </button>
                         </div>
                     </div>
@@ -102,6 +104,7 @@ const Account = (props) => {
 
     const searchUserRedux = useSelector((state) => state.searchUser);
 
+    const userRedux = useSelector((state) => state.user);
 
 
     return (
@@ -120,6 +123,7 @@ const Account = (props) => {
 
             </div>
 
+            {(userRedux.data && userRedux.data.role === "student")?
             <div className="flex">
                 <div className='ml-3 lg:ml-7 mt-10'>
                     <Button
@@ -136,7 +140,7 @@ const Account = (props) => {
                         Book a Session
                     </Button>
                 </div>
-            </div>
+            </div>:null}
 
             <div
                 className='ml-3 lg:ml-7 mt-10'>
@@ -461,6 +465,7 @@ const MockInterview = () => {
                         </div>
 
 
+                        {(userRedux.data && userRedux.data.role === "student")?
                         <div className="flex">
                             <div className='ml-3 lg:ml-7 mt-10'>
                                 <Button
@@ -494,7 +499,7 @@ const MockInterview = () => {
                                 </Button>
                             </div>
 
-                        </div>
+                        </div>:null}
 
                         <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-[100%] lg:w-8/12 mt-10 text-sm justify-center">
                             <div
