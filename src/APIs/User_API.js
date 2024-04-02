@@ -1,4 +1,5 @@
 
+import { DecryptResponseData } from "../Utils/Encryption/DecryptResponseData";
 import { encryptToJson } from "../Utils/functions";
 
 const security_key = process.env.REACT_APP_SECURITY_KEY;
@@ -19,9 +20,8 @@ export const getUserData = async (token) => {
             }
         });
 
-        const json = await response.json();
-
-       
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -44,7 +44,8 @@ export const getUserDataById = async (role, id) => {
             }
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -73,7 +74,8 @@ export const callOnBoardingProcess = async (data, token) => {
             body: JSON.stringify(DATA),
         })
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 

@@ -13,6 +13,8 @@ import axios from 'axios';
 import RenderRazorpay from './RenderRazorpay';
 import { Spinner } from '@material-tailwind/react';
 import { getAllMeetings } from '../../APIs/Meeting_API';
+import { EncryptRequestData } from '../../Utils/Encryption/EncryptRequestData';
+import { DecryptResponseData } from '../../Utils/Encryption/DecryptResponseData';
 
 const localizer = momentLocalizer(moment);
 
@@ -153,14 +155,17 @@ const Calendar_Comp = () => {
         }
 
         setBookLoading(true);
-        let response = await axios.post(BASE_URL + '/transactions/generate-order-id',
+        const DATA = EncryptRequestData(
             {
                 amount: amount * 100,
                 currency: currency,
                 instructorId: instructorId,
                 studentId: userRedux.data._id,
                 topic: `Mock Interview with ${searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}`,
-            },
+                service: "Meeting"
+            }
+        );
+        let response = await axios.post(BASE_URL + '/transactions/generate-order-id',DATA,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -173,6 +178,8 @@ const Calendar_Comp = () => {
         setBookLoading(false);
 
         response = response.data;
+
+        response = DecryptResponseData(response);
 
 
         if (response.success && response.data.id) {

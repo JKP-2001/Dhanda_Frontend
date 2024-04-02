@@ -53,7 +53,7 @@ const EarningCard = (props) => {
 }
 
 const TransactionModal = (props) => {
-    const { openTransactionModal, setOpenTransactionModal, selectedTransaction, userRole } = props;
+    const { openTransactionModal, setOpenTransactionModal, selectedTransaction, userRole, type } = props;
 
     const [loading, setLoading] = useState(false);
 
@@ -225,7 +225,7 @@ const DMTransactionModal = (props) => {
             ["Instructor Id:", selectedTransaction.receiverId._id],
             ["Student Id:", selectedTransaction.senderId._id],
             ["Service Type", "Booked Meeting"],
-            ["Meeting Id", selectedTransaction._id]
+            ["DM Id", selectedTransaction._id]
         ];
 
         // Create table
@@ -320,7 +320,7 @@ const DMTransactionModal = (props) => {
 };
 
 const PaymentCard = (props) => {
-    const { title, invoice, studentName, amount, status, date, setOpenTransactionModal, setSelectedTransaction, payment, studentId, instructorName, instructorId, role } = props;
+    const { title, invoice, studentName, amount, status, date, setOpenTransactionModal, setSelectedTransaction, payment, studentId, instructorName, instructorId, role, type } = props;
 
     const openSelectedTransaction = () => {
         setSelectedTransaction(payment);
@@ -399,7 +399,7 @@ const PaymentCard = (props) => {
 
 
 const DMPaymentCard = (props) => {
-    const { title, invoice, studentName, amount, status, date, setOpenTransactionModal, setSelectedTransaction, payment, studentId, instructorName, instructorId, role } = props;
+    const { title, invoice, studentName, amount, status, date, setOpenTransactionModal, setSelectedTransaction, payment, studentId, instructorName, instructorId, role, type } = props;
 
     const openSelectedTransaction = () => {
         setSelectedTransaction(payment);
@@ -793,6 +793,7 @@ const PaymentComponent = () => {
                                         setSelectedTransaction={setSelectedTransaction}
                                         studentId={payment.studentId._id}
                                         payment={payment}
+                                        type={"meet"}
                                     />
 
                                 )):
@@ -813,6 +814,7 @@ const PaymentComponent = () => {
                                         setSelectedTransaction={setSelectedDMTransaction}
                                         studentId={payment.senderId._id}
                                         payment={payment}
+                                        type={"dm"}
                                     />
                                 ))
                                 
@@ -831,12 +833,12 @@ const PaymentComponent = () => {
             </div>
             {openTransactionModal ?
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <TransactionModal openTransactionModal={openTransactionModal} setOpenTransactionModal={setOpenTransactionModal} selectedTransaction={selectedTransaction} userRole={userRedux.data.role} />
+                    <TransactionModal openTransactionModal={openTransactionModal} setOpenTransactionModal={setOpenTransactionModal} selectedTransaction={selectedTransaction} userRole={userRedux.data.role} type={"meet"}/>
                 </div>
                 :
                 openDMTransactionModal?
                     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-                        <DMTransactionModal openTransactionModal={openDMTransactionModal} setOpenTransactionModal={setOpenDMTransactionModal} selectedTransaction={selectedDMTransaction} userRole={userRedux.data.role} />
+                        <DMTransactionModal openTransactionModal={openDMTransactionModal} setOpenTransactionModal={setOpenDMTransactionModal} selectedTransaction={selectedDMTransaction} userRole={userRedux.data.role} type={"dm"}/>
                     </div>
                 :
                 openExportModal ?

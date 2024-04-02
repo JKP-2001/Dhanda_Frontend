@@ -23,6 +23,8 @@ import { getSearchUserStart, getSearchUserSuccess } from '../../Redux/searchUser
 import userimg from "../../Utils/Images/user2.jpg"
 import RenderRazorpayDM from './RenderRazorPayDM';
 import axios from 'axios';
+import { EncryptRequestData } from '../../Utils/Encryption/EncryptRequestData';
+import { DecryptResponseData } from '../../Utils/Encryption/DecryptResponseData';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
@@ -352,13 +354,16 @@ const MockInterview = () => {
 
 
         setSendLoading(true);
-        let response = await axios.post(BASE_URL + '/transactions/generate-order-id',
-            {
-                amount: amount * 100,
-                currency: currency,
-                instructorId: searchUserRedux.data._id,
-                studentId: userRedux.data._id
-            },
+        
+        const DATA = EncryptRequestData({
+            amount: amount * 100,
+            currency: currency,
+            instructorId: searchUserRedux.data._id,
+            studentId: userRedux.data._id,
+            service: 'DM'
+        });
+
+        let response = await axios.post(BASE_URL + '/transactions/generate-order-id',DATA,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -368,17 +373,25 @@ const MockInterview = () => {
             }
         );
 
-        setSendLoading(false);
+        
 
         response = response.data;
+
+        response = DecryptResponseData(response);
 
 
         if (response.success && response.data.id) {
             setOrderDetails(response.data);
             setDisplayRazorpay(true);
-
+            setSendLoading(false);
             console.log({ displayRazorpay });
-        };
+        }
+
+        else{
+            setSendLoading(false);
+        }
+
+
     };
 
     // fetch user data on loading page

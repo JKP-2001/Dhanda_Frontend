@@ -1,3 +1,5 @@
+import { DecryptResponseData } from "../Utils/Encryption/DecryptResponseData";
+import { EncryptRequestData } from "../Utils/Encryption/EncryptRequestData";
 
 const security_key = process.env.REACT_APP_SECURITY_KEY;
 
@@ -13,7 +15,8 @@ export const fetchUserDM = async(page, limit, type)=>{
                 "auth-token": localStorage.getItem("token"),
             }
         });
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     }catch(err){
         return { success: false, msg: err.toString() }
@@ -23,6 +26,7 @@ export const fetchUserDM = async(page, limit, type)=>{
 
 export const answerToDm = async(id, answer)=>{
     try{
+        const DATA = EncryptRequestData({"answer": answer})
         const response = await fetch(BASE_URL+"/dm/"+id, {
             method: "POST",
             headers: {
@@ -30,9 +34,10 @@ export const answerToDm = async(id, answer)=>{
                 "security-key": security_key,
                 "auth-token": localStorage.getItem("token"),
             },
-            body: JSON.stringify({"answer": answer})
+            body: JSON.stringify(DATA)
         });
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     }catch(err){
         return { success: false, msg: err.toString() }
@@ -50,7 +55,8 @@ export const dmTransactions = async(page, limit, month)=>{
                 "auth-token": localStorage.getItem("token"),
             }
         });
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     }catch(err){
         return { success: false, msg: err.toString() }
