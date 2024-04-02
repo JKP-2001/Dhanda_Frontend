@@ -91,7 +91,7 @@ const Message_Modal = (props) => {
     return (
         <div>
             <div className="fixed z-50 inset-0 overflow-y-auto">
-                <div className="flex items-center justify-center mt-32 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="flex items-center justify-center  md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div className="fixed inset-0 transition-opacity" aria-hidden="true">
                         <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
                     </div>
@@ -274,7 +274,8 @@ const PriorityDM = () => {
     }, [type])
 
     return (
-        userRedux.data && <div className="w-full font-inter text-xl">
+        userRedux.data && 
+        <div className="w-full font-inter text-xl">
             <div className="mx-auto mt-2 md:mt-5 max-w-screen-lg px-2">
                 <div className="sm:flex sm:items-center sm:justify-between flex-col sm:flex-row">
                     <p className="flex-1 ml-3 font-bold text-gray-900 text-2xl">Priority DM</p>

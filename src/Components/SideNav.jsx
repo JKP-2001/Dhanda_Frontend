@@ -116,6 +116,10 @@ const SideNav = () => {
             setActive("Priority DM");
         }
 
+        else if(url.toLowerCase().includes("timeslot")) {
+            setActive("Time Slots");
+        }
+
     }, []);
 
 
@@ -160,7 +164,6 @@ const SideNav = () => {
                         <SideBarItem icon={<AppsOutlinedIcon />} title="New Feeds" active={active === "New Feeds"} setActive={setActive} link={"/new-feeds"} />
                         <SideBarItem icon={<Groups2OutlinedIcon />} title="Interview" active={active === "Interview"} setActive={setActive} link={"/mock-interview"} />
                         {userRedux.data ? <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active === "Profile"} setActive={setActive} link={`/user/profile/${userRedux.data.role}/${userRedux.data._id}`} /> : null}
-                        <SideBarItem icon={<CalendarMonthOutlinedIcon />} title="Calendar" active={active === "Calendar"} setActive={setActive} />
                         <SideBarItem icon={<DialpadOutlinedIcon />} title="Contact Us" active={active === "Contact Us"} setActive=
                             {setActive} />
 

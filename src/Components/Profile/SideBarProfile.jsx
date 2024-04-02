@@ -115,6 +115,10 @@ const SideBarProfile = () => {
             setActive("Priority DM");
         }
 
+        else if(url.toLowerCase().includes("time-slots")){
+            setActive("Time Slots");
+        }
+
     }, []);
 
 
@@ -160,7 +164,10 @@ const SideBarProfile = () => {
                             <SideBarItem icon={<Groups2OutlinedIcon />} title="Interview" active={active === "Interview"} setActive={setActive}
                                 link="/mock-interview" />
                             <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active === "Profile"} setActive={setActive} link={`/user/profile/${userRedux.data.role}/${userRedux.data._id}`} />
-                            <SideBarItem icon={<CalendarMonthOutlinedIcon />} title="Calendar" active={active === "Calendar"} setActive={setActive} />
+
+                            {userRedux.data.role==="instructor"?<SideBarItem icon={<CalendarMonthOutlinedIcon />} title="Time Slots" active={active === "Time Slots"} setActive={setActive} link="/time-slots" />:null}
+
+
                             <SideBarItem icon={<RingVolumeOutlinedIcon />} title="Bookings" active={active === "Bookings"} setActive={setActive} link="/bookings" />
                             <SideBarItem icon={<NoteOutlinedIcon />} title="Priority DM" active={active === "Priority DM"} setActive={setActive} link={"/dm"}/>
                             <SideBarItem icon={<AccountBalanceWalletOutlinedIcon />} title="Payment" active={active === "Payment"} setActive={setActive} link="/payment" /></> : null}

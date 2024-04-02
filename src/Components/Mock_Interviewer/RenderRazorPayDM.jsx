@@ -48,6 +48,8 @@ const RenderRazorpayDM = ({
 
     const serverBaseUrl = process.env.REACT_APP_BASE_URL;
 
+    const searchUserRedux = useSelector((state) => state.searchUser);
+
     // To load razorpay checkout modal script.
     const displayRazorpay = async (options) => {
         const res = await loadScript(
@@ -142,6 +144,12 @@ const RenderRazorpayDM = ({
                 });
 
                 sendingDM(false);
+
+                showToast({
+                    type: 'success',
+                    msg: `Message sent successfully to ${searchUserRedux.data.firstName}`,
+                    duration: 4000,
+                })
                 
                 // await setMeetingDetails(response2.meeting);
 

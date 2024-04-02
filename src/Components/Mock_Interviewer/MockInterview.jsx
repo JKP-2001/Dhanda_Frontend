@@ -34,7 +34,7 @@ const Message_Modal = (props) => {
 
     const { setOpenMessageModal } = props;
 
-    
+    const searchUserRedux = useSelector((state) => state.searchUser);
 
 
     const handleClose = () => {
@@ -51,7 +51,7 @@ const Message_Modal = (props) => {
     return (
         <div>
             <div className="fixed z-50 inset-0 overflow-y-auto">
-                <div className="flex items-center justify-center mt-32 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="flex items-center justify-center mt-8 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div className="fixed inset-0 transition-opacity" aria-hidden="true">
                         <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
                     </div>
@@ -61,7 +61,7 @@ const Message_Modal = (props) => {
 
                             <div className="mt-3 mx-2 sm:mx-0   sm:text-left">
                                 <div className="text-lg font-semibold text-gray-900 font-inter" id="modal-headline">
-                                    Send Priority DM To User
+                                    {`Send Priority DM To ${searchUserRedux.data.firstName+" ("+searchUserRedux.data.email+")"}`}
                                 </div>
                                 <div className=" space-x-2 mt-3">
                                     <div className='your-question w-full'>

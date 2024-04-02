@@ -35,6 +35,7 @@ import DiscussionPostDetails from "./Pages/Discussion/DiscussionPostDetails/Disc
 import PaymentPage from "./Pages/Payment/PaymentPage";
 import BookingPage from "./Pages/Booking/BookingPage";
 import DM from "./Pages/Profile/DM";
+import TimeSlotPage from "./Pages/Profile/TimeSlotPage";
 
 export const getLoginUser = async (dispatch, navigate) => {
   const token = localStorage.getItem("token");
@@ -125,6 +126,11 @@ const App = () => {
           <Route
             path="/bookings"
             element={<ProtectedRoute ele={<BookingPage />} />}
+          />
+
+          <Route
+            path="/time-slots"
+            element={<ProtectedRoute ele={<TimeSlotPage />} />}
           />
 
           <Route
