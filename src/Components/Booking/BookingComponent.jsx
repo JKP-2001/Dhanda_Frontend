@@ -408,7 +408,7 @@ const BookingComponent = () => {
 
                         (sortBy === "upcoming" ? bookingRedux.upComing.length === 0 : bookingRedux.past.length === 0) ?
                             <div className="flex justify-center items-center h-full">
-                                <p className="text-xl font-semibold font-inter">No Transactions Found</p>
+                                <p className="text-xl font-semibold font-inter">No Bookings Found</p>
                             </div>
                             :
 

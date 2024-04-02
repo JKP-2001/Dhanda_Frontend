@@ -18,7 +18,7 @@ import { DecryptResponseData } from '../../Utils/Encryption/DecryptResponseData'
 
 const localizer = momentLocalizer(moment);
 
-
+const weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 const shouldDisableDate = (date) => {
     const today = new Date();
@@ -271,9 +271,17 @@ const Calendar_Comp = () => {
     // console.log({ events });
 
     const timeSlots = useMemo(() => {
-        const defaultTimeSlots = [
-            '08:00', '09:00', '10:00', '11:00', '13:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
-        ];
+
+        if(!searchUserRedux.data){
+            return;
+        }
+
+        const day = new Date(selectedDate).getDay();
+
+        const weekDay = weekDays[day];
+
+
+        const defaultTimeSlots = searchUserRedux.data.availableTimeslots[weekDay];
 
         // remove the time slot on current day is current time pass the hours 
 
