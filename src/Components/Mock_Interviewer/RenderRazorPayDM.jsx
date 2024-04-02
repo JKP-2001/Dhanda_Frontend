@@ -5,6 +5,8 @@ import showToast from '../../Utils/showToast';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Co2Sharp } from '@mui/icons-material';
+import { EncryptRequestData } from '../../Utils/Encryption/EncryptRequestData';
+import { DecryptResponseData } from '../../Utils/Encryption/DecryptResponseData';
 
 
 
@@ -76,11 +78,11 @@ const RenderRazorpayDM = ({
 
     // informing server about payment
     const handlePayment = async (status, orderDetails = {}) => {
-        const response = await Axios.post(`${serverBaseUrl}/transactions/verify-payment-dm`,
-            {
-                status,
-                orderDetails,
-            },
+        const DATA = EncryptRequestData({
+            status,
+            orderDetails
+        })
+        const response = await Axios.post(`${serverBaseUrl}/transactions/verify-payment-dm`,DATA,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,11 +92,10 @@ const RenderRazorpayDM = ({
             }
         );
 
-        return response.data;
+        const temp = response.data;
+
+        return DecryptResponseData(temp);
     };
-
-
-    console.log({ order });
 
 
 
@@ -139,8 +140,6 @@ const RenderRazorpayDM = ({
                     question: text,
                     paymentMethod: paymentMethod.current
                 });
-
-                console.log('response', response2);
 
                 sendingDM(false);
                 

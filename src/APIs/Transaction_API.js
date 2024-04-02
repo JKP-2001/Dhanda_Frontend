@@ -21,8 +21,8 @@ export const fetchTransactions = async (page, limit, month) => {
             },
         });
 
-        const json = await response.json();
-
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
 
     } catch (err) {
@@ -44,7 +44,8 @@ export const exportTransactions = async (month) => {
             },
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 

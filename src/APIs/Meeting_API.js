@@ -1,3 +1,5 @@
+import { DecryptResponseData } from "../Utils/Encryption/DecryptResponseData";
+import { EncryptRequestData } from "../Utils/Encryption/EncryptRequestData";
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
@@ -5,6 +7,8 @@ const BASE_URL = process.env.REACT_APP_BASE_URL
 export const getAllMeetings = async (meetings) => {
 
     try {
+        
+        const DATA = EncryptRequestData({meetingIdArray:meetings})
 
         const response = await fetch(BASE_URL+"/meetings", {
             method: "POST",
@@ -13,10 +17,11 @@ export const getAllMeetings = async (meetings) => {
                 "security-key": process.env.REACT_APP_SECURITY_KEY
             },
             body:
-                JSON.stringify({meetingIdArray:meetings}),
+                JSON.stringify(DATA),
         })
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -40,7 +45,8 @@ export const getUserMeetings = async (page, limit, type) => {
             }
         })
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 

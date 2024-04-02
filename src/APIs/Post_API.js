@@ -1,4 +1,6 @@
 
+import { DecryptResponseData } from "../Utils/Encryption/DecryptResponseData";
+import { EncryptRequestData } from "../Utils/Encryption/EncryptRequestData";
 import { encryptToJson } from "../Utils/functions";
 
 const security_key = process.env.REACT_APP_SECURITY_KEY;
@@ -14,7 +16,8 @@ export const getAllPost = async (page, limit) => {
                 "Content-Type": "application/json",
             }
         })
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     } catch (err) {
         return { success: false, msg: err.toString() }
@@ -32,7 +35,8 @@ export const getAllPostOfUser = async (page, limit, token, id , role) => {
                 "auth-token": token
             }
         })
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     } catch (err) {
         return { success: false, msg: err.toString() }
@@ -49,7 +53,8 @@ export const getBookmarkedPostUser = async (page, limit, token, user_id, role) =
                 "auth-token": token
             }
         })
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     } catch (err) {
         return { success: false, msg: err.toString() }
@@ -85,7 +90,8 @@ export const createPost = async (content, imageFiles, token) => {
 
      
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     } catch (err) {
         return { success: false, msg: err.toString() };
@@ -114,7 +120,8 @@ export const updatePost = async (post_id, content, imageFiles, filesToBeDeleted,
             body: formData
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -136,7 +143,8 @@ export const deletePost = async (post_id, token) => {
             }
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
 
     } catch (err) {
@@ -156,7 +164,8 @@ export const likePost = async (post_id, token) => {
             }
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
     } catch (err) {
         return { success: false, msg: err.toString() };
@@ -175,7 +184,8 @@ export const bookMarkPost = async (post_id, token) => {
             }
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -196,7 +206,8 @@ export const getAPost = async (post_id) => {
             }
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -218,7 +229,8 @@ export const getCommentsOfAPost = async (post_id, page, limit) =>{
             }
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -238,8 +250,8 @@ export const getRepliesOfAPost = async (comment_id, page, limit) =>{
             }
         });
 
-        const json = await response.json();
-
+        let json = await response.json();
+        json = DecryptResponseData(json)
         return json;
 
     } catch (err) {
@@ -252,6 +264,7 @@ export const postAComment = async (post_id, content, token) => {
 
     try {
 
+        const DATA = EncryptRequestData({content})
         const response = await fetch(BASE_URL + `/comment/${post_id}`, {
             method: "POST",
             headers: {
@@ -259,10 +272,11 @@ export const postAComment = async (post_id, content, token) => {
                 "security-key": security_key,
                 "auth-token": token
             },
-            body: JSON.stringify({"content":content})
+            body: JSON.stringify(DATA)
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
@@ -276,6 +290,8 @@ export const postAReply = async (comment_id, content, token) => {
 
     try {
 
+        const DATA = EncryptRequestData({content})
+
         const response = await fetch(BASE_URL + `/reply/comment/${comment_id}`, {
             method: "POST",
             headers: {
@@ -283,10 +299,11 @@ export const postAReply = async (comment_id, content, token) => {
                 "security-key": security_key,
                 "auth-token": token
             },
-            body: JSON.stringify({"content":content})
+            body: JSON.stringify(DATA)
         });
 
-        const json = await response.json();
+        let json = await response.json();
+        json = DecryptResponseData(json)
 
         return json;
 
