@@ -105,6 +105,12 @@ const SideNav = () => {
     } else if (url.toLowerCase().includes("contact")) {
       setActive("Contact Us");
     }
+    else if(url.toLowerCase().includes("signup")){
+      setActive("Signup"); 
+    }
+    else if(url.toLowerCase().includes("signin")){
+      setActive("Signin");
+    }
   }, []);
 
   return (
@@ -196,7 +202,7 @@ const SideNav = () => {
               title="Contact Us"
               active={active === "Contact Us"}
               setActive={setActive}
-              link={"/contact us"}
+              link={"/contact-us"}
             />
 
             {loggedSignIn ? (

@@ -4,18 +4,18 @@ import whyChoose from "../../Utils/Images/why-choose-us.jpg";
 
 function TrustUs() {
   return (
-    <div>
+    <div className="pb-10">
       <div className="mt-28 w-[100%]">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-10 w-[80%] mx-auto">
-          <img src={trustImage}></img>
-          <div className="flex flex-col justify-center gap-6">
-            <div className="text-center lg:text-left font-custom  text-5xl ">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-10 w-[95%] md:w-[90%] mx-auto">
+          <img className="border-2 rounded-3xl border-gray-400" src={trustImage}></img>
+          <div className="flex flex-col justify-center gap-3">
+            <div className="text-center lg:text-left font-handwritten2 font-semibold  text-5xl ">
               Trust Us
             </div>
-            <div className="text-center lg:text-left font-custom  text-4xl ">
+            <div className="text-center lg:text-left font-handwritten2  text-3xl ">
               We Are Here to Help!
             </div>
-            <div className="text-base font-inter font-[550]">
+            <div className="text-base font-handwritten2 font-[550] md:mx-1">
               If you are looking for a reliable mentors with whom you share your
               mind, thoughts and get the best advice you’ve been looking for, we
               are here. With years of experience in helping college students, we
@@ -26,24 +26,24 @@ function TrustUs() {
           </div>
         </div>
       </div>
-      <div className="mt-28 w-[100%]">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-[80%] mx-auto">
+      <div className="mt-20 w-[100%]">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-[95%] md:w-[90%] mx-auto">
           <div className="flex flex-col justify-center gap-4">
-            <div className="text-center lg:text-left font-custom  text-4xl ">
+            <div className="text-center lg:text-left font-handwritten2  text-5xl font-semibold">
               Why Choose Us?
             </div>
-            <div className="text-center lg:text-left font-body  text-xl ">
+            <div className="text-center lg:text-left font-handwritten2  text-xl ">
               We are well-experienced industry professionals with brilliant
               minds.
             </div>
-            <div className="text-xl font-inter font-semibold flex-col leading-relaxed ">
+            <div className="text-xl font-handwritten2 font-semibold flex-col leading-relaxed ">
               <div className="text-center lg:text-left">Passion & Commitment</div>
               <div className="text-center lg:text-left">Honesty & Openness</div>
               <div className="text-center lg:text-left">Dedicated Team</div>
               <div className="text-center lg:text-left">Practical Approach</div>
             </div>
           </div>
-          <img src={whyChoose}></img>
+          <img className="border-2 rounded-3xl border-gray-400" src={whyChoose}></img>
         </div>
       </div>
     </div>

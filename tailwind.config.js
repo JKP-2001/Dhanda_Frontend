@@ -15,7 +15,7 @@ module.exports = withMT({
     },
     extend: {
       colors: {
-        primary: {
+        xx: {
           50: "#eff6ff",
           100: "#dbeafe",
           200: "#bfdbfe",
@@ -38,6 +38,7 @@ module.exports = withMT({
       roboto: ["Roboto", "sans-serif"],
       inter: ["Inter", "sans-serif"],
       landing: ["Bodoni Moda", "serif"],
+      nutino: ["Nunito", "sans-serif"],
     },
   },
   plugins: [],

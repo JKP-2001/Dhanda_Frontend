@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../Components/Nav";
 import { scrollToTop } from "../Utils/functions";
-import heroHeader from "../Utils/Images/hero-header.png";
+import heroHeader from "../Utils/Images/hero-header.jpg";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import AchieveGoal from "../Components/HomeComponents/AchieveGoal";
@@ -13,6 +13,7 @@ import Footer from "../Components/Footer/Footer";
 import Portfolio from "../Components/TopCreators/Portfolio";
 import SideNav from "../Components/SideNav";
 import { useSelector } from "react-redux";
+import StepToBook from "../Components/HomeComponents/StepToBook";
 
 const Home = () => {
   useEffect(() => {
@@ -31,10 +32,10 @@ const Home = () => {
       <div className="main-container w-full flex items-center justify-center flex-col ">
         <div className="hero flex flex-col lg:flex-row  items-center justify-between w-[100%] gap-4 py-4  lg:pt-12  lg:w-[80%] pt-12">
           <div className="left-hero flex flex-col gap-3 lg:w-[60%]">
-            <div className="quote text-center lg:text-left font-roboto text-[#002147] text-2xl font-bold">
+            <div className="quote text-center lg:text-left font-handwritten2 text-[#002147] text-2xl font-bold">
               Become Master
             </div>
-            <div className="heading text-center lg:text-left font-custom font-bold text-4xl lg:text-5xl text-[#002147] leading-[40px] lg:leading-[54px]">
+            <div className="heading text-center lg:text-left font-handwritten2 mx-[1px] font-extrabold text-3xl lg:text-5xl text-[#002147] leading-[40px] lg:leading-[54px] space-y-1 ">
               Start your internship and placement preperation journey with us
             </div>
             {/* <div className="btn justify-center lg:justify-start flex flex-row gap-3 items-center mt-8">
@@ -54,10 +55,10 @@ const Home = () => {
               </Button>
             </div> */}
           </div>
-          <div className="right-hero w-[100%] lg:w-[40%]">
+          <div className="right-hero w-[100%] ">
             <div>
               <img
-                className="lg:h-[500px] lg:w-auto w-[90%] mx-auto"
+                className="lg:h-[500px] lg:w-auto  mx-auto"
                 src={heroHeader}
                 alt="Hero-Header"
               />
@@ -68,15 +69,19 @@ const Home = () => {
       <div>
         <AchieveGoal />
       </div>
+      <div className="mt-10 mx-2 md:mx-10">
+        <StepToBook />
+      </div>
       <div>
         <TrustUs />
       </div>
-      <div>
+      
+      {/* <div>
         <Portfolio />
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <Service />
-      </div>
+      </div> */}
       <div>
         <Accordion />
       </div>
