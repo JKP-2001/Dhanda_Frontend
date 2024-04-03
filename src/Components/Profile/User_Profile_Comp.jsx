@@ -28,6 +28,9 @@ import { setUserBookMarkedPosts, setUserPosts } from '../../Redux/user/userSlice
 import NothingFoundCard from '../../Utils/NothingFoundCard';
 
 import userimg from "../../Utils/Images/user2.jpg"
+import { getAllMeetings } from '../../APIs/Meeting_API';
+// import SideBar from './SideBarProfile';
+import SideBarProfile from './SideBarProfile';
 
 
 const localizer = momentLocalizer(moment);
@@ -89,26 +92,142 @@ const Account = (props) => {
 const Calendar_Part = (props) => {
 
 
+    const { events, setEvents } = props;
 
-    const events = props.events;
     const handleEventClick = props.handleEventClick;
+
+    const userRedux = useSelector((state) => state.user);
+
+    const [fetchedMeeting, setFetchedMeeting] = useState([]);
+
+    const [fetchingEvents, setFetchingEvents] = useState(true);
+
+    const convertToEvent = () => {
+        var arr = [];
+
+        const length = fetchedMeeting.length;
+
+        for (var i = 0; i < length; i++) {
+            var newEvent = fetchedMeeting[i].calendarEvent
+            const start = moment(newEvent.start).toDate();
+            const end = moment(newEvent.end).toDate();
+            newEvent = { ...newEvent, start, end, meeting_link: fetchedMeeting[i].meeting_link };
+            arr.push(newEvent);
+        }
+
+
+
+        setEvents(arr);
+    }
+
+    const fetchAllMeetings = async () => {
+
+        if (!userRedux.data) {
+            return;
+        }
+
+        const allMeeting = await getAllMeetings(userRedux.data.meetingScheduled);
+
+        setFetchingEvents(false);
+
+        // setFetchingEvents(false);
+
+        if (allMeeting.success) {
+            // console.log({ meetings: allMeeting.data });
+            setFetchedMeeting(allMeeting.data);
+            return;
+        }
+
+        else {
+            showToast({
+                msg: allMeeting.msg,
+                type: 'error',
+                duration: 3000
+            });
+        }
+    }
+
+    const shouldDisableDate = (date) => {
+        const today = new Date();
+
+        // compare date not whole time
+
+
+
+        if (date.getFullYear() === today.getFullYear()) {
+
+            if (date.getMonth() === today.getMonth()) {
+                if (date.getDate() < today.getDate()) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+            if (date.getMonth() < today.getMonth()) {
+                return true;
+            }
+
+            return false;
+        }
+
+        if (date.getFullYear() < today.getFullYear()) {
+            return true;
+        }
+
+        return false;
+
+
+    };
+
+    // Custom date cell wrapper to style disabled dates
+    const CustomDateCellWrapper = ({ children, value }) => {
+        const dateIsDisabled = shouldDisableDate(value);
+        const className = dateIsDisabled ? 'rbc-off-range-bg' : '';
+        return React.cloneElement(React.Children.only(children), {
+            className: `${children.props.className} ${className}`
+        });
+    };
+
+    useEffect(() => {
+        fetchAllMeetings();
+    }, [userRedux.data]);
+
+    useEffect(() => {
+        convertToEvent();
+    }, [fetchedMeeting]);
 
     return (
 
 
+        fetchingEvents ?
 
-        <div className="w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10">
-            <Calendar
-                localizer={localizer}
-                events={events}
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: `550px` }}
-                onSelectEvent={handleEventClick}
-                selectable
-                className='font-inter font-semibold bg-white'
-            />
-        </div>
+            <div className='w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10'>
+                <div className="flex justify-center items-center mt-20 py-4 px-8 bg-white rounded-full">
+                    <Spinner color="blue" size="large" />
+                    <div className='font-handwritten2 text-base md:text-base ml-2 mt-[1px] md:-mt-1'>Loading Calendar.....</div>
+                </div>
+            </div>
+
+            :
+
+
+            <div className="w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10">
+                <Calendar
+                    localizer={localizer}
+                    events={events}
+                    startAccessor="start"
+                    endAccessor="end"
+                    style={{ height: `600px` }}
+                    onSelectEvent={handleEventClick}
+                    selectable
+                    className='font-inter font-semibold text-xs md:text-sm bg-white'
+                    components={{
+                        dateCellWrapper: CustomDateCellWrapper,
+                    }}
+                />
+            </div>
     )
 }
 
@@ -172,20 +291,22 @@ const Posts = () => {
 
     return (
 
-        loading?
-        <div className="flex justify-center items-center mt-20 py-4 px-8 bg-white rounded-full">
-            <Spinner color="blue" size="large" /> 
-            <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
-        </div>
-        :
-        userRedux.posts &&
-            userRedux.posts.length > 0 ? <div >
-            {items.map((item, index) => (
-                <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt ? item.updatedAt : item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
-            ))}
-            {/* <PostCard type="feed" follow={true} /> */}
-        </div> :
-            <NothingFoundCard heading={"No Posts Found"} description={"Some new posts will be added and that will appear here 😁"} />
+        loading ?
+            <div className='w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10'>
+                <div className="flex justify-center items-center mt-20 py-4 px-8 bg-white rounded-full">
+                    <Spinner color="blue" size="large" />
+                    <div className='font-handwritten2 text-base md:text-base ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
+                </div>
+            </div>
+            :
+            userRedux.posts &&
+                userRedux.posts.length > 0 ? <div >
+                {items.map((item, index) => (
+                    <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt ? item.updatedAt : item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
+                ))}
+                {/* <PostCard type="feed" follow={true} /> */}
+            </div> :
+                <NothingFoundCard heading={"No Posts Found"} description={"Some new posts will be added and that will appear here 😁"} />
 
 
     )
@@ -247,20 +368,22 @@ const BookMarked = () => {
     return (
 
 
-        loading?
-        <div className="flex justify-center items-center mt-20 p-4 bg-white rounded-full">
-            <Spinner color="blue" size="large" /> 
-            <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>Loading Bookmarked Posts.....</div>
-        </div>
-        :
-        userRedux.bookMarkedPosts &&
-            userRedux.bookMarkedPosts.length > 0 ? <div >
-            {items.map((item, index) => (
-                <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt ? item.updatedAt : item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
-            ))}
-            {/* <PostCard type="feed" follow={true} /> */}
-        </div> :
-            <NothingFoundCard heading={"No Bookmarked Posts Found"} description={"Posts that will be bookmarked, will appear here 😁"} />
+        loading ?
+            <div className='w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10'>
+                <div className="flex justify-center items-center mt-20 p-4 bg-white rounded-full">
+                    <Spinner color="blue" size="large" />
+                    <div className='font-handwritten2 text-base md:text-base ml-2 mt-[1px] md:-mt-1'>Loading Bookmarked Posts.....</div>
+                </div>
+            </div>
+            :
+            userRedux.bookMarkedPosts &&
+                userRedux.bookMarkedPosts.length > 0 ? <div >
+                {items.map((item, index) => (
+                    <PostCard isUpdated={item.isUpdated} type="feed" key={item.updatedAt ? item.updatedAt : item.createdAt} postId={item._id} index={index} name={item.author.firstName + " " + item.author.lastName} bio={item.author.bio} text={item.content ? item.content : null} images={item.images} likes={item.likes} comments={item.comments} reposts={item.reposts} bookMarks={item.bookmarks} follow={true} createdAt={item.createdAt} updatedAt={item.updatedAt} />
+                ))}
+                {/* <PostCard type="feed" follow={true} /> */}
+            </div> :
+                <NothingFoundCard heading={"No Bookmarked Posts Found"} description={"Posts that will be bookmarked, will appear here 😁"} />
 
     )
 }
@@ -297,14 +420,7 @@ const User_Profile_Comp = () => {
     }
 
 
-    const events = [
-        {
-            title: 'Mock Interview with User1',
-            start: new Date(2024, 0, 14, 10, 0), // Example date and time
-            end: new Date(2024, 0, 14, 11, 0), // Example date and time
-        },
-        // Add more events as needed
-    ];
+    const [events, setEvents] = useState([]);
 
     const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -338,10 +454,12 @@ const User_Profile_Comp = () => {
 
 
     return (
+        // <SideBar />
         userRedux.data ?
 
             <>
-                <div className="mt-2 ml-0 lg:mt-12 lg:ml-48 mb-10">
+                <SideBarProfile selectedIcon={selectedIcon} handleIconClick={handleIconClick} />
+                <div className="mt-2 ml-0 lg:mt-12 md:ml-[240px] lg:ml-[300px] mb-10">
                     <div className='mx-3 sm:mx-4 flex'>
                         <img
                             className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
@@ -448,7 +566,7 @@ const User_Profile_Comp = () => {
 
                     </div>
 
-                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-[100%] lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-[100%] lg:w-9/12"><BookMarked /></div> : <></>}
+                    {selectedIcon === 'account' ? <Account /> : selectedIcon === 'calendar' ? <Calendar_Part events={events} setEvents={setEvents} handleEventClick={handleEventClick} /> : selectedIcon === 'grid' ? <div className="flex justify-center w-[100%] lg:w-9/12"><Posts /></div> : selectedIcon === 'bookmark' ? <div className="flex justify-center w-[100%] lg:w-9/12"><BookMarked /></div> : <></>}
 
 
 
@@ -457,7 +575,7 @@ const User_Profile_Comp = () => {
                 {checkFollowers ? <UserList_Modal handleClose={closeCheckFollowers} heading={"Followers"} /> : checkFollowing ? <UserList_Modal handleClose={closeCheckFollowings} heading={"Following"} /> : null}
 
                 {selectedEvent && (
-                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10">
+                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
                         <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
                             <h2 className="text-2xl font-inter font-bold mb-4">Interview Details</h2>
 
@@ -465,7 +583,7 @@ const User_Profile_Comp = () => {
                             <p className='font-inter font-semibold text-gray-700'>Starts At: {moment(selectedEvent.start).format('DD-MM-YYYY HH:mm')}</p>
                             <p className='font-inter font-semibold text-gray-700'>Ends At: {moment(selectedEvent.end).format('DD-MM-YYYY HH:mm')}</p>
 
-                            <p className='font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={"www.google.com"} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
+                            <p className='font-inter mb-4 font-semibold text-gray-700'>Interview Link: <a className='underline underline-offset-1 text-blue-800' href={selectedEvent.meeting_link} target="_blank" rel="noopener noreferrer">Meet Link</a></p>
 
                             <div className="flex justify-end">
                                 <button onClick={handleClosePopup} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold">

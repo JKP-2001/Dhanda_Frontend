@@ -49,16 +49,18 @@ export const Signup = async (data) => {
 export const verifyEmail = async (data) => {
 
     console.log('The data in verifyEmail is ', data)
-
+    const DATA  = {payload:data}
     try {
+
         const response = await fetch(BASE_URL+"/auth/verify-email", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "security-key": security_key
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(DATA),
         });
+
         const json = DecryptResponseData(await response.json());
 
         if (json.success) {

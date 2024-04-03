@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { motion } from "framer-motion"
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Asterik from '../../Utils/Asterik';
 import { decryptFromJson, isStrongPassword } from '../../Utils/functions';
@@ -116,7 +115,7 @@ const NewPassword_Comp = () => {
 
 
     return (
-        <motion.div >
+        <div >
             <section className=" dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mt-16 mx-auto md:mt-14 lg:py-0 ">
 
@@ -164,7 +163,7 @@ const NewPassword_Comp = () => {
                     </div>
                 </div>
             </section>
-        </motion.div>
+        </div>
     )
 }
 

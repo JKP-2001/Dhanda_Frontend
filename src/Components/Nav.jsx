@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import {
   Navbar,
   Collapse,
@@ -45,8 +44,12 @@ const Avatar = (props) => {
 
 
 
-const Nav = () => {
+const Nav = (props) => {
   const [icon, setIcon] = useState("home");
+
+  const { type } = props;
+
+  console.log({type})
 
   const [openNav, setOpenNav] = useState(false);
   const handleWindowResize = () =>
@@ -106,7 +109,7 @@ const Nav = () => {
 
   return (
     <>
-      <div className="sticky left-0 right-0 top-0 z-30 select-none bg-white shadow-sm w-full ">
+      <div className= {`${(type!="home" || !type)?"hidden":""} sticky left-0 right-0 top-0 z-30 select-none bg-white shadow-sm w-full `}>
         <div className=" mx-auto py-3 mt-0 w-[96%]  md:w-[80%]">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
@@ -117,7 +120,7 @@ const Nav = () => {
             >
               <img className="h-[55px]" src={logo} alt="Prepify" />
             </Typography>
-            <motion.div className="hidden lg:block">
+            <div className="hidden lg:block">
               <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
                 {navOptions.map((item, index) => (
                   <Typography
@@ -180,7 +183,7 @@ const Nav = () => {
                   </>
                 )}
               </div>
-            </motion.div>
+            </div>
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -250,7 +253,7 @@ const Nav = () => {
         </div>
       </div>
 
-      <div className="lg:hidden border-t-[2px] border-gray-300 overflow-hidden fixed bottom-0 left-0 right-0 z-10 bg-white px-6 py-2 shadow-2xl">
+      <div className="lg:hidden border-t-[2px] border-gray-300 overflow-hidden fixed bottom-0 left-0 right-0 z-30 bg-white px-6 py-2 shadow-2xl">
         <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between bg-white">
           <HiOutlineHome
             fontSize={30}
