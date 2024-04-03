@@ -2,9 +2,17 @@ import React, { useState } from "react";
 
 const Portfolio = () => {
   const [showCard, setShowCard] = useState("all");
-
   const handleProject = (category) => {
     setShowCard(category);
+  };
+
+  const categories = ["All Instructers", "SDE", "Data Science", "Analyst"];
+
+  const categoryMapping = {
+    0: undefined,
+    1: "sde",
+    2: "dataScience",
+    3: "analyst",
   };
 
   return (
@@ -27,6 +35,22 @@ const Portfolio = () => {
           <div className="w-full flex flex-wrap justify-center -mx-4">
             <div className="w-full px-4">
               <ul className="flex flex-wrap justify-center mb-12 space-x-1">
+                {/* {categories.map((cat, idx) => {
+                  return (
+                    <li className="mb-1">
+                      <button
+                        onClick={() => handleProject("all")}
+                        className={`inline-block rounded-lg py-2 px-5 text-center text-base font-semibold transition md:py-3 lg:px-8 ${
+                          showCard === "all"
+                            ? "activeClasses bg-btn-col text-white"
+                            : "inactiveClasses text-body-color dark:text-dark-6 hover:bg-btn-col hover:text-white"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    </li>
+                  );
+                })} */}
                 <li className="mb-1">
                   <button
                     onClick={() => handleProject("all")}

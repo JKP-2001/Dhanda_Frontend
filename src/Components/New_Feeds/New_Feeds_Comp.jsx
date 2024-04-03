@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PostCard from './PostCard'
 import { useNavigate } from 'react-router-dom';
 import Post_Modal from './Post_Modal';
@@ -10,7 +10,8 @@ import Edit_Modal from './Edit_Modal';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Spinner } from '@material-tailwind/react';
 
-
+import userimg from "../../Utils/Images/user2.jpg"
+import toast from 'react-hot-toast';
 
 const New_Feeds_Comp = () => {
 
@@ -40,6 +41,9 @@ const New_Feeds_Comp = () => {
 
     dispatch(getPostRequest());
 
+    if(page === 1) dispatch(getPostSuccess([]));
+    console.log({data:itemRedux.data})
+
     const result = await getAllPost(page, limit);
     if (result.success) {
       dispatch(getPostSuccess([...itemRedux.data, ...result.data.result]));
@@ -57,45 +61,94 @@ const New_Feeds_Comp = () => {
   }
 
 
-  useState(() => {
-    const callGetPost = async () => {
-      await getAllPostAPI();
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(getPostRequest());
+      setPage(1); // Reset page to 1 when component mounts
+      try {
+        const result = await getAllPost(page, limit);
+        if (result.success) {
+          dispatch(getPostSuccess(result.data.result));
+          setTotalPosts(result.data.totalResults);
+          setPage(page + 1);
+        } else {
+          showToast({
+            msg: "Something went wrong",
+            type: "error",
+            duration: 3000
+          });
+        }
+      } catch (error) {
+        showToast({
+          msg: "Something went wrong",
+          type: "error",
+          duration: 3000
+        });
+      }
     };
-
-    callGetPost();
-  }, [itemRedux.data.length])
+  
+    fetchData();
+  
+    return () => {
+      
+      dispatch(getPostSuccess([]));
+    };
+  }, []);
+  
 
   const userRedux = useSelector((state) => state.user);
 
 
   const handlePost = async (imageFiles) => {
 
-    const data = {
-      author: {
-        firstName: userRedux.data ? userRedux.data.firstName : "",
-        lastName: userRedux.data ? userRedux.data.lastName : "",
-        bio: userRedux.data ? userRedux.data.bio : ""
-      },
-      content: text,
-      images: images,
-      likes: [],
-      comments: [],
-      reposts: [],
-      bookmarks: [],
-      createdAt: Date.now()
-    }
-
-
-
-    const newData = [{ ...data }, ...itemRedux.data]
-
-    dispatch(getPostSuccess(newData));
+    
 
     const token = localStorage.getItem("token");
 
+    if (!token) {
+
+      showToast({
+        msg: "Login Required",
+        type: "error",
+        duration: 3000
+      })
+      navigate("/login");
+    }
+
+    //create loader from hot toast
+
+    const loader = toast.loading("Posting...");
+
     const createThePost = await createPost(text, imageFiles, token);
 
+    toast.dismiss(loader);
+
     if (createThePost.success) {
+      const id = createThePost.id;
+
+      const data = {
+        author: {
+          firstName: userRedux.data ? userRedux.data.firstName : "",
+          lastName: userRedux.data ? userRedux.data.lastName : "",
+          bio: userRedux.data ? userRedux.data.bio : "",
+          _id: userRedux.data ? userRedux.data._id : "",
+        },
+        content: text,
+        images: images,
+        likes: [],
+        comments: [],
+        reposts: [],
+        bookmarks: [],
+        createdAt: Date.now(),
+        _id: id
+      }
+  
+  
+  
+      const newData = [{ ...data }, ...itemRedux.data]
+  
+      dispatch(getPostSuccess(newData));
+
       showToast({
         msg: "Post Created Successfully",
         type: "success",
@@ -130,7 +183,7 @@ const New_Feeds_Comp = () => {
           <div className="flex  mx-5 space-x-4">
             <img
               className="hover:underline hover:cursor-pointer mt-2 sm:mt-0 w-[40px] sm:h-[40px]  border-2 border-gray-500 rounded-full object-cover object-center"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+              src={userimg}
               alt="nature"
               onClick={() => navigate("/user/profile/:user")}
             />
@@ -164,8 +217,8 @@ const New_Feeds_Comp = () => {
       </InfiniteScroll>}
 
       {itemRedux.loading?<div className='flex justify-center pt-10 font-inter text-base md:text-2xl'>
-        <Spinner/>
-        <div className='font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
+        <Spinner color='blue' size='large'/>
+        <div className='font-handwritten2 text-base md:text-xl ml-2 mt-[1px] md:-mt-1'>Loading Posts.....</div>
       </div>:null}
 
     </div>

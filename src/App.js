@@ -36,18 +36,38 @@ import DiscussionPostDetails from "./Pages/Discussion/DiscussionPostDetails/Disc
 const getLoginUser = async (dispatch) => {
   const token = localStorage.getItem("token");
 
+  const excludedLinks = ["/signin", "/signup","/"];
+
+  if(excludedLinks.includes(window.location.pathname)) {
+    return;
+  }
+
   if (!token) {
+    window.location.href = "/signin";
+    showToast({
+      msg: "Please login first.",
+      type: "error",
+      duration: 3000,
+    })
     return;
   }
 
   const userData = await getUserData(token);
 
   if (userData.success === false) {
+    localStorage.removeItem("token");
     showToast({
       msg: userData.msg,
       type: "error",
       duration: 3000,
     });
+    window.location.href = "/signin";
+    showToast({
+      msg: "Please login first.",
+      type: "error",
+      duration: 3000,
+    })
+    return;
   } else {
     if (userData.success === false) {
       showToast({
