@@ -36,6 +36,7 @@ import PaymentPage from "./Pages/Payment/PaymentPage";
 import BookingPage from "./Pages/Booking/BookingPage";
 import DM from "./Pages/Profile/DM";
 import TimeSlotPage from "./Pages/Profile/TimeSlotPage";
+import Contact from "./Pages/Contact";
 
 export const getLoginUser = async (dispatch, navigate) => {
   const token = localStorage.getItem("token");
@@ -52,7 +53,7 @@ export const getLoginUser = async (dispatch, navigate) => {
       msg: "Please login first.",
       type: "error",
       duration: 3000,
-    })
+    });
     return;
   }
 
@@ -70,7 +71,7 @@ export const getLoginUser = async (dispatch, navigate) => {
       msg: "Please login first.",
       type: "error",
       duration: 3000,
-    })
+    });
     return;
   } else {
     if (userData.success === false) {
@@ -92,14 +93,13 @@ const App = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
 
-
-
   return (
     <>
       <Toaster />
       <Router>
         <Routes>
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/contact us" element={<Contact />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<NewPassword />} />
@@ -112,27 +112,19 @@ const App = () => {
             path="/mock-interview/:role/:user_id"
             element={<ProtectedRoute ele={<MockInterviewProfile />} />}
           />
-
           <Route
             path="/payment"
             element={<ProtectedRoute ele={<PaymentPage />} />}
           />
-
-          <Route
-            path="/dm"
-            element={<ProtectedRoute ele={<DM />} />}
-          />
-
+          <Route path="/dm" element={<ProtectedRoute ele={<DM />} />} />
           <Route
             path="/bookings"
             element={<ProtectedRoute ele={<BookingPage />} />}
           />
-
           <Route
             path="/time-slots"
             element={<ProtectedRoute ele={<TimeSlotPage />} />}
           />
-
           <Route
             path="/test"
             element={<ProtectedRoute ele={<Interviewer_Card />} />}
@@ -147,10 +139,10 @@ const App = () => {
             path="/user/profile/:role/:id"
             element={<ProtectedRoute ele={<User_Profile />} />}
           />
-          <Route
+          {/* <Route
             path="/new-feeds"
             element={<ProtectedRoute ele={<New_Feeds />} />}
-          />
+          /> */}
           <Route
             path="/discuss/:discussId"
             element={<ProtectedRoute ele={<DiscussionPostDetails />} />}
@@ -159,10 +151,10 @@ const App = () => {
             path="/post/:id"
             element={<ProtectedRoute ele={<SinglePost />} />}
           />
-          <Route
+          {/* <Route
             path="/discuss"
             element={<ProtectedRoute ele={<Discussion />} />}
-          />
+          /> */}
           <Route
             path="/google/auth/callback"
             element={<GoogleAuthCallBack />}
@@ -172,7 +164,5 @@ const App = () => {
     </>
   );
 };
-
-
 
 export default App;

@@ -105,7 +105,7 @@ const Nav = (props) => {
   };
 
   // const navOptions=["Explore", "New-Feeds", "Mock-Interview", "Problems", "Discuss"];
-  const navOptions = ["New-Feeds", "Mock-Interview", "Contact us"];
+  const navOptions = [ "Mock-Interview", "Contact us"];
 
   return (
     <>

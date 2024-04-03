@@ -161,7 +161,7 @@ const SideNav = () => {
                     <hr className='my-2 border-[1px] mb-5 ' />
                     <ul class="space-y-3 font-medium">
                         <SideBarItem icon={<OtherHousesOutlinedIcon />} title="Home" active={active === "Home"} setActive={setActive} link={"/"} />
-                        <SideBarItem icon={<AppsOutlinedIcon />} title="New Feeds" active={active === "New Feeds"} setActive={setActive} link={"/new-feeds"} />
+                        {/* <SideBarItem icon={<AppsOutlinedIcon />} title="New Feeds" active={active === "New Feeds"} setActive={setActive} link={"/new-feeds"} /> */}
                         <SideBarItem icon={<Groups2OutlinedIcon />} title="Interview" active={active === "Interview"} setActive={setActive} link={"/mock-interview"} />
                         {userRedux.data ? <SideBarItem icon={<AssignmentIndOutlinedIcon />} title="Profile" active={active === "Profile"} setActive={setActive} link={`/user/profile/${userRedux.data.role}/${userRedux.data._id}`} /> : null}
                         <SideBarItem icon={<DialpadOutlinedIcon />} title="Contact Us" active={active === "Contact Us"} setActive=

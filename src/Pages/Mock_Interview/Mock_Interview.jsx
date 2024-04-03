@@ -28,7 +28,6 @@ const Mock_Interview = () => {
       <div className='mb-20 select-none md:ml-48'>
         <Mock_Interview_Comp />
       </div>
-
     </div>
   )
 }
