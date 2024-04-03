@@ -29,7 +29,8 @@ export const fetchCompanyWiseInstructors =
         dispatch(fetchInstructersFail(instructers.msg));
         return;
       }
-      const decryptedInstructers = decryptFromJson(instructers.data);
+      
+      const decryptedInstructers = (instructers.data);
       console.log("hii",decryptedInstructers);
       dispatch(fetchInstructerSuccess(decryptedInstructers.result));
       dispatch(setTotalResults(decryptedInstructers.totalResults));

@@ -48,6 +48,7 @@ export const companyWiseFetchInstructor = async (token, fetchId) => {
 
     json = DecryptResponseData(json)
     return json;
+    
 
   } catch (err) {
     return { success: false, msg: err.toString() };

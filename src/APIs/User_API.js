@@ -1,4 +1,3 @@
-
 import { DecryptResponseData } from "../Utils/Encryption/DecryptResponseData";
 import { encryptToJson } from "../Utils/functions";
 
@@ -6,112 +5,117 @@ const security_key = process.env.REACT_APP_SECURITY_KEY;
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-
 export const getUserData = async (token) => {
+  try {
+    const response = await fetch(BASE_URL + "/user/user-data", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
+    });
 
-    try {
+    let json = await response.json();
+    json = DecryptResponseData(json);
 
-        const response = await fetch(BASE_URL + "/user/user-data", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "security-key": security_key,
-                "auth-token":token
-            }
-        });
-
-        let json = await response.json();
-        json = DecryptResponseData(json)
-
-        return json;
-
-    } catch (err) {
-
-        return { success: false, msg: err.toString() };
-    }
-}
-
+    return json;
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+};
 
 export const getUserDataById = async (role, id) => {
+  try {
+    const response = await fetch(BASE_URL + `/user/user-data/${role}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+      },
+    });
 
-    try {
+    let json = await response.json();
+    json = DecryptResponseData(json);
 
-        const response = await fetch(BASE_URL + `/user/user-data/${role}/${id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "security-key": security_key,
-            }
-        });
-
-        let json = await response.json();
-        json = DecryptResponseData(json)
-
-        return json;
-
-    } catch (err) {
-
-        return { success: false, msg: err.toString() };
-    }
-}
-
+    return json;
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+};
 
 export const callOnBoardingProcess = async (data, token) => {
+  try {
+    const encryptedData = encryptToJson(data);
+    const DATA = { payload: encryptedData };
 
-    try {
+    const response = await fetch(BASE_URL + "/user/onboarding", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
 
-        const encryptedData = encryptToJson(data);
-        const DATA = { payload: encryptedData }
+      body: JSON.stringify(DATA),
+    });
 
-        const response = await fetch(BASE_URL + "/user/onboarding", {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "security-key": security_key,
-                "auth-token":token
-            },
-            
-            body: JSON.stringify(DATA),
-        })
+    let json = await response.json();
+    json = DecryptResponseData(json);
 
-        let json = await response.json();
-        json = DecryptResponseData(json)
-
-        return json;
-
-    } catch (err) {
-
-        return { success: false, msg: err.toString() };
-    }
-}
-
+    return json;
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+};
 
 export const updateTimeSlots = async (data, token) => {
-    
-    try {
+  try {
+    const encryptedData = encryptToJson({ availableTimeslots: data });
+    const DATA = { payload: encryptedData };
 
-        const encryptedData = encryptToJson({availableTimeslots:data});
-        const DATA = { payload: encryptedData }
+    const response = await fetch(BASE_URL + "/user/handle-time-slots", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
 
-        const response = await fetch(BASE_URL + "/user/handle-time-slots", {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "security-key": security_key,
-                "auth-token":token
-            },
-            
-            body: JSON.stringify(DATA),
-        })
+      body: JSON.stringify(DATA),
+    });
 
-        let json = await response.json();
+    let json = await response.json();
 
-        json = DecryptResponseData(json)
+    json = DecryptResponseData(json);
 
-        return json;
+    return json;
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+};
 
-    } catch (err) {
+export const submitForm = async (data) => {
+  try {
+    const encryptedData = encryptToJson(data);
+    const DATA = { payload: encryptedData };
 
-        return { success: false, msg: err.toString() };
-    }
-}
+    const response = await fetch(BASE_URL + "/user/contactus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+      },
+
+      body: JSON.stringify(DATA),
+    });
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+};

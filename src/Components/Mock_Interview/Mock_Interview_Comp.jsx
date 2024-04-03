@@ -61,7 +61,9 @@ const Mock_Interview_Comp = () => {
     "Netflix",
     "Airbnb",
     "IBM",
+    "Deutsche Bank",
   ];
+  
   const sort_by = [
     "Company",
     "Price Low to High",
@@ -161,11 +163,9 @@ const Mock_Interview_Comp = () => {
     );
   };
 
-
   const mockInterviewRedux = useSelector((state) => state.instructers);
 
   return (
-
     <div className="flex items-center justify-center ">
       <div className="pb-10 w-[98%] md:w-[80%] mt-10 ">
         <motion.div
@@ -229,12 +229,15 @@ const Mock_Interview_Comp = () => {
           setComp={setComp}
         />
 
-        {mockInterviewRedux.isLoading ?
-          <div className='flex justify-center pt-10 font-inter text-base md:text-2xl'>
+        {mockInterviewRedux.isLoading ? (
+          <div className="flex justify-center pt-10 font-inter text-base md:text-2xl">
             <Spinner />
-            <div className='font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1'>Loading Instructers.....</div>
+            <div className="font-handwritten2 text-base md:text-2xl ml-2 mt-[1px] md:-mt-1">
+              Loading Instructers.....
+            </div>
           </div>
-          : <InfiniteScroll
+        ) : (
+          <InfiniteScroll
             dataLength={instructers.length}
             next={fetchMoreData}
             hasMore={totalResults !== instructers.length}
@@ -245,8 +248,8 @@ const Mock_Interview_Comp = () => {
                 return <Interviewer_Card key={idx} instructer={ins} />;
               })}
             </div>
-          </InfiniteScroll>}
-
+          </InfiniteScroll>
+        )}
       </div>
     </div>
   );
