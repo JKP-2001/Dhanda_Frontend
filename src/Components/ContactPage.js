@@ -109,9 +109,9 @@ function ContactPage() {
           </div>
           <button
             onClick={handleclick}
-            className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 "
+            className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 "
           >
-            {loading?"Sending":"Send message"}
+            {loading?"Sending......":"Send"}
           </button>
         </form>
       </div>

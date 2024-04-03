@@ -15,6 +15,7 @@ import { SlPeople } from "react-icons/sl";
 import { CiSquarePlus } from "react-icons/ci";
 import { FiLogIn } from "react-icons/fi";
 import { LuPlusSquare } from "react-icons/lu";
+import { CiPhone } from "react-icons/ci";
 import showToast from "../Utils/showToast";
 
 import Cookies from "js-cookie";
@@ -22,6 +23,8 @@ import { logOut } from "../APIs/Auth_API";
 import { useSelector } from "react-redux";
 
 import userimg from "../Utils/Images/user2.jpg"
+
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 
 const Avatar = (props) => {
   const navigate = useNavigate();
@@ -60,12 +63,16 @@ const Nav = (props) => {
 
     const url = window.location.pathname;
 
-    if (url.toLowerCase().includes("new-feeds")) {
+    if (url.toLowerCase().includes("")) {
       setIcon("explore");
     }
 
     if (url.toLowerCase().includes("mock")) {
       setIcon("mock");
+    }
+
+    if(url.toLowerCase().includes("contact")) {
+      setIcon("new");
     }
 
     if (url.toLowerCase().includes("profile")) {
@@ -105,7 +112,7 @@ const Nav = (props) => {
   };
 
   // const navOptions=["Explore", "New-Feeds", "Mock-Interview", "Problems", "Discuss"];
-  const navOptions = [ "Mock-Interview", "Contact us"];
+  const navOptions = [ "Mock-Interview", "Contact-us"];
 
   return (
     <>
@@ -262,7 +269,7 @@ const Nav = (props) => {
             } hover:cursor-pointer mt-1 `}
             onClick={() => {
               setIcon("explore");
-              navigate("/new-feeds");
+              navigate("/");
             }}
           />
           <SlPeople
@@ -275,12 +282,15 @@ const Nav = (props) => {
               navigate("/mock-interview");
             }}
           />
-          <LuPlusSquare
+          <CiPhone
             fontSize={27}
             className={`${
               icon === "new" ? "text-blue-800" : ""
             }  hover:cursor-pointer mt-[6px] scale-110`}
-            onClick={() => setIcon("new")}
+            onClick={() => {
+              setIcon("new")
+              navigate("/contact-us");
+            }}
           />
           {loggedSignIn ? (
             <Avatar setIcon={setIcon} icon={icon} />

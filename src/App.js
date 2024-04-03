@@ -99,7 +99,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/contact us" element={<Contact />} />
+          <Route path="/contact-us" element={<Contact />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<NewPassword />} />

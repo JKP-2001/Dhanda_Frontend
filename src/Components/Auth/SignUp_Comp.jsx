@@ -572,11 +572,11 @@ const SignUp_Comp = (props) => {
                                 </div>
                             </div>
                             <div className="flex justify-between">
-                                {step === 1 ? null : <button type="submit" className="hover:scale-[102%] w-auto text-black border-[1px] border-blue-500  hover:bg-primary-700  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handlePrev}>Prev</button>}
+                                {step === 1 ? null : <button type="submit" className="hover:scale-[102%] w-auto text-black border-[1px] border-blue-500   rounded-lg text-sm px-5 py-2.5 text-center  font-inter font-bold" onClick={handlePrev}>Prev</button>}
 
-                                {!loading ? <button type="submit" className="hover:scale-[102%] w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step === 4) ? "Submit" : step == 1 ? "Next" : ""}</button> :
+                                {!loading ? <button type="submit" className="hover:scale-[102%] w-auto text-white bg-[#db2777]  rounded-lg text-sm px-5 py-2.5 text-center font-inter font-bold" onClick={handleNext} >{step === 2 ? "Preview" : (step === 3 || step === 4) ? "Submit" : step == 1 ? "Next" : ""}</button> :
 
-                                    <button type="submit" className="hover:scale-[102%] w-auto text-white bg-[#db2777] hover:bg-primary-700   rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold flex justify-center" disabled>
+                                    <button type="submit" className="hover:scale-[102%] w-auto text-white bg-[#db2777] rounded-lg text-sm px-5 py-2.5 text-center  font-inter font-bold flex justify-center" disabled>
                                         <Loader />
                                         <div>
                                             Processing....
@@ -586,7 +586,7 @@ const SignUp_Comp = (props) => {
                             <div className="md:flex md:justify-between md:space-x-2 space-y-2 md:space-y-0">
                                 <div className=''>
 
-                                    <div className="w-full hover:scale-[102%]  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
+                                    <div className="w-full hover:scale-[102%]  bg-white flex justify-center focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center  font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
                                         <FcGoogle fontSize={35} />
                                         <div className="textT mt-2 md:mt-0">
                                             Continue with Google
@@ -596,7 +596,7 @@ const SignUp_Comp = (props) => {
 
                                 <div className=''>
 
-                                    <div className="w-full hover:scale-[102%]  bg-white flex justify-center hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleMicroLogin}>
+                                    <div className="w-full hover:scale-[102%]  bg-white flex justify-center focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center  font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleMicroLogin}>
                                         <PiMicrosoftOutlookLogoLight fontSize={35} />
                                         <div className="textT mt-2 md:mt-0">
                                             Continue with Microsoft

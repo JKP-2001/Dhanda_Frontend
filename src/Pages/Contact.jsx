@@ -13,7 +13,7 @@ const Contact = () => {
     <>
       <Nav type={"home"} />
 
-      <div>
+      <div className="mb-10">
         <ContactPage />
       </div>
     </>

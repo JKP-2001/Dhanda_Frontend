@@ -21,8 +21,7 @@ const Footer = () => {
                     </div>
                   </a>
                   <p className="mb-7 text-base text-body-color dark:text-dark-6">
-                    Sed ut perspiciatis undmnis is iste natus error sit amet
-                    voluptatem totam rem aperiam.
+                    Your Ultimate Destination for Mastering Technical Interviews with Expert Instructors!
                   </p>
                   <p className="flex items-center text-sm font-medium text-dark dark:text-white">
                     <span className="mr-3 text-primary">
@@ -54,29 +53,29 @@ const Footer = () => {
                         </defs>
                       </svg>
                     </span>
-                    <span>+012 (345) 678 99</span>
+                    <span>+91 (999) 999 9999</span>
                   </p>
                 </div>
               </div>
 
               <LinkGroup header="Resources">
-                <NavLink link="/#" label="SaaS Development" />
-                <NavLink link="/#" label="Our Products" />
-                <NavLink link="/#" label="User Flow" />
-                <NavLink link="/#" label="User Strategy" />
+                <NavLink link="/" label="Home" />
+                <NavLink link="/contact-us" label="Contact Us" />
+                <NavLink link="/signin" label="Signin" />
+                <NavLink link="/signup" label="Signup" />
               </LinkGroup>
-              <LinkGroup header="Company">
+              {/* <LinkGroup header="Company">
                 <NavLink link="/#" label="About TailGrids" />
                 <NavLink link="/#" label="Contact & Support" />
                 <NavLink link="/#" label="Success History" />
                 <NavLink link="/#" label="Setting & Privacy" />
-              </LinkGroup>
-              <LinkGroup header="Quick Links">
+              </LinkGroup> */}
+              {/* <LinkGroup header="Quick Links">
                 <NavLink link="/#" label="Premium Support" />
                 <NavLink link="/#" label="Our Services" />
                 <NavLink link="/#" label="Know Our Team" />
                 <NavLink link="/#" label="Download App" />
-              </LinkGroup>
+              </LinkGroup> */}
 
               <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
                 <div className="mb-10 w-full">
@@ -138,7 +137,7 @@ const Footer = () => {
                     </a>
                   </div>
                   <p className="text-base text-body-color dark:text-dark-6">
-                    &copy; 2025 TailGrids
+                    &copy; 2024 Prepify
                   </p>
                 </div>
               </div>

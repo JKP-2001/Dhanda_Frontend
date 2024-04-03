@@ -484,8 +484,8 @@ const Calendar_Comp = () => {
                     searchUserRedux.data ? <div className='mt-3'>
                         <div className='md:ml-[290px]'>
                             <div className="w-full md:w-3/4 pt-2 text-center">
-                                <h1 className="text-xl font-inter font-bold">
-                                    Select time slot for interview with {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
+                                <h1 className="text-base md:text-xl font-inter font-bold">
+                                    Select time slot for interview with {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName+" ("+searchUserRedux.data.email+")"}
                                 </h1>
                             </div>
                         </div>
@@ -515,10 +515,10 @@ const Calendar_Comp = () => {
                             )}
 
                             <div className="w-full lg:w-[25%] p-4 rounded">
-                                <h2 className="text-lg font-inter font-semibold mb-4">Select Time Slot</h2>
+                                <h2 className="text-base md:text-lg font-inter font-semibold mb-4">Select Time Slot</h2>
 
-                                <div className="date">
-                                    <div className='text-sm font-inter font-semibold my-1'> Selected Date</div>
+                                <div className="date ">
+                                    <div className='text-sm font-inter font-semibold my-1 mx-1'> Selected Date</div>
                                     <DatePicker
                                         selected={selectedDate}
                                         onChange={handleDateChange}
@@ -527,12 +527,13 @@ const Calendar_Comp = () => {
                                         className="mb-2 p-2 font-inter font-semibold border border-gray-300 rounded-xl w-3/4"
                                     />
                                 </div>
+                                {timeSlots.length === 0 ? <div className="text-sm font-inter font-semibold my-1 mx-2">No time slots available for selected date</div> : null}
                                 <div className="grid grid-cols-2 gap-2">
                                     {timeSlots.map((time) => (
                                         <button
                                             key={time}
                                             onClick={() => handleTimeClick(time)}
-                                            className={`p-2   border-[1.5px] border-blue-gray-100 rounded-xl font-inter font-semibold hover:text-white hover:bg-blue-700 focus:outline-none cursor-pointer transition-colors duration-300 ease-in-out ${selectedTime === time ? 'bg-blue-800 text-white' : 'border-blue-400 text-blue-400'
+                                            className={`p-2   border-[1.5px] border-blue-gray-100 rounded-xl text-sm md:text-base font-inter font-semibold hover:text-white hover:bg-blue-700 focus:outline-none cursor-pointer transition-colors duration-300 ease-in-out ${selectedTime === time ? 'bg-blue-800 text-white' : 'border-blue-400 text-blue-400'
                                                 }`}
                                         >
                                             {time}
@@ -541,10 +542,10 @@ const Calendar_Comp = () => {
                                 </div>
                                 <button
                                     onClick={() => handleCreateOrder(1000, 'INR')}
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-xl mt-4 hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold"
+                                    className="bg-blue-500 text-white px-4 py-2 rounded-xl mt-4 hover:bg-blue-600 focus:outline-none transition-colors duration-300 ease-in-out font-inter font-semibold text-sm md:text-base"
                                 >
                                     {bookLoading ?
-                                        <div className="flex items-center justify-center">
+                                        <div className="flex items-center justify-center text-sm md:text-base">
                                             <div className="w-4 h-4 border-2 border-t-white rounded-full animate-spin"></div>
                                             <span className="ml-2">Booking...
                                             </span>

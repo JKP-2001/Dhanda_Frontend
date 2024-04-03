@@ -7,11 +7,11 @@ const Accordion = () => {
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
             <div className="mx-auto mb-[60px] max-w-[520px] text-center lg:mb-20">
-              <h2 className="mb-4 font-custom text-3xl font-bold text-dark dark:text-white sm:text-[40px]/[48px]">
+              <h2 className="mb-4 text-3xl font-handwritten2 font-semibold text-dark dark:text-white sm:text-[40px]/[48px]">
                 Any Questions? Look Here
               </h2>
 
-              <span className="font-roboto mb-2 block text-2xl font-semibold text-primary">
+              <span className="font-handwritten2 mb-2 block text-2xl font-semibold text-primary">
                 FAQ
               </span>
             </div>
@@ -22,30 +22,35 @@ const Accordion = () => {
           <div className="w-full px-4 lg:w-1/2">
             <AccordionItem
               header="What is Prepify?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available ."
+              text="Prepify is a dynamic platform designed to help individuals excel in technical interviews by providing access to instructors from diverse institutes and companies. Through Prepify, users can seamlessly integrate with knowledgeable professionals who offer expert guidance and resources tailored to mastering technical interviews. Whether you're seeking assistance with coding challenges, algorithmic problem-solving, or other technical aspects, Prepify connects you with the right instructors to enhance your skills and increase your confidence in facing technical interview scenarios."
             />
             <AccordionItem
               header="Is it paid?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available ."
+              text="Yes, Prepify is a paid service. The pricing is determined by the instructors for both mock interviews and direct messaging service."
             />
+
             <AccordionItem
-              header="Is payment process smooth and provide guarantee?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available ."
+              header="How do we ensure the authenticity of instructors on Prepify"
+              text="Before listing an instructor, we thoroughly validate all the information submitted by them through proper means. This verification process ensures that each instructor on Prepify is authentic and meets our standards for expertise and professionalism."
             />
+
           </div>
           <div className="w-full px-4 lg:w-1/2">
             <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available ."
+              header="What types of services does Prepify provide?"
+              text={"Prepify offers a range of services tailored to elevate your interview preparation experience" + "\n" +
+
+                "1. Mock Interview Sessions: Through live video conferencing, users can book slots with instructors for personalized, one-on-one mock interviews. These sessions provide an authentic interview environment where users receive expert guidance and detailed feedback, helping them hone their skills and build confidence." + "\n" +
+
+                "2. Priority Direct Messaging (DM) Service: Users can send direct messages to instructors to seek guidance, clarification, or assistance on specific interview-related queries. This personalized communication channel ensures users receive prompt and tailored responses from instructors, enhancing their learning experience and addressing any concerns they may have."}
             />
             <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available ."
+              header="Is the payment service provided by Prepify safe and secure?"
+              text="Yes, it is safe and secure. Razorpay is utilized as the payment gateway, ensuring robust security measures. Additionally, every transaction is meticulously stored in the database for transparency and record-keeping purposes. Users have the convenience of accessing their transaction history directly from the user dashboard, and they can also import all transaction details through their email for further verification and review."
             />
-            <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available ."
-            />
+
+
+
           </div>
         </div>
       </div>
@@ -99,9 +104,8 @@ const AccordionItem = ({ header, text }) => {
       >
         <div className="mr-5 flex h-10 w-full max-w-[40px] items-center justify-center rounded-lg bg-primary/5 text-primary dark:bg-white/5">
           <svg
-            className={`fill-primary stroke-primary duration-200 ease-in-out ${
-              active ? "rotate-180" : ""
-            }`}
+            className={`fill-primary stroke-primary duration-200 ease-in-out ${active ? "rotate-180" : ""
+              }`}
             width="17"
             height="10"
             viewBox="0 0 17 10"
@@ -123,9 +127,8 @@ const AccordionItem = ({ header, text }) => {
       </button>
 
       <div
-        className={`pl-[62px] duration-200 ease-in-out ${
-          active ? "block" : "hidden"
-        }`}
+        className={`pl-[62px] duration-200 ease-in-out ${active ? "block" : "hidden"
+          }`}
       >
         <p className="py-3 text-base leading-relaxed text-body-color dark:text-dark-6">
           {text}

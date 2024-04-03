@@ -18,14 +18,14 @@ const Portfolio = () => {
   return (
     <>
       <section className="pt-20 w-full pb-12 lg:pt-[120px] lg:pb-[90px] dark:bg-dark">
-        <div className="container w-[80%] mx-auto">
+        <div className="container w-[95%] md:w-[90%] mx-auto">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full px-4">
               <div className="mx-auto mb-[60px] max-w-[510px] text-center">
-                <h2 className="text-dark mb-3 font-custom text-3xl leading-[1.208] font-bold sm:text-4xl md:text-[40px]">
+                <h2 className="text-dark mb-3 font-handwritten2 text-3xl leading-[1.208] font-bold sm:text-4xl md:text-[40px]">
                   Our Top Instructors
                 </h2>
-                <p className="text-body-color font-roboto pt-4 font-semibold text-xl  dark:text-dark-6">
+                <p className="text-body-color font-handwritten2 pt-4 font-semibold text-xl  dark:text-dark-6">
                   Unlock Expertise, Learn from the Best
                 </p>
               </div>
