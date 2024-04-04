@@ -36,7 +36,7 @@ const Home = () => {
               Become Master
             </div>
             <div className="heading text-center lg:text-left font-handwritten2 mx-[1px] font-extrabold text-3xl lg:text-5xl text-[#002147] leading-[40px] lg:leading-[54px] space-y-1 ">
-              Start your internship and placement preperation journey with us
+              Start your internship and placement preparation journey with us
             </div>
             {/* <div className="btn justify-center lg:justify-start flex flex-row gap-3 items-center mt-8">
               <Button
