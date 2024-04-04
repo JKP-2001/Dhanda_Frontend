@@ -32,11 +32,19 @@ const Avatar = (props) => {
 
   const userRedux = useSelector((state) => state.user);
 
+  const [profileImg, setProfileImg] = useState(userRedux.data ? userRedux.data.profilePic?userRedux.data.profilePic : userimg:null)
+
+  useEffect(() => {
+    if(userRedux.data){
+      setProfileImg(userRedux.data.profilePic?userRedux.data.profilePic : userimg)
+    }
+  },[userRedux.data])
+
   return (
 
     userRedux.data && 
 
-    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src={userimg} alt="User dropdown" onClick={() => { navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`); setIcon("avatar") }} />
+    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src={profileImg} alt="User dropdown" onClick={() => { navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`); setIcon("avatar") }} />
 
 
 

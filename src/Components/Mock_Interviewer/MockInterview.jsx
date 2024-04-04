@@ -411,11 +411,19 @@ const MockInterview = () => {
     }
   };
 
+  const [profileImg, setProfileImg] = useState(searchUserRedux.data ? searchUserRedux.data.profilePic : userimg)
+
   // fetch user data on loading page
 
   useEffect(() => {
     getTheUserData();
   }, []);
+
+  useEffect(() => {
+    if(searchUserRedux.data){
+      setProfileImg(searchUserRedux.data.profilePic?searchUserRedux.data.profilePic : userimg)
+    }
+  },[searchUserRedux.data])
 
   return searchUserRedux.loading ? (
     <div className="flex justify-center pt-10 font-inter text-base md:text-xl">
@@ -432,11 +440,11 @@ const MockInterview = () => {
             <div className="ml-3 sm:ml-4 flex">
               <img
                 className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
-                src={userimg}
-                alt="nature"
+                src={profileImg}
+                alt={userimg}
               />
 
-              <div className="ml-4  mt-10 sm:mt-16 ">
+              <div className="mt-10 sm:mt-16 ">
                 {/* <div className="flex space-x-4 sm:space-x-16">
                   <div
                     className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600"
@@ -464,16 +472,13 @@ const MockInterview = () => {
                   </div>
                 </div> */}
                 <div className="ml-3">
-                  <h1 className="font-roboto text-xl font-thin ">
-                    {searchUserRedux.data.firstName +
-                      " " +
-                      searchUserRedux.data.lastName}
-                  </h1>
-                  <h1 className="font-inter text-sm   text-gray-500">
-                    {/* Software Engineer | Ex-PayPal | 110K+ LinkedIn Family | NIT Trichy'20 */}
-                    {searchUserRedux.data.bio}
-                  </h1>
-                </div>
+                <h1 className="font-inter font-semibold md:text-xl">
+                  {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
+                </h1>
+                <h1 className="font-inter text-xs md:text-sm  text-gray-500">
+                  {searchUserRedux.data.bio}
+                </h1>
+              </div>
               </div>
             </div>
 
