@@ -44,6 +44,7 @@ const Mock_Interview_Comp = () => {
     "Uber",
     "Adobe",
     "Oracle",
+    "Deutsche Bank",
     "Paypal",
     "Salesforce",
     "Cisco",
@@ -61,7 +62,6 @@ const Mock_Interview_Comp = () => {
     "Netflix",
     "Airbnb",
     "IBM",
-    "Deutsche Bank",
   ];
   
   const sort_by = [
