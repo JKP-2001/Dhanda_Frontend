@@ -69,7 +69,7 @@ const Home = () => {
       <div>
         <AchieveGoal />
       </div>
-      <div className="mt-10 mx-2 md:mx-10">
+      <div >
         <StepToBook />
       </div>
       <div>
