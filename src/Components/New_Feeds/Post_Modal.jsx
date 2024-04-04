@@ -10,7 +10,11 @@ import showToast from '../../Utils/showToast';
 
 import toast, { useToaster } from 'react-hot-toast';
 
-const Post_Modal = (props) => {
+const 
+
+
+
+Post_Modal = (props) => {
   const { open, setOpen } = props;
 
   const toaster = useToaster();

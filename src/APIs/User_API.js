@@ -119,3 +119,33 @@ export const submitForm = async (data) => {
     return { success: false, msg: err.toString() };
   }
 };
+
+
+export const updateProfilePic = async (imageFiles,token) => {
+    
+  try {
+      let formData = new FormData();
+      
+      imageFiles.forEach((file, index) => {
+          formData.append('files', file);
+      });
+
+
+      const response = await fetch(BASE_URL + `/user/profile-image-upload`, {
+          method: "PATCH",
+          headers: {
+              "security-key": security_key,
+              "auth-token": token
+          },
+          body: formData
+      });
+
+      let json = await response.json();
+      json = DecryptResponseData(json)
+
+      return json;
+
+  } catch (err) {
+      return { success: false, msg: err.toString() };
+  }
+}

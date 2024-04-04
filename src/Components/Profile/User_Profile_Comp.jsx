@@ -33,6 +33,9 @@ import userimg from "../../Utils/Images/user2.jpg";
 import { getAllMeetings } from "../../APIs/Meeting_API";
 // import SideBar from './SideBarProfile';
 import SideBarProfile from "./SideBarProfile";
+import toast from "react-hot-toast";
+import { updateProfilePic } from "../../APIs/User_API";
+// import { Spinner } from "@material-tailwind/react";
 
 const localizer = momentLocalizer(moment);
 
@@ -414,6 +417,8 @@ const User_Profile_Comp = () => {
 
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  const [editImage, setEditImage] = useState(false);
+
   const handleEventClick = (event) => {
     setSelectedEvent(event);
     document.body.style.overflow = "hidden";
@@ -437,29 +442,162 @@ const User_Profile_Comp = () => {
     localStorage.setItem("user-profile", icon);
   };
 
-  useEffect(() => {
-    scrollToTop();
-  }, []);
 
   const userRedux = useSelector((state) => state.user);
+
+  const [profileImg, setProfileImg] = useState(userRedux.data.profilePic ? userRedux.data.profilePic : userimg)
+
+  const handleImageClick = () => {
+    setEditImage(true);
+    document.body.style.overflow = "hidden";
+
+    console.log("clicked")
+  }
+
+  const [imageFiles, setImageFiles] = useState([]);
+  const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageUpload = (newImages) => {
+    setImages([...images, ...newImages]);
+  };
+
+  const handleImageFiles = (files) => {
+    setImageFiles([...imageFiles, ...files]);
+  }
+
+  const handleImageUploadToServer = () => {
+    console.log({ imageFiles })
+  }
+
+  const handleFileChange = (e) => {
+    const newImages = [];
+    const files = e.target.files;
+
+    const toastId = toast.loading('Uploading...');
+
+    let success = false;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      // Show loading toaster when the FileReader starts
+
+      setUploading(true);
+
+
+      reader.onloadend = () => {
+        setUploading(false);
+        showToast({
+          msg: 'File Selected Successfully!',
+          type: 'success',
+          duration: 3000,
+        });
+
+        newImages.push(reader.result);
+
+        if (newImages.length === files.length) {
+          // All images have been processed
+          handleImageUpload(newImages);
+          handleImageFiles(files);
+          toast.dismiss(toastId); // Dismiss the loading toaster
+
+          success = true;
+
+        }
+      };
+
+
+      reader.onerror = () => {
+        setUploading(false);
+        showToast({
+          msg: 'Error uploading image',
+          type: 'error',
+          duration: 3000,
+        });
+        toast.dismiss(toastId); // Dismiss the loading toaster in case of an error
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+
+  const [sending, setSending] = useState(false);
+
+  const handelUpload = async () => {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      showToast({
+        msg: "Please Login",
+        type: "error",
+        duration: 3000,
+      });
+      navigate("/signin");
+    }
+
+    setSending(true);
+
+    const response = await updateProfilePic(imageFiles, token);
+
+    setSending(false);
+
+    if (response.success) {
+
+      showToast({
+        msg: "Profile Pic Updated",
+        type: "success",
+        duration: 3000,
+      });
+
+      setProfileImg(response.url);
+
+      setEditImage(false);
+    }
+
+    else {
+
+      showToast({
+        msg: response.msg,
+        type: "error",
+        duration: 3000,
+      });
+    }
+
+  }
+
+
+
+  useEffect(() => {
+    scrollToTop();
+  }, [userRedux.data]);
+
+
 
   return (
     // <SideBar />
     userRedux.data ? (
-      <>
+      <div className="profile">
         <SideBarProfile
           selectedIcon={selectedIcon}
           handleIconClick={handleIconClick}
         />
         <div className="mt-2 ml-0 lg:mt-12 md:ml-[240px] lg:ml-[300px] mb-10">
           <div className="mx-3 sm:mx-4 flex">
-            <img
-              className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
-              src={userimg}
-              alt="nature"
-            />
 
-            <div className="ml-2 mt-10 sm:mt-16 ">
+            <div className="overflow-hidden hover:scale-125">
+              <img
+                className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3 hover:cursor-pointer "
+                src={profileImg}
+                alt={userimg}
+                onClick={() => handleImageClick()}
+              />
+            </div>
+
+            <div className="ml-2 mt-8 sm:mt-16 ">
               {/* <div className="flex space-x-4 sm:space-x-16">
                                 <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600" onClick={() => {
                                     setSelectedIcon("grid");
@@ -490,10 +628,10 @@ const User_Profile_Comp = () => {
                                 </div>
                             </div> */}
               <div className="ml-3">
-                <h1 className="font-roboto text-xl font-thin ">
+                <h1 className="font-inter font-semibold md:text-xl">
                   {userRedux.data.firstName + " " + userRedux.data.lastName}
                 </h1>
-                <h1 className="font-inter text-sm  text-gray-500">
+                <h1 className="font-inter text-xs md:text-sm  text-gray-500">
                   {userRedux.data.bio}
                 </h1>
               </div>
@@ -509,24 +647,22 @@ const User_Profile_Comp = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => handleIconClick("account")}
-              className={`cursor-pointer ${
-                selectedIcon === "account" ? "text-blue-500 underline" : ""
-              }`}
+              className={`cursor-pointer ${selectedIcon === "account" ? "text-blue-500 underline" : ""
+                }`}
             >
               <AccountBoxOutlinedIcon />
               {/* Slider */}
               {selectedIcon === "account" && <Slider />}
             </motion.div>
 
-            
+
 
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => handleIconClick("calendar")}
-              className={`cursor-pointer ${
-                selectedIcon === "calendar" ? "text-blue-500 underline" : ""
-              }`}
+              className={`cursor-pointer ${selectedIcon === "calendar" ? "text-blue-500 underline" : ""
+                }`}
             >
               <CalendarMonthOutlinedIcon />
               {/* Slider */}
@@ -566,6 +702,40 @@ const User_Profile_Comp = () => {
             heading={"Following"}
           />
         ) : null}
+
+        {editImage && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
+            <div className="bg-white p-4 md:p-6 rounded-2xl w-10/12 md:w-1/2 lg:w-1/3 max-h-full max-w-sm space-y-2  border-2 border-y-gray-500">
+
+              <div className="flex justify-between mb-8">
+                <h2 className="md:text-lg font-inter font-bold ">
+                  Edit Profile Photo
+                </h2>
+                <button
+                  onClick={() => setEditImage(false)}
+                  className="font-inter font-semibold text-gray-700"
+                >
+                  x
+                </button>
+              </div>
+
+              <div className="flex justify-between">
+                {images.length === 0 ? <label className="relative cursor-pointer">
+                  <span className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-inter text-xs md:text-sm">Choose Image</span>
+                  <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+                </label> :
+
+
+
+                  <label className="relative cursor-pointer">
+                    <span className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-inter text-xs md:text-sm" onClick={handelUpload}>
+                      {sending ? "Uploading..." : "Upload"}
+                    </span>
+                  </label >}
+              </div>
+            </div>
+          </div>
+        )}
 
         {selectedEvent && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-40">
@@ -608,7 +778,7 @@ const User_Profile_Comp = () => {
             </div>
           </div>
         )}
-      </>
+      </div>
     ) : userRedux.loading ? (
       <Spinner />
     ) : null
