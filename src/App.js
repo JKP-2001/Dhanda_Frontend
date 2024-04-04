@@ -37,6 +37,7 @@ import BookingPage from "./Pages/Booking/BookingPage";
 import DM from "./Pages/Profile/DM";
 import TimeSlotPage from "./Pages/Profile/TimeSlotPage";
 import Contact from "./Pages/Contact";
+import Footer from "./Components/Footer/Footer";
 
 export const getLoginUser = async (dispatch, navigate) => {
   const token = localStorage.getItem("token");
