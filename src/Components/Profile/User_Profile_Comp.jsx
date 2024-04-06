@@ -181,6 +181,7 @@ const Calendar_Part = (props) => {
     convertToEvent();
   }, [fetchedMeeting]);
 
+
   return fetchingEvents ? (
     <div className="w-[96%] lg:w-8/12 ml-2 lg:ml-7 mt-10">
       <div className="flex justify-center items-center mt-20 py-4 px-8 bg-white rounded-full">
@@ -576,6 +577,17 @@ const User_Profile_Comp = () => {
   }, [userRedux.data]);
 
 
+  // useEffect(() => {
+  //   // change background color of the page to white
+  //   document.body.style.backgroundColor = "white";
+
+  //   return () => {
+  //     // change background color of the page back to default
+  //     document.body.style.backgroundColor = "#f0f4f9";
+  //   }
+  // },[])
+
+
 
   return (
     // <SideBar />
@@ -585,20 +597,21 @@ const User_Profile_Comp = () => {
           selectedIcon={selectedIcon}
           handleIconClick={handleIconClick}
         />
-        <div className="mt-2 ml-0 lg:mt-12 md:ml-[240px] lg:ml-[300px] mb-10">
-          <div className="mx-3 sm:mx-4 flex">
+        <div className="mt-2 ml-0 lg:mt-12 md:ml-[240px] lg:ml-[300px] md:pr-[100px] mb-10 ">
+          <div className="">
+            <div className="mx-3 sm:mx-4 flex ">
 
-            <div className="overflow-hidden hover:scale-125">
-              <img
-                className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3 hover:cursor-pointer "
-                src={profileImg}
-                alt={userimg}
-                onClick={() => handleImageClick()}
-              />
-            </div>
+              <div className="overflow-hidden">
+                <img
+                  className="h-[80px] w-[80px] sm:h-[120px] sm:w-[120px] rounded-full border-2 border-gray-500 object-cover object-center mt-3 hover:cursor-pointer"
+                  src={profileImg}
+                  alt={userimg}
+                  onClick={() => handleImageClick()}
+                />
+              </div>
 
-            <div className="ml-2 mt-8 sm:mt-16 ">
-              {/* <div className="flex space-x-4 sm:space-x-16">
+              <div className="ml-2 mt-8 md:mt-12 ">
+                {/* <div className="flex space-x-4 sm:space-x-16">
                                 <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600" onClick={() => {
                                     setSelectedIcon("grid");
                                     window.scrollTo({ top: 600, behavior: "smooth" })
@@ -627,68 +640,69 @@ const User_Profile_Comp = () => {
                                     </div>
                                 </div>
                             </div> */}
-              <div className="ml-3">
-                <h1 className="font-inter font-semibold md:text-xl">
-                  {userRedux.data.firstName + " " + userRedux.data.lastName}
-                </h1>
-                <h1 className="font-inter text-xs md:text-sm  text-gray-500">
-                  {userRedux.data.bio}
-                </h1>
+                <div className="ml-3">
+                  <h1 className="font-inter font-semibold md:text-xl">
+                    {userRedux.data.firstName + " " + userRedux.data.lastName}
+                  </h1>
+                  <h1 className="font-inter text-xs md:text-sm  text-gray-500">
+                    {userRedux.data.bio}
+                  </h1>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm break-words">
-            {userRedux.data.decription}
-          </div>
-
-          <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-11/12 lg:w-8/12 mt-10 text-sm justify-center">
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => handleIconClick("account")}
-              className={`cursor-pointer ${selectedIcon === "account" ? "text-blue-500 underline" : ""
-                }`}
-            >
-              <AccountBoxOutlinedIcon />
-              {/* Slider */}
-              {selectedIcon === "account" && <Slider />}
-            </motion.div>
-
-
-
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => handleIconClick("calendar")}
-              className={`cursor-pointer ${selectedIcon === "calendar" ? "text-blue-500 underline" : ""
-                }`}
-            >
-              <CalendarMonthOutlinedIcon />
-              {/* Slider */}
-              {selectedIcon === "calendar" && <Slider />}
-            </motion.div>
-          </div>
-
-          {selectedIcon === "account" ? (
-            <Account />
-          ) : selectedIcon === "calendar" ? (
-            <Calendar_Part
-              events={events}
-              setEvents={setEvents}
-              handleEventClick={handleEventClick}
-            />
-          ) : selectedIcon === "grid" ? (
-            <div className="flex justify-center w-[100%] lg:w-9/12">
-              <Posts />
+            <div className="ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm break-words">
+              {userRedux.data.decription}
             </div>
-          ) : selectedIcon === "bookmark" ? (
-            <div className="flex justify-center w-[100%] lg:w-9/12">
-              <BookMarked />
+
+            <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-11/12 lg:w-8/12 mt-10 text-sm justify-center">
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => handleIconClick("account")}
+                className={`cursor-pointer ${selectedIcon === "account" ? "text-blue-500 underline" : ""
+                  }`}
+              >
+                <AccountBoxOutlinedIcon />
+                {/* Slider */}
+                {selectedIcon === "account" && <Slider />}
+              </motion.div>
+
+
+
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => handleIconClick("calendar")}
+                className={`cursor-pointer ${selectedIcon === "calendar" ? "text-blue-500 underline" : ""
+                  }`}
+              >
+                <CalendarMonthOutlinedIcon />
+                {/* Slider */}
+                {selectedIcon === "calendar" && <Slider />}
+              </motion.div>
             </div>
-          ) : (
-            <></>
-          )}
+
+            {selectedIcon === "account" ? (
+              <Account />
+            ) : selectedIcon === "calendar" ? (
+              <Calendar_Part
+                events={events}
+                setEvents={setEvents}
+                handleEventClick={handleEventClick}
+              />
+            ) : selectedIcon === "grid" ? (
+              <div className="flex justify-center w-[100%] lg:w-9/12">
+                <Posts />
+              </div>
+            ) : selectedIcon === "bookmark" ? (
+              <div className="flex justify-center w-[100%] lg:w-9/12">
+                <BookMarked />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
 
         {checkFollowers ? (

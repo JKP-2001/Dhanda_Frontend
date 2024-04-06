@@ -124,7 +124,7 @@ const Login = (props) => {
     return (
         <div className='md:ml-52'>
             <section className=" dark:bg-gray-900">
-                <div className="flex flex-col items-center justify-center px-6 py-8 mt-4 mx-auto lg:mt-20 xl:mt-28 lg:py-0 ">
+                <div className="flex flex-col items-center justify-center px-6 py-2 md:py-8  mx-auto lg:mt-20 xl:mt-28 lg:py-0 ">
 
                     <div className="w-full bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -134,20 +134,20 @@ const Login = (props) => {
                             <form className="space-y-4" action="#" onSubmit={onSubmitHandler}>
                                 <div>
                                     <label for="email" className="block mb-2 text-sm  text-gray-900 dark:text-white font-inter font-bold">Email <Asterik /></label>
-                                    <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-bold font-inter" placeholder="name@company.com" required="" value={userState.email} onChange={onChangeHandler} />
+                                    <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-bold font-inter" placeholder="name@company.com" required="" value={userState.email} onChange={onChangeHandler} />
                                 </div>
                                 <div>
                                     <label for="password" className="block mb-2 text-sm font-bold font-inter text-gray-900 dark:text-white">Password <Asterik /></label>
-                                    <input type="password" name="password" id="password" placeholder="••••••••" autoComplete='on' className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-inter font-bold" required="" value={userState.password} onChange={onChangeHandler} />
+                                    <input type="password" name="password" id="password" placeholder="••••••••" autoComplete='on' className="bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-inter font-bold" required="" value={userState.password} onChange={onChangeHandler} />
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-start">
 
 
                                     </div>
-                                    <Link to="/forgot-password" className="text-sm font-inter font-bold hover:underline  text-light-blue-900">Forgot password?</Link>
+                                    <Link to="/forgot-password" className="text-xs md:text-sm font-inter font-bold hover:underline  text-light-blue-900">Forgot password?</Link>
                                 </div>
-                                {!loading ? <button type="submit" className="hover:scale-[102%] w-full text-white bg-[#db2777] focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center font-inter font-bold">Sign in</button> :
+                                {!loading ? <button type="submit" className="hover:scale-[102%] w-full text-white bg-[#db2777] focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-xs md:text-sm px-5 py-2.5 text-center font-inter font-bold">Sign in</button> :
 
 
                                     <button type="submit" className="hover:scale-[102%] w-full text-white bg-[#db2777] rounded-lg text-sm px-5 py-2.5 text-center font-inter font-bold flex justify-center" disabled>
@@ -160,9 +160,9 @@ const Login = (props) => {
                                 <div className="md:flex md:justify-between md:space-x-2 space-y-2 md:space-y-0">
                                     <div className=''>
 
-                                        <div className="w-full hover:scale-[102%]  bg-white flex justify-center focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
+                                        <div className="w-full hover:scale-[102%]  bg-white flex justify-center focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-[2px] md:py-3 text-center font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleGoogleLogin}>
                                             <FcGoogle fontSize={35} />
-                                            <div className="textT mt-2 md:mt-0">
+                                            <div className="text-xs md:text-sm mt-2 md:mt-0">
                                                 Continue with Google
                                             </div>
                                         </div>
@@ -170,16 +170,16 @@ const Login = (props) => {
 
                                     <div className=''>
 
-                                        <div className="w-full hover:scale-[102%]  bg-white flex justify-center focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-2.5 text-center font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleMicroLogin}>
+                                        <div className="w-full hover:scale-[102%]  bg-white flex justify-center focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-[2px] md:py-3 text-center font-inter font-bold border-2 border-gray-600 text-black hover:cursor-pointer space-x-1" onClick={handleMicroLogin}>
                                             <PiMicrosoftOutlookLogoLight fontSize={35} />
-                                            <div className="textT mt-2 md:mt-0">
+                                            <div className="text-xs md:text-sm mt-2 md:mt-0">
                                                 Continue with Microsoft
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 font-inter">
+                                <p className="text-xs md:text-sm font-medium text-gray-500 dark:text-gray-400 font-inter ">
                                     Don’t have an account yet? <Link to="/signup" className=" text-light-blue-900 font-bold hover:underline ">Sign up</Link>
                                 </p>
                             </form>
