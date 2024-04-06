@@ -185,4 +185,21 @@ export const getTimeDifference = (isoString) => {
 };
 
 
+export const getDateDiffrence = (date1, date2) => {
 
+  const [year1, month1, day1] = date1.split('-').map(Number);
+  const [year2, month2, day2] = date2.split('-').map(Number);
+
+  if(year1===year2){
+    if(month1===month2){
+      return 1;
+    }
+    else{
+      return month2-month1;
+    }
+  }
+
+  return year2-year1;
+
+  
+}
