@@ -14,6 +14,7 @@ import DatePicker from '../../Utils/DatePicker';
 import { callOnBoardingProcess, getUserData } from '../../APIs/User_API';
 import { decryptFromJson } from '../../Utils/functions';
 import { getUserSuccess } from '../../Redux/user/userSlice';
+import SideBarProfile from './SideBarProfile';
 
 const variants = {
     hidden: { x: -30 },
@@ -24,27 +25,13 @@ const Step1 = (props) => {
 
     const { userState, onChangeHandler, handleNext } = props;
 
-    useEffect(() => {
-        const handleKeyPress = (e) => {
-
-            if (e.key === 'Enter') {
-                handleNext();
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyPress);
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [props]);
 
 
     return (
         <>
 
             <div className="mb-3">
-                <h2 className="text-base font-bold text-gray-800 dark:text-white font-inter  text-center">
+                <h2 className="text-sm md:text-base font-bold text-gray-800 dark:text-white font-inter text-center">
                     Tell us about yourself
                 </h2>
             </div>
@@ -58,7 +45,7 @@ const Step1 = (props) => {
                         type="text"
                         name="bio"
                         id="bio"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="eg. Software Engineer | Ex-PayPal etc."
                         value={userState.bio}
                         required
@@ -76,7 +63,7 @@ const Step1 = (props) => {
                         name="description"
                         id="description"
                         placeholder="eg. Hello, I'm John – a Mechanical Engineer turned Data Analyst on a journey of  .........."
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-inter font-bold"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-inter font-bold"
                         required
                         rows={5}
                         value={userState.description}
@@ -95,20 +82,6 @@ const Step3 = (props) => {
 
     const { userState, onChangeHandler, handleNext } = props;
 
-    useEffect(() => {
-        const handleKeyPress = (e) => {
-
-            if (e.key === 'Enter') {
-                handleNext();
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyPress);
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [props]);
 
 
     const handleDateChange = (date) => {
@@ -123,14 +96,14 @@ const Step3 = (props) => {
     return (
         <>
 
-            <div className="mb-3">
-                <h2 className="text-base font-bold text-gray-800 dark:text-white font-inter  text-center">
+            <div className="my-4">
+                <h2 className="text-sm md:text-base font-bold text-gray-800 dark:text-white font-inter  text-center">
                     Tell us about your current company
                 </h2>
             </div>
 
             <form>
-                <div className='mb-4'>
+                <div className='mb-8'>
                     <label htmlFor="company" className="block mb-2 text-sm text-gray-900 dark:text-white font-inter font-bold">
                         Company Name <Asterik />
                     </label>
@@ -138,7 +111,7 @@ const Step3 = (props) => {
                         type="text"
                         name="company"
                         id="company_name"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="eg. Google/ Microsoft/ Apple etc."
                         value={userState.current_job.company}
                         required
@@ -163,7 +136,7 @@ const Step3 = (props) => {
                         type="text"
                         name="role"
                         id="role"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="eg. Software Engineer II"
                         value={userState.current_job.role}
                         required
@@ -179,7 +152,7 @@ const Step3 = (props) => {
                     <textarea
                         type="text"
                         name="description"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="Tell us about your role...."
                         value={userState.current_job.description}
                         rows={4}
@@ -197,21 +170,6 @@ const Step3 = (props) => {
 const Step2 = (props) => {
 
     const { userState, onChangeHandler, handleNext } = props;
-
-    useEffect(() => {
-        const handleKeyPress = (e) => {
-
-            if (e.key === 'Enter') {
-                handleNext();
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyPress);
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [props]);
 
     const handleStartDateChange = (date) => {
         onChangeHandler({
@@ -234,13 +192,13 @@ const Step2 = (props) => {
     return (
         <>
 
-            <div className="mb-3">
-                <h2 className="text-base font-bold text-gray-800 dark:text-white font-inter  text-center">
+            <div className="my-3">
+                <h2 className="text-sm md:text-base font-bold text-gray-800 dark:text-white font-inter  text-center">
                     Tell us about your education
                 </h2>
             </div>
 
-            <form>
+            <form className=''>
                 <div className='mb-4'>
                     <label htmlFor="instituteName" className="block mb-2 text-sm text-gray-900 dark:text-white font-inter font-bold">
                         Institue Name <Asterik />
@@ -249,7 +207,7 @@ const Step2 = (props) => {
                         type="text"
                         name="instituteName"
                         id="instituteName"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="eg. Indian Institute Of Technology, Delhi."
                         value={userState.current_education.instituteName}
                         required
@@ -265,7 +223,7 @@ const Step2 = (props) => {
                         type="text"
                         name="degree"
                         id="degree"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="eg. Bachelors Of Technology"
                         value={userState.current_education.degree}
                         required
@@ -282,7 +240,7 @@ const Step2 = (props) => {
                         type="text"
                         name="branch"
                         id='branch'
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="eg. Computer Science And Engineering"
                         value={userState.current_education.branch}
                         required
@@ -290,12 +248,12 @@ const Step2 = (props) => {
                     />
                 </div>
 
-                <div className='mb-4'>
+                <div className='mb-4 font-inter text-sm'>
                     <label htmlFor="startDate" className="block mb-2 text-sm text-gray-900 dark:text-white font-inter font-bold">
                         Start Date <Asterik />
                     </label>
 
-                    <DatePicker currDate={userState.current_education.startDate} onDateChange={handleStartDateChange} />
+                    <DatePicker currDate={userState.current_education.startDate} onDateChange={handleStartDateChange}  />
 
                 </div>
 
@@ -316,7 +274,7 @@ const Step2 = (props) => {
                         type="text"
                         name="description"
                         id='description'
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold font-inter"
                         placeholder="Tell us about your experience...."
                         value={userState.current_education.description}
                         onChange={onChangeHandler}
@@ -337,26 +295,10 @@ const Step4 = (props) => {
 
 
 
-    useEffect(() => {
-        const handleKeyPress = (e) => {
-
-            if (e.key === 'Enter') {
-                handleNext();
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyPress);
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [props]);
-
-
     return (
         <div className='z-0'>
             <div className="mb-8">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white font-inter  text-center">
+                <h2 className="md:text-xl font-bold text-gray-800 dark:text-white font-inter  text-center">
                     Review Your Information
                 </h2>
             </div>
@@ -376,7 +318,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Bio:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.bio}
                             </div>
                         </div>
@@ -385,7 +327,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Description:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.description}
                             </div>
                         </div>
@@ -407,7 +349,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Company:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_job.company}
                             </div>
                         </div>
@@ -416,7 +358,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Role:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_job.role}
                             </div>
                         </div>
@@ -425,7 +367,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Start Date:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_job.startDate}
                             </div>
                         </div>
@@ -434,7 +376,7 @@ const Step4 = (props) => {
                             <div className="password text-sm font-inter font-bold">
                                 Description:
                             </div>
-                            <div className="text-sm font-inter font-normal">
+                            <div className="text-xs md:text-sm font-inter font-normal">
                                 {userState.current_job.description}
                             </div>
                         </div>
@@ -456,7 +398,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Institute:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_education.instituteName}
                             </div>
                         </div>
@@ -465,7 +407,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Degree:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_education.degree}
                             </div>
                         </div>
@@ -474,7 +416,7 @@ const Step4 = (props) => {
                             <div className="password text-sm font-inter font-bold">
                                 Branch:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_education.branch}
                             </div>
                         </div>
@@ -483,7 +425,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 Start Date:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_education.startDate}
                             </div>
                         </div>
@@ -492,7 +434,7 @@ const Step4 = (props) => {
                             <div className="email text-sm font-inter font-bold">
                                 End Date:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_education.endDate}
                             </div>
                         </div>
@@ -501,7 +443,7 @@ const Step4 = (props) => {
                             <div className="password text-sm font-inter font-bold">
                                 Description:
                             </div>
-                            <div className="text-sm font-inter">
+                            <div className="text-xs md:text-sm font-inter">
                                 {userState.current_education.description}
                             </div>
                         </div>
@@ -730,14 +672,16 @@ const OnBoarding = () => {
         !userRedux.data ? null :
 
             <div>
-                <div  >
+                
+                    <SideBarProfile />
+                <div className='md:ml-[240px]'>
                     <section className=" dark:bg-gray-900 mb-5 z-0 overflow-hidden">
 
                         <div className="flex flex-col items-center justify-center px-6  mt-7 mx-auto md:mt-7 lg:py-0 ">
 
-                            <div className="w-full bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                            <div className=" w-full bg-white rounded-lg border-[1.5px] border-gray-200 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8 z-0">
-                                    <h1 className=" ml-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white font-inter text-center">
+                                    <h1 className=" ml-4 text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white font-inter text-center">
                                         {`Welcome, ${user_name} 👋`}
                                     </h1>
 

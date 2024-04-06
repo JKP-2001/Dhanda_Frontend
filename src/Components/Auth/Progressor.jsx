@@ -7,7 +7,7 @@ const Progressor = (props) => {
   const stepsArray = Array.from({ length: totalSteps }, (_, index) => index + 1);
 
   return (
-    <div className="w-full pt-4 px-8 z-0">
+    <div className="w-full pt-4 px-10 md:px-8 z-0">
       <Stepper activeStep={step}>
         {stepsArray.map((index) => (
           <Step key={index}>{index}</Step>

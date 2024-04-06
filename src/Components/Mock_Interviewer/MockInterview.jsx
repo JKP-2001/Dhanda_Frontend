@@ -151,8 +151,8 @@ const Account = (props) => {
         </div>
 
         {userRedux.data && userRedux.data.role === "student" ? (
-          <div className="flex">
-            <div className="ml-3 lg:ml-7 mt-10">
+          <div className="">
+            <div className="mx-3 sm:ml-3 lg:ml-7 mt-10 ">
               <Button
                 color="black"
                 buttonType="filled"
@@ -161,8 +161,8 @@ const Account = (props) => {
                 block={false}
                 iconOnly={false}
                 ripple="light"
-                className="w-40 h-10 font-inter"
-                onClick={handleClick}
+                className="w-full sm:w-40 h-10 font-inter font-semibold text-xs"
+                onClick={handleClick} 
               >
                 Book a Session
               </Button>
@@ -437,14 +437,14 @@ const MockInterview = () => {
       <>
         <div className="select-none">
           <div className="select-none mt-3 ml-0 lg:mt-20 lg:ml-48 mb-10">
-            <div className="ml-3 sm:ml-4 flex">
+            <div className="mx-3 sm:ml-4 flex">
               <img
-                className="h-[100px] w-[100px] sm:h-[170px] sm:w-[170px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
+                className="h-[100px] w-[100px] sm:h-[120px] sm:w-[120px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
                 src={profileImg}
                 alt={userimg}
               />
 
-              <div className="mt-10 sm:mt-16 ">
+              <div className="mt-8 md:mt-12 ">
                 {/* <div className="flex space-x-4 sm:space-x-16">
                   <div
                     className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600"
@@ -482,13 +482,13 @@ const MockInterview = () => {
               </div>
             </div>
 
-            <div className="ml-5 lg:ml-7 description font-inter w-11/12 lg:w-7/12  mt-10 text-sm">
+            <div className="ml-5 lg:ml-7 description font-inter w-11/12 lg:w-7/12 xl:w-10/12  mt-10 text-xs sm:text-sm">
               {searchUserRedux.data.description}
             </div>
 
             {userRedux.data && userRedux.data.role === "student" ? (
-              <div className="flex">
-                <div className="ml-3 lg:ml-7 mt-10">
+              <div className="sm:flex ">
+                <div className="mx-3 sm:ml-3 lg:ml-7 mt-10">
                   <Button
                     color="black"
                     buttonType="filled"
@@ -497,14 +497,14 @@ const MockInterview = () => {
                     block={false}
                     iconOnly={false}
                     ripple="light"
-                    className="w-40 h-10 font-inter"
+                    className="w-full sm:w-40 h-10 font-inter"
                     onClick={handleClick}
                   >
                     Book a Session
                   </Button>
                 </div>
 
-                <div className="ml-3 lg:ml-7 mt-10">
+                <div className="mx-3 sm:ml-3 lg:ml-7 mt-4 sm:mt-10">
                   <Button
                     color="black"
                     buttonType="filled"
@@ -513,7 +513,7 @@ const MockInterview = () => {
                     block={false}
                     iconOnly={false}
                     ripple="light"
-                    className="w-40 h-10 font-inter"
+                    className="w-full sm:w-40 h-10 font-inter"
                     onClick={handleOpenMessageModal}
                   >
                     Direct Message
@@ -522,7 +522,7 @@ const MockInterview = () => {
               </div>
             ) : null}
 
-            <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-[100%] lg:w-8/12 mt-10 text-sm justify-center">
+            <div className="flex space-x-14 md:space-x-20 ml-2 lg:ml-7 description font-inter w-11/12 lg:w-8/12 mt-10 text-sm justify-center">
               <div
                 onClick={() => setIcon("account")}
                 className={`cursor-pointer ${

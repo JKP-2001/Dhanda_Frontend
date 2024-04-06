@@ -46,7 +46,7 @@ function ContactPage() {
         <h2 className="mb-4 text-4xl tracking-tight font-inter font-semibold text-center text-gray-900 ">
           Contact Us
         </h2>
-        <p className="mb-8 lg:mb-16 font-light text-center text-gray-500  sm:text-xl">
+        <p className="mb-8 lg:mb-16 font-inter text-center text-gray-500  sm:text-lg">
           Got a technical issue? Want to send feedback about a beta feature?
           Need details about our Business plan? Let us know.
         </p>
