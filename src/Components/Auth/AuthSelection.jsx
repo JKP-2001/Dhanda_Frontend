@@ -94,7 +94,7 @@ const AuthSelection = (props) => {
 
                         <div className='mb-4 mx-10 md:mx-28'>
 
-                            <div className="flex items-center mb-4 hover:scale-[102%] hover:cursor-pointer">
+                            {/* <div className="flex items-center mb-4 hover:scale-[102%] hover:cursor-pointer">
                                 <input
                                     id="default-checkbox"
                                     type="checkbox"
@@ -108,7 +108,7 @@ const AuthSelection = (props) => {
                                 >
                                     Instructor
                                 </label>
-                            </div>
+                            </div> */}
 
                             <div className="flex items-center hover:scale-[102%] hover:cursor-pointer">
                                 <input

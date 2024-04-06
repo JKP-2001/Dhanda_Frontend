@@ -214,7 +214,7 @@ const Nav = (props) => {
           </div>
           <Collapse open={openNav}>
             <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
-              {["Problems", "Discuss"].map((item, index) => (
+              {[ "Mock-Interview", "Contact-us"].map((item, index) => (
                 <Typography
                   key={index}
                   as="li"

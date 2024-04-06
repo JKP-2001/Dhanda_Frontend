@@ -6,13 +6,13 @@ function TrustUs() {
   return (
     <div className="pb-10">
       <div className="mt-28 w-[100%]">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-10 w-[95%] md:w-[90%] mx-auto">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-10 w-[95%] md:w-[80%] mx-auto">
           <img className="border-2 rounded-3xl border-gray-400" src={trustImage}></img>
           <div className="flex flex-col justify-center gap-3">
-            <div className="text-center lg:text-left font-handwritten2 font-semibold text-3xl  md:text-5xl ">
+            <div className="text-center lg:text-left font-handwritten2 font-semibold text-2xl  md:text-3xl ">
               Trust Us
             </div>
-            <div className="text-center lg:text-left font-handwritten2  text-xl md:text-3xl ">
+            <div className="text-center lg:text-left font-handwritten2  text-xl md:text-1xl ">
               We Are Here to Help!
             </div>
             <div className="text-sm md:text-base font-handwritten2 font-[550] mx-2 md:mx-1">
@@ -27,9 +27,9 @@ function TrustUs() {
         </div>
       </div>
       <div className="mt-20 w-[100%]">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-[95%] md:w-[90%] mx-auto">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-[96%] md:w-[80%] mx-auto">
           <div className="flex flex-col justify-center gap-4">
-            <div className="text-center lg:text-left font-handwritten2  text-3xl  md:text-5xl font-semibold">
+            <div className="text-center lg:text-left font-handwritten2  text-2xl  md:text-3xl font-semibold">
               Why to Choose Us?
             </div>
             <div className="text-center lg:text-left font-handwritten2 text-base md:text-xl ">
