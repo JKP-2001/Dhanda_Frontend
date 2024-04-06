@@ -143,11 +143,11 @@ const Account = (props) => {
     searchUserRedux.data && (
       <>
         <div className="ml-3 lg:ml-7 mt-5">
-          <ExperienceCard exp={searchUserRedux} />
+          <ExperienceCard exp={searchUserRedux} isEdit={false}/>
         </div>
 
         <div className="ml-3 lg:ml-7 mt-5">
-          <EducationCard edu={searchUserRedux} />
+          <EducationCard edu={searchUserRedux} isEdit={false}/>
         </div>
 
         {userRedux.data && userRedux.data.role === "student" ? (

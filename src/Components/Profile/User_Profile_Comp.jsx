@@ -69,12 +69,12 @@ const Account = (props) => {
     <motion.div className="mt-5 ml-3 md:ml-5 space-y-8">
       {userRedux.data && userRedux.data.experience.length > 0 ? (
         <div>
-          <ExperienceCard exp={userRedux} />
+          <ExperienceCard exp={userRedux} isEdit={true}/>
         </div>
       ) : null}
 
       <div>
-        <EducationCard edu={userRedux} />
+        <EducationCard edu={userRedux} isEdit={true}/>
       </div>
     </motion.div>
   );

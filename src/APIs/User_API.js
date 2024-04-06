@@ -149,3 +149,112 @@ export const updateProfilePic = async (imageFiles,token) => {
       return { success: false, msg: err.toString() };
   }
 }
+
+
+export const addUserEducation = async (data, token) => {
+  try {
+    const encryptedData = encryptToJson(data);
+    const DATA = { payload: encryptedData };
+
+    const response = await fetch(BASE_URL + "/user/add-education", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
+      body: JSON.stringify(DATA),
+    })
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+}
+
+
+export const editUserEducation = async (data, token, id) => {
+  try {
+    const encryptedData = encryptToJson(data);
+    const DATA = { payload: encryptedData };
+
+    const response = await fetch(BASE_URL + `/user/edit-education/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
+      body: JSON.stringify(DATA),
+    })
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+}
+
+
+export const addUserExperience = async (data, token) => {
+  try {
+    const encryptedData = encryptToJson(data);
+    const DATA = { payload: encryptedData };
+
+    const response = await fetch(BASE_URL + "/user/add-experience", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
+      body: JSON.stringify(DATA),
+    })
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+}
+
+
+export const editUserExperience = async (data, token, id) => {
+  try {
+    const encryptedData = encryptToJson(data);
+    const DATA = { payload: encryptedData };
+
+    const response = await fetch(BASE_URL + `/user/edit-experience/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
+      body: JSON.stringify(DATA),
+    })
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+}
+

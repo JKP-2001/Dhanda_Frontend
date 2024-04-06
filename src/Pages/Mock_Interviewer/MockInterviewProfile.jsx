@@ -26,7 +26,7 @@ const MockInterviewProfile = () => {
     <div>
       <SideNav/>
       <Nav />
-      <div className='mb-20 lg:ml-44'>
+      <div className='mb-20  md:ml-64 lg:ml-32 xl:ml-44'>
         <MockInterview />
       </div>
 
