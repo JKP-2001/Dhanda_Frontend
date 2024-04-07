@@ -9,7 +9,9 @@ import { FaPlus } from "react-icons/fa6";
 import showToast from '../../../Utils/showToast';
 import { addUserEducation, addUserExperience } from '../../../APIs/User_API';
 import { LuPencil } from 'react-icons/lu';
-
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import { getLoginUser } from '../../../App';
 
 const CompanyForm = (props) => {
 
@@ -22,6 +24,9 @@ const CompanyForm = (props) => {
   const [description, setDescription] = useState('');
 
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   const handleClose = () => {
@@ -37,7 +42,7 @@ const CompanyForm = (props) => {
 
 
 
-  const addEducation = async (e) => {
+  const addExperience = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
@@ -61,6 +66,7 @@ const CompanyForm = (props) => {
 
       setLoading(true);
       const response = await addUserExperience(data, token);
+      getLoginUser(dispatch, navigate);
       setLoading(false);
 
       console.log({ response })
@@ -81,7 +87,7 @@ const CompanyForm = (props) => {
         setOpenNew(false);
         document.body.style.overflow = 'auto';
 
-        setVisibleEducation([...visibleEducation, response.data]);
+        // setVisibleEducation([...visibleEducation, response.data]);
       }
 
       else {
@@ -128,7 +134,7 @@ const CompanyForm = (props) => {
               >
                 {`Add New Experience`}
               </div>
-              <form className="max-w-md mx-auto font-inter font-semibold" onSubmit={addEducation}>
+              <form className="max-w-md mx-auto font-inter font-semibold" onSubmit={addExperience}>
                 <div className="relative z-0 w-full mb-5 group">
                   <input type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={company} onChange={(e) => setCompany(e.target.value)} />
                   <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company</label>
@@ -153,7 +159,7 @@ const CompanyForm = (props) => {
                   <label for="floating_repeat_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
                 </div>
                 <div className="flex space-x-4">
-                  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={loading} onClick={addEducation}>{loading ? "Submitting..." : "Submit"}</button>
+                  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={loading} onClick={addExperience}>{loading ? "Submitting..." : "Submit"}</button>
                   <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={handleClose}>Close</button>
                 </div>
               </form>
@@ -166,7 +172,6 @@ const CompanyForm = (props) => {
 }
 
 
-
 const ExperienceCard = (props) => {
 
   const [showAll, setShowAll] = useState(false);
@@ -175,9 +180,7 @@ const ExperienceCard = (props) => {
 
   const [visibleEducation, setVisibleEducation] = useState([]);
 
-
-
-  const { isEdit } = props;
+  const { isEdit, dispatch, navigate } = props;
 
   const [openNew, setOpenNew] = useState(false);
 
@@ -218,8 +221,14 @@ const ExperienceCard = (props) => {
         </div>
         <hr className='w-11/12 mx-4 mt-2' />
 
+        {userRedux.data.experience.length === 0 ? (
+          <div className="flex justify-center font-roboto hover:cursor-pointer mt-2" onClick={addNewCompany}>
+            Add Experience
+          </div>
+        ):null}
+
         {visibleEducation.map((exp, index) => (
-          <CompanyCard exp={exp} key={index} isEdit={isEdit} index={index} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation}/>
+          <CompanyCard exp={exp} key={index} isEdit={isEdit} index={index} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} dispatch={dispatch} navigate={navigate}/>
         ))}
 
         {userRedux.data.experience.length > 2 && (

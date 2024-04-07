@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux';
 import { FaPlus } from "react-icons/fa6";
 import showToast from '../../../Utils/showToast';
 import { addUserEducation } from '../../../APIs/User_API';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getLoginUser } from '../../../App';
 
 
 const EducationForm = (props) => {
@@ -19,6 +22,9 @@ const EducationForm = (props) => {
   const [description, setDescription] = useState('');
 
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   const handleClose = () => {
@@ -59,6 +65,7 @@ const EducationForm = (props) => {
 
       setLoading(true);
       const response = await addUserEducation(data, token);
+      getLoginUser(dispatch, navigate);
       setLoading(false);
 
       console.log({response})
@@ -221,6 +228,12 @@ const EducationCard = (props) => {
             </div> : null}
         </div>
         <hr className='w-11/12 mx-4 mt-2' />
+
+        {userRedux.data.education.length === 0 ? (
+          <div className="flex justify-center font-roboto hover:cursor-pointer mt-2" onClick={addNewEducation}>
+            Add Education
+          </div>
+        ):null}
 
         {visibleEducation.map((education, index) => (
           <InstitituteCard education={education} key={index} index={index} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} isEdit={isEdit}/>

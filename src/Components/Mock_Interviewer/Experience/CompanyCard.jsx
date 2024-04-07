@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react'
 
 import { FaPlus } from "react-icons/fa6";
 import showToast from '../../../Utils/showToast';
-import { addUserEducation, editUserExperience } from '../../../APIs/User_API';
+import { addUserEducation, deleteUserExperience, editUserExperience, getUserData } from '../../../APIs/User_API';
 import { LuPencil } from 'react-icons/lu';
+import { AiOutlineDelete } from "react-icons/ai";
+import { getLoginUser } from '../../../App';
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom'
 
 const dateFromISO = (date) => {
     const dateObj = new Date(date);
@@ -15,7 +19,7 @@ const dateFromISO = (date) => {
 
 const CompanyForm = (props) => {
 
-    const { setOpenNew, exp, visibleEducation, setVisibleEducation, setEdit, index } = props;
+    const { setOpenNew, exp, visibleEducation, setVisibleEducation, setEdit, index, dispatch, navigate } = props;
 
 
 
@@ -174,11 +178,117 @@ const CompanyForm = (props) => {
     )
 }
 
+
+const DeleteForm = (props) => {
+
+
+    const { setDeleteCard, visibleEducation, setVisibleEducation, index} = props;
+
+    const handleCancel = () => {
+        setDeleteCard(false);
+        document.body.style.overflow = 'auto';
+    }
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    
+
+    const [loading, setLoading] = useState(false);
+
+    const handleDelete = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+            
+            if(!token){
+                showToast({
+                    msg: "Please Login First",
+                    type: "error",
+                    duration: 3000
+                });
+                return;
+            }
+
+            setLoading(true);
+
+            const response = await deleteUserExperience(token, visibleEducation[index]._id);
+            getLoginUser(dispatch, navigate);
+
+            setLoading(false);
+
+            if(response.success){
+                const temp = [...visibleEducation];
+                temp.splice(index, 1);
+                setVisibleEducation([...temp]);
+
+                showToast({
+                    msg: response.msg,
+                    type: "success",
+                    duration: 3000
+                });
+
+                handleCancel();
+            } else {
+                showToast({
+                    msg: response.msg,
+                    type: "error",
+                    duration: 3000
+                });
+            }
+        }catch(err){
+            
+            showToast({
+                msg: err.toString(),
+                type: "error",
+                duration: 3000
+            });
+        }
+    }
+    
+    return(
+        <div className="fixed z-50 inset-0 overflow-y-auto">
+            <div className="flex items-center justify-center mt-8 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+                <span
+                    className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true"
+                >
+                    &#8203;
+                </span>
+                <div
+                    className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle  w-full sm:max-w-lg"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="modal-headline"
+                >
+                    <div className="bg-white px-2 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className="mt-3 mx-2 sm:mx-0   sm:text-left">
+                            <div
+                                className="text-lg font-semibold text-gray-900 font-inter mb-7"
+                                id="modal-headline"
+                            >
+                                {`Are you sure?`}
+                            </div>
+                        </div>
+                        <div className="flex space-x-4">
+                            <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={handleDelete}>{loading?"Deleting...":"Delete"}</button>
+                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleCancel}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 const CompanyCard = (props) => {
 
     const { role, startDate, endDate, description, company } = props.exp;
 
-    const { isEdit, visibleEducation, setVisibleEducation, index } = props;
+    const { isEdit, visibleEducation, setVisibleEducation, index} = props;
 
     const startYear = startDate.slice(0, 4);
 
@@ -186,23 +296,33 @@ const CompanyCard = (props) => {
 
     const currentYear = currentDate.getFullYear();
 
-
+    
 
     const endYear = endDate ? endDate.slice(0, 4) : currentYear;
 
     const [edit, setEdit] = useState(false);
+
+    const [deleteCard, setDeleteCard] = useState(false);
 
     const handleEdit = () => {
         setEdit(!edit);
         document.body.style.overflow = 'hidden';
     }
 
+    const handleDelete = () => {
+        setDeleteCard(true);
+        document.body.style.overflow = 'hidden';
+    }
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     return (
         <>
             <div className="flex justify-between">
                 <div className='flex'>
                     <div className='logo'>
-                        <img src="https://cdn-icons-png.freepik.com/512/895/895360.png?ga=GA1.1.1404805500.1684049480&" alt="logo" className='h-[40px] w-[40px] mt-5 mx-4' />
+                        <img src="https://cdn-icons-png.freepik.com/512/895/895360.png?ga=GA1.1.1404805500.1684049480&" alt="logo" className='h-[30px] w-[30px] md:h-[40px] md:w-[40px] mt-5 mx-4' />
                     </div>
                     <div className="info mx-2">
                         <h1 className="font-roboto text-sm md:ext-base font-medium mt-4 mb-1">{role}</h1>
@@ -210,7 +330,12 @@ const CompanyCard = (props) => {
                         <h1 className="font-inter text-xs md:text-sm text-gray-500">{startYear} - {endDate ? endYear : "Present"} . {currentYear - startYear} years </h1>
                     </div>
                 </div>
-                {isEdit ? <LuPencil size={20} className="mt-4 mr-4 hover:cursor-pointer" onClick={handleEdit} /> : null}
+
+                <div className="flex space-x-4 mr-4 ">
+                {isEdit ? <LuPencil size={20} className="mt-4 hover:cursor-pointer" onClick={handleEdit} /> : null}
+
+                {isEdit ?<AiOutlineDelete size={20} className="mt-4 hover:cursor-pointer" onClick={handleDelete}/> : null}
+                </div>
             </div>
             <div className="about">
                 <h1 className="font-inter text-xs md:text-sm text-gray-500 ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words">
@@ -222,6 +347,8 @@ const CompanyCard = (props) => {
             <hr className='w-11/12 mx-4 mt-2' />
 
             {edit ? <CompanyForm setEdit={setEdit} exp={props.exp} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} /> : null}
+
+            {deleteCard ? <DeleteForm setDeleteCard={setDeleteCard} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} dispatch={dispatch} navigate={navigate} /> : null}
         </>
     );
 }
