@@ -139,15 +139,18 @@ const Account = (props) => {
 
   const userRedux = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     searchUserRedux.data && (
       <>
         <div className="ml-3 lg:ml-7 mt-5">
-          <ExperienceCard exp={searchUserRedux} isEdit={false}/>
+          <ExperienceCard exp={searchUserRedux} isEdit={false} dispatch={dispatch} navigate={navigate}/>
         </div>
 
         <div className="ml-3 lg:ml-7 mt-5">
-          <EducationCard edu={searchUserRedux} isEdit={false}/>
+          <EducationCard edu={searchUserRedux} isEdit={false} dispatch={dispatch} navigate={navigate}/>
         </div>
 
         {userRedux.data && userRedux.data.role === "student" ? (

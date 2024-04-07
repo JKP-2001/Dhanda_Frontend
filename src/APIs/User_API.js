@@ -258,3 +258,49 @@ export const editUserExperience = async (data, token, id) => {
   }
 }
 
+
+export const deleteUserEducation = async (token, id) => {
+  try {
+    
+
+    const response = await fetch(BASE_URL + `/user/delete-education/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      }
+    })
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+}
+
+
+export const deleteUserExperience = async (token, id) => {
+  try {
+    
+    const response = await fetch(BASE_URL + `/user/delete-experience/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      }
+    })
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+  }catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+}

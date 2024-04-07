@@ -3,8 +3,12 @@ import { LuPencil } from "react-icons/lu";
 
 import { FaPlus } from "react-icons/fa6";
 import showToast from '../../../Utils/showToast';
-import { addUserEducation, editUserEducation } from '../../../APIs/User_API';
+import { addUserEducation, deleteUserEducation, editUserEducation } from '../../../APIs/User_API';
 import { getDateDiffrence } from '../../../Utils/functions';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getLoginUser } from '../../../App';
+import { AiOutlineDelete } from 'react-icons/ai';
 
 
 
@@ -14,6 +18,110 @@ const dateFromISO = (date) => {
     const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
     const day = dateObj.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
+}
+
+
+const DeleteForm = (props) => {
+
+
+    const { setDeleteCard, visibleEducation, setVisibleEducation, index} = props;
+
+    const handleCancel = () => {
+        setDeleteCard(false);
+        document.body.style.overflow = 'auto';
+    }
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    
+
+    const [loading, setLoading] = useState(false);
+
+    const handleDelete = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+            
+            if(!token){
+                showToast({
+                    msg: "Please Login First",
+                    type: "error",
+                    duration: 3000
+                });
+                return;
+            }
+
+            setLoading(true);
+
+            const response = await deleteUserEducation(token, visibleEducation[index]._id);
+            getLoginUser(dispatch, navigate);
+
+            setLoading(false);
+
+            if(response.success){
+                const temp = [...visibleEducation];
+                temp.splice(index, 1);
+                setVisibleEducation([...temp]);
+
+                showToast({
+                    msg: response.msg,
+                    type: "success",
+                    duration: 3000
+                });
+            } else {
+                showToast({
+                    msg: response.msg,
+                    type: "error",
+                    duration: 3000
+                });
+            }
+        }catch(err){
+            
+            showToast({
+                msg: err.toString(),
+                type: "error",
+                duration: 3000
+            });
+        }
+    }
+    
+    return(
+        <div className="fixed z-50 inset-0 overflow-y-auto">
+            <div className="flex items-center justify-center mt-8 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+                <span
+                    className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true"
+                >
+                    &#8203;
+                </span>
+                <div
+                    className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle  w-full sm:max-w-lg"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="modal-headline"
+                >
+                    <div className="bg-white px-2 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className="mt-3 mx-2 sm:mx-0   sm:text-left">
+                            <div
+                                className="text-lg font-semibold text-gray-900 font-inter mb-7"
+                                id="modal-headline"
+                            >
+                                {`Are you sure?`}
+                            </div>
+                        </div>
+                        <div className="flex space-x-4">
+                            <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={handleDelete}>{loading?"Deleting...":"Delete"}</button>
+                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleCancel}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 const EducationForm = (props) => {
@@ -192,25 +300,35 @@ const InstitituteCard = (props) => {
 
     const [edit, setEdit] = useState(false);
 
+    const [deleteCard, setDeleteCard] = useState(false);
+
     const handleEdit = () => {
         setEdit(!edit);
+        document.body.style.overflow = 'hidden';
+    }
+
+    const handleDelete = () => {
+        setDeleteCard(true);
         document.body.style.overflow = 'hidden';
     }
 
     return (
         <>
             <div className='flex justify-between'>
-                <div className='flex'>
+                <div className='flex justify-between'>
                     <div className='logo'>
-                        <img src="https://cdn.icon-icons.com/icons2/38/PNG/512/university_4593.png" alt="logo" className='h-[40px] w-[40px] mt-5 mx-4' />
+                        <img src="https://cdn.icon-icons.com/icons2/38/PNG/512/university_4593.png" alt="logo" className='h-[20px] w-[20px] md:h-[40px] md:w-[40px] mt-5 mx-4' />
                     </div>
-                    <div className="info ml-2 mr-2 md:mx-2">
+                    <div className="info ml-6 md:mx-2">
                         <h1 className="font-roboto text-sm md:text-base font-medium mt-4 mb-1">{instituteName}</h1>
                         <h1 className="font-inter text-xs md:text-sm  text-gray-500">{degree} - {branch} </h1>
                         <h1 className="font-inter text-xs md:text-sm text-gray-500">{startYear} - {endYear} . {getDateDiffrence(startDate, endDate)} years</h1>
                     </div>
                 </div>
-                {isEdit?<LuPencil size={20} className="mt-4 mr-4 hover:cursor-pointer" onClick={handleEdit} />:null}
+                <div className="flex space-x-4 mr-4 ">
+                {isEdit?<LuPencil size={20} className="mt-4 hover:cursor-pointer" onClick={handleEdit} />:null}
+                {isEdit ?<AiOutlineDelete size={20} className="mt-4 hover:cursor-pointer" onClick={handleDelete}/> : null}
+                </div>
 
             </div>
             {description !== "" && <div className="about">
@@ -226,6 +344,8 @@ const InstitituteCard = (props) => {
             <hr className='w-11/12 mx-4 mt-2' />
 
             {edit ? <EducationForm setEdit={setEdit} education={props.education} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} /> : null}
+
+            {deleteCard ? <DeleteForm setDeleteCard={setDeleteCard} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} /> : null}
         </>
     )
 }
