@@ -190,16 +190,42 @@ export const getDateDiffrence = (date1, date2) => {
   const [year1, month1, day1] = date1.split('-').map(Number);
   const [year2, month2, day2] = date2.split('-').map(Number);
 
-  if(year1===year2){
-    if(month1===month2){
-      return 1;
+  if (year1 === year2 && month1 === month2 && day1 === day2) {
+    return {
+      year: 0,
+      month: 0,
+    };
+  }
+
+  if(month1 === month2) {
+
+    if(day1 > day2){
+      return {
+        year: yea,
+        month: 1,
+      }
     }
-    else{
-      return month2-month1;
+
+    return {
+      year: year2 - year1,
+      month: 0,
     }
   }
 
-  return year2-year1;
+  if(month2>month1){
+    return({
+      year: year2 - year1,
+      month: month2 - month1
+    })
+  }
+
+  if(month2<month1){
+    return({
+      year: year2 - year1 - 1,
+      month: 12 - month1 + month2
+    })
+  }
+
 
   
 }

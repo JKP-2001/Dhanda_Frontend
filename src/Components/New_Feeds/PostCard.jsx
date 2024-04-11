@@ -419,7 +419,7 @@ const PostCard = (props) => {
 
                 <hr className='border-[0.5px] border-gray-200' />
 
-                {text ? <div className="text mx-2 break-words my-3 text-sm font-inter transition-height duration-300  p-1">
+                {text ? <div className="text text-justify mx-2 break-words my-3 text-xs sm:text-sm font-inter transition-height duration-300  p-1">
                     <div className="1">
                         {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200) + "......." : text) : text}
                         <p

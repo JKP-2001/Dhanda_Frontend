@@ -20,12 +20,8 @@ const Interviewer_Card = ({ instructer }) => {
   }
 
   return (
-    // <motion.div initial={{ opacity: 0, y: 200 }}
-    // whileInView={{ opacity: 1, y: 0 }}
-    // viewport={{ once: true, amount: 0.1 }}
-    // transition={{ duration: 0.5 }} >
     <div className="select-none">
-      <Card className="mt-5 mx-5 md:w-11/12 border-2 shadow-lg hover:shadow-2xl border-gray-200 hover:border-gray-300">
+      <Card className="mt-5 mx-5 hover:mb-5 md:w-11/12 border-2 shadow-lg hover:shadow-xl border-gray-200 transition-transform duration-300 transform hover:scale-105">
         <div className="price absolute right-4 top-2 text-black font-inter">
           {`₹ ${instructer.price}  (${instructer.interviewDuration}mins)`}
         </div>
@@ -33,7 +29,7 @@ const Interviewer_Card = ({ instructer }) => {
         <div className="info mt-2">
           <div className="image mt-14 flex justify-center">
             <img
-              src={instructer.profilePic?instructer.profilePic : userimg}
+              src={instructer.profilePic ? instructer.profilePic : userimg}
               alt=""
               className="h-[140px] w-[140px] rounded-full object-cover object-center border-2 border-blue-gray-300"
             />
