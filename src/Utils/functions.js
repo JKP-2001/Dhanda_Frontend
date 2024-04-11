@@ -193,7 +193,7 @@ export const getDateDiffrence = (date1, date2) => {
   if (year1 === year2 && month1 === month2 && day1 === day2) {
     return {
       year: 0,
-      month: 0,
+      month: 1,
     };
   }
 
@@ -201,8 +201,8 @@ export const getDateDiffrence = (date1, date2) => {
 
     if(day1 > day2){
       return {
-        year: yea,
-        month: 1,
+        year: year2-year1-1,
+        month: 11,
       }
     }
 
