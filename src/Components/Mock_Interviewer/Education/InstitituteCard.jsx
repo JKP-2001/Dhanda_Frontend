@@ -312,6 +312,11 @@ const InstitituteCard = (props) => {
         document.body.style.overflow = 'hidden';
     }
 
+
+    const dateDiff = getDateDiffrence(startDate, endDate);
+
+    
+
     return (
         <>
             <div className='flex justify-between'>
@@ -322,7 +327,7 @@ const InstitituteCard = (props) => {
                     <div className="info ml-6 md:mx-2">
                         <h1 className="font-roboto text-sm md:text-base font-medium mt-4 mb-1">{instituteName}</h1>
                         <h1 className="font-inter text-xs md:text-sm  text-gray-500">{degree} - {branch} </h1>
-                        <h1 className="font-inter text-xs md:text-sm text-gray-500">{startYear} - {endYear} . {getDateDiffrence(startDate, endDate)} years</h1>
+                        <h1 className="font-inter text-xs md:text-sm text-gray-500">{startYear} - {endYear} . {dateDiff.year!==0 ? dateDiff.year + " Years " : null}{dateDiff.month!==0 ? dateDiff.month + " Months " : null}</h1>
                     </div>
                 </div>
                 <div className="flex space-x-4 mr-4 ">
@@ -332,7 +337,7 @@ const InstitituteCard = (props) => {
 
             </div>
             {description !== "" && <div className="about">
-                <h1 className="font-inter text-xs md:text-sm text-gray-500 ml-[70px] md:ml-[80px] mt-2 mx-10 ">
+                <h1 className="font-inter text-xs md:text-sm text-justify text-gray-500 ml-[70px] md:ml-[80px] mt-2 mx-10 ">
                     {/* Filler text is text that shares some characteristics of a real written text, but is
                     random or otherwise generated. It may be used to display a sample of fonts, 
                     generate text for testing, or to spoof an e-mail spam filter. */}

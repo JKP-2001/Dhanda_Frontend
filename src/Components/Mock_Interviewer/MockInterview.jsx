@@ -478,14 +478,14 @@ const MockInterview = () => {
                 <h1 className="font-inter font-semibold md:text-xl">
                   {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
                 </h1>
-                <h1 className="font-inter text-xs md:text-sm  text-gray-500">
+                <h1 className="font-inter text-xs md:text-sm text-justify  text-gray-500">
                   {searchUserRedux.data.bio}
                 </h1>
               </div>
               </div>
             </div>
 
-            <div className="ml-5 lg:ml-7 description font-inter w-11/12 lg:w-7/12 xl:w-10/12  mt-10 text-xs sm:text-sm">
+            <div className="mx-3 lg:ml-7 description text-justify font-inter w-11/12 lg:w-7/12 xl:w-10/12  mt-10 text-xs sm:text-sm">
               {searchUserRedux.data.description}
             </div>
 

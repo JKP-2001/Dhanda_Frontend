@@ -30,10 +30,11 @@ const SideBarItem = ({ icon, title, active, setActive, link }) => {
   return (
     <li>
       <div
-        className={`hover:cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${
+        className={`hover:cursor-pointer hover:scale-[102%] flex items-center p-2 text-gray-900 rounded-lg dark:text-white group transition-all duration-300 ${
           active ? "bg-gray-300" : "hover:bg-gray-200"
-        } group`}
+        }`}
         onClick={handleClick}
+        style={{ transformOrigin: "center" }}
       >
         {icon}
         <span className="ms-3 font-inter font-semibold">{title}</span>

@@ -243,7 +243,7 @@ const Mock_Interview_Comp = () => {
             hasMore={totalResults !== instructers.length}
             loader={<Spinner />}
           >
-            <div className="grid grid-cols-1 xl:grid-cols-3  gap-2">
+            <div className="grid grid-cols-1 xl:grid-cols-3  gap-2 overflow-hidden">
               {instructers.map((ins, idx) => {
                 return <Interviewer_Card key={idx} instructer={ins} />;
               })}

@@ -40,7 +40,7 @@ const EarningCard = (props) => {
     const { title, value } = props;
 
     return (
-        <div className={`w-full hover:scale-[101%] md:w-[95%] h-20  rounded-lg shadow-lg mt-4 ${title === "Balance" ? "bg-blue-200" : title === "Pending Balance" ? "bg-red-200" : "bg-purple-200"} hover:shadow-2xl hover:cursor-pointer`}>
+        <div className={`w-full transition-all duration-300 hover:scale-[101%] md:w-[95%] h-20  rounded-lg shadow-lg mt-4 ${title === "Balance" ? "bg-blue-200" : title === "Pending Balance" ? "bg-red-200" : "bg-purple-200"} hover:shadow-2xl hover:cursor-pointer`}>
             <div className="px-4 py-2">
                 <div className="name">
                     <p className="text-lg font-semibold">{title}</p>
