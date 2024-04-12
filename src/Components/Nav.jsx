@@ -23,33 +23,57 @@ import { logOut } from "../APIs/Auth_API";
 import { useSelector } from "react-redux";
 
 import userimg from "../Utils/Images/user2.jpg"
+import { FaRegUser } from "react-icons/fa";
 
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 
 const Avatar = (props) => {
   const navigate = useNavigate();
   const { setIcon, icon } = props;
-
   const userRedux = useSelector((state) => state.user);
 
-  const [profileImg, setProfileImg] = useState(userRedux.data ? userRedux.data.profilePic?userRedux.data.profilePic : userimg:null)
+  const { imageLoaded, setImageLoaded } = props; // State to track if the image has loaded
+
+  console.log({ props })
+
+  const [profileImg, setProfileImg] = useState(userRedux.data ? userRedux.data.profilePic ? userRedux.data.profilePic : userimg : null);
 
   useEffect(() => {
-    if(userRedux.data){
-      setProfileImg(userRedux.data.profilePic?userRedux.data.profilePic : userimg)
+    if (userRedux.data) {
+      setProfileImg(userRedux.data.profilePic ? userRedux.data.profilePic : userimg);
     }
-  },[userRedux.data])
+  }, [userRedux.data]);
 
   return (
+    userRedux.data && (
+      <div style={{ position: "relative", display: "inline-block" }}>
 
-    userRedux.data && 
+        {!imageLoaded && <FaRegUser fontSize={22}
+          className={`  hover:cursor-pointer mt-[2px]`} onClick={() => {
+            navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`);
+            setIcon("avatar");
+          }} />}
 
-    <img id="avatarButton " type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className={`hover:scale-110 mt-1 w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}`} src={profileImg} alt="User dropdown" onClick={() => { navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`); setIcon("avatar") }} />
+        <img
+          id="avatarButton"
+          type="button"
+          data-dropdown-toggle="userDropdown"
+          data-dropdown-placement="bottom-start"
+          className={imageLoaded?`hover:scale-110  w-8 h-8 rounded-full cursor-pointer ${icon === "avatar" ? "border-2 border-blue-400" : ""}:`:null}
+          src={profileImg}
+          alt="User dropdown"
+          onClick={() => {
+            navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`);
+            setIcon("avatar");
+          }}
+          onLoad={() => setImageLoaded(true)} // Set imageLoaded to true when the image has loaded
+          onError={() => setImageLoaded(false)} // Set imageLoaded to false if there's an error loading the image
+        />
 
-
-
-  )
-}
+      </div>
+    )
+  );
+};
 
 
 
@@ -60,9 +84,10 @@ const Nav = (props) => {
 
   const { type } = props;
 
-  console.log({type})
+  console.log({ type })
 
   const [openNav, setOpenNav] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false); // State to track if the image has loaded
   const handleWindowResize = () =>
     window.innerWidth >= 960 && setOpenNav(false);
 
@@ -79,7 +104,7 @@ const Nav = (props) => {
       setIcon("mock");
     }
 
-    if(url.toLowerCase().includes("contact")) {
+    if (url.toLowerCase().includes("contact")) {
       setIcon("new");
     }
 
@@ -120,11 +145,13 @@ const Nav = (props) => {
   };
 
   // const navOptions=["Explore", "New-Feeds", "Mock-Interview", "Problems", "Discuss"];
-  const navOptions = [ "Mock-Interview", "Contact-us"];
+  const navOptions = ["Mock-Interview", "Contact-us"];
+
+  const userRedux = useSelector((state) => state.user);
 
   return (
-    <>
-      <div className= {`${(type!="home" || !type)?"hidden":""} sticky left-0 right-0 top-0 z-30 select-none bg-white shadow-sm w-full `}>
+    userRedux && <>
+      <div className={`${(type != "home" || !type) ? "hidden" : ""} sticky left-0 right-0 top-0 z-30 select-none bg-white shadow-sm w-full `}>
         <div className=" mx-auto py-3 mt-0 w-[96%]  md:w-[80%]">
           <div className="flex items-center justify-between text-blue-gray-900">
             <Typography
@@ -147,27 +174,27 @@ const Nav = (props) => {
                   >
                     <Link
                       to={`/${item.toLowerCase()}`}
-                      className={`${
-                        window.location.pathname.includes(item.toLowerCase())
+                      className={`${window.location.pathname.includes(item.toLowerCase())
                           ? "text-blue-500 scale-[115%]"
                           : "hover:scale-110"
-                      } flex items-center hover:text-blue-500 transition-colors font-inter font-bold`}
+                        } flex items-center hover:text-blue-500 transition-colors font-inter font-bold`}
                     >
                       {item}
                     </Link>
                   </Typography>
                 ))}
                 {loggedSignIn ? (
+
+
                   <>
-                    <Avatar setIcon={setIcon} icon={icon} />
+                    <Avatar setIcon={setIcon} icon={icon} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
                     <Button
                       variant="gradient"
                       size="sm"
-                      className={`${
-                        window.location.pathname.includes("/signup")
+                      className={`${window.location.pathname.includes("/signup")
                           ? "bg-blue-800"
                           : ""
-                      }lg:inline-block hover:scale-110`}
+                        }lg:inline-block hover:scale-110`}
                       onClick={handleLogout}
                     >
                       <span>Log out</span>
@@ -186,11 +213,10 @@ const Nav = (props) => {
                     <Button
                       variant="gradient"
                       size="sm"
-                      className={`${
-                        window.location.pathname.includes("/signup")
+                      className={`${window.location.pathname.includes("/signup")
                           ? "bg-blue-800"
                           : ""
-                      }lg:inline-block hover:scale-110`}
+                        }lg:inline-block hover:scale-110`}
                       onClick={() => navigate("/signup")}
                     >
                       <span>Sign up</span>
@@ -214,7 +240,7 @@ const Nav = (props) => {
           </div>
           <Collapse open={openNav}>
             <div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
-              {[ "Mock-Interview", "Contact-us"].map((item, index) => (
+              {["Mock-Interview", "Contact-us"].map((item, index) => (
                 <Typography
                   key={index}
                   as="li"
@@ -224,11 +250,10 @@ const Nav = (props) => {
                 >
                   <Link
                     to={`/${item.toLowerCase()}`}
-                    className={`${
-                      window.location.pathname.includes(item.toLowerCase())
+                    className={`${window.location.pathname.includes(item.toLowerCase())
                         ? "text-blue-500"
                         : ""
-                    } flex items-center hover:text-blue-500 transition-colors font-inter font-bold`}
+                      } flex items-center hover:text-blue-500 transition-colors font-inter font-bold`}
                   >
                     {item}
                   </Link>
@@ -272,9 +297,8 @@ const Nav = (props) => {
         <div className="flex flex-wrap space-x-9 sm:space-x-24 justify-between bg-white">
           <HiOutlineHome
             fontSize={30}
-            className={`${
-              icon === "explore" ? "text-blue-800 scale-110" : ""
-            } hover:cursor-pointer mt-1 `}
+            className={`${icon === "explore" ? "text-blue-800 scale-110" : ""
+              } hover:cursor-pointer mt-1 `}
             onClick={() => {
               setIcon("explore");
               navigate("/");
@@ -282,9 +306,8 @@ const Nav = (props) => {
           />
           <SlPeople
             fontSize={27}
-            className={`${
-              icon === "mock" ? "text-blue-800 scale-110" : ""
-            } hover:cursor-pointer mt-[5px]`}
+            className={`${icon === "mock" ? "text-blue-800 scale-110" : ""
+              } hover:cursor-pointer mt-[5px]`}
             onClick={() => {
               setIcon("mock");
               navigate("/mock-interview");
@@ -292,16 +315,20 @@ const Nav = (props) => {
           />
           <CiPhone
             fontSize={27}
-            className={`${
-              icon === "new" ? "text-blue-800" : ""
-            }  hover:cursor-pointer mt-[6px] scale-110`}
+            className={`${icon === "new" ? "text-blue-800" : ""
+              }  hover:cursor-pointer mt-[6px] scale-110`}
             onClick={() => {
               setIcon("new")
               navigate("/contact-us");
             }}
           />
           {loggedSignIn ? (
-            <Avatar setIcon={setIcon} icon={icon} />
+            !imageLoaded ? <FaRegUser fontSize={22}
+              className={`  hover:cursor-pointer mt-[7px]`} onClick={() => {
+                navigate(`/user/profile/${userRedux.data.role}/${userRedux.data._id}`);
+                setIcon("avatar");
+              }} /> :
+              <Avatar setIcon={setIcon} icon={icon} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
           ) : (
             <FiLogIn
               fontSize={25}
