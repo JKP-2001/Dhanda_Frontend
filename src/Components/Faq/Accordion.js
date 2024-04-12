@@ -18,7 +18,7 @@ const Accordion = () => {
           </div>
         </div>
 
-        <div className="-mx-4 flex flex-wrap">
+        <div className="-mx-4 flex flex-wrap font-handwritten2 font-base">
           <div className="w-full px-4 lg:w-1/2">
             <AccordionItem
               header="What is Prepify?"
