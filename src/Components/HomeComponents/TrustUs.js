@@ -7,7 +7,9 @@ function TrustUs() {
     <div className="pb-10">
       <div className="mt-28 w-[100%]">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10 w-[95%] md:w-[80%] mx-auto">
-          <img className="border-2 rounded-3xl border-gray-400" src={trustImage}></img>
+         
+            <img className="border-2 rounded-3xl border-gray-400 " src={trustImage}></img>
+      
           <div className="flex flex-col justify-center gap-3">
             <div className="text-center lg:text-left font-handwritten2 font-semibold text-2xl  md:text-3xl ">
               Trust Us
@@ -43,7 +45,10 @@ function TrustUs() {
               <div className="text-center lg:text-left">Practical Approach</div>
             </div>
           </div>
-          <img className="border-2 rounded-3xl border-gray-400" src={whyChoose}></img>
+          
+          <div className="overflow-hidden rounded-3xl">
+          <img className="border-2 border-gray-400 hover:scale-105 transition-all ease-in-out duration-200" src={whyChoose}></img>
+          </div>
         </div>
       </div>
     </div>
