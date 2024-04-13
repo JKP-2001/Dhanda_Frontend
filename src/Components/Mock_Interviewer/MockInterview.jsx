@@ -153,25 +153,7 @@ const Account = (props) => {
           <EducationCard edu={searchUserRedux} isEdit={false} dispatch={dispatch} navigate={navigate}/>
         </div>
 
-        {userRedux.data && userRedux.data.role === "student" ? (
-          <div className="">
-            <div className="mx-3 sm:ml-3 lg:ml-7 mt-10 ">
-              <Button
-                color="black"
-                buttonType="filled"
-                size="regular"
-                rounded={false}
-                block={false}
-                iconOnly={false}
-                ripple="light"
-                className="w-full sm:w-40 h-10 font-inter font-semibold text-xs"
-                onClick={handleClick} 
-              >
-                Book a Session
-              </Button>
-            </div>
-          </div>
-        ) : null}
+        
 
         {/* <div
                 className='ml-3 lg:ml-7 mt-10'>
@@ -428,6 +410,9 @@ const MockInterview = () => {
     }
   },[searchUserRedux.data])
 
+
+  const [seeMore, setSeeMore] = useState(false);
+
   return searchUserRedux.loading ? (
     <div className="flex justify-center pt-10 font-inter text-base md:text-xl">
       <Spinner color="blue" size="large" />
@@ -440,14 +425,14 @@ const MockInterview = () => {
       <>
         <div className="select-none">
           <div className="select-none mt-3 ml-0 lg:mt-20 lg:ml-48 mb-10">
-            <div className="mx-3 sm:ml-4 flex">
+            <div className="mx-3 ml-3 lg:ml-7 p-3 bg-white rounded-xl border-[1px] border-gray-300 shadow-lg w-11/12 lg:w-8/12 transition-all ease-in-out duration-300">
               <img
-                className="h-[100px] w-[100px] sm:h-[120px] sm:w-[120px] rounded-full border-2 border-gray-500 object-cover object-center mt-3"
+                className="h-[100px] w-[100px] sm:h-[120px] sm:w-[120px] rounded-full border-2 border-gray-500 object-cover object-center mt-3 ml-1"
                 src={profileImg}
                 alt={userimg}
               />
 
-              <div className="mt-8 md:mt-12 ">
+              <div className="mt-3 mx-1">
                 {/* <div className="flex space-x-4 sm:space-x-16">
                   <div
                     className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600"
@@ -478,16 +463,21 @@ const MockInterview = () => {
                 <h1 className="font-inter font-semibold md:text-xl">
                   {searchUserRedux.data.firstName + " " + searchUserRedux.data.lastName}
                 </h1>
-                <h1 className="font-inter text-xs md:text-sm text-justify  text-gray-500">
+                <h1 className="font-inter text-xs md:text-sm  text-gray-500 w-[96%] lg:w-8/12">
                   {searchUserRedux.data.bio}
                 </h1>
               </div>
               </div>
             </div>
+            {searchUserRedux.data.description===""?null:<div className="description text-justify font-inter w-11/12 lg:w-8/12 mt-2 text-xs sm:text-sm p-5 border-[1px] border-gray-300 bg-white rounded-xl shadow-lg transition-all ease-in-out duration-300 ml-3 lg:ml-7">
+              <div className="mb-3 text-xl font-semibold">About</div>
 
-            <div className="mx-3 lg:ml-7 description text-justify font-inter w-11/12 lg:w-7/12 xl:w-10/12  mt-10 text-xs sm:text-sm">
-              {searchUserRedux.data.description}
-            </div>
+              {seeMore?searchUserRedux.data.description.slice(0,searchUserRedux.data.description.length):searchUserRedux.data.description.slice(0,400)}
+              {searchUserRedux.data.description.length > 400 && "......"}
+
+
+              {searchUserRedux.data.description.length > 400 &&<div className="mt-3 text-blue-600 hover:cursor-pointer hover:underline" onClick={()=>setSeeMore(!seeMore)}>{seeMore?"See Less":"See more"}</div>}
+            </div>}
 
             {userRedux.data && userRedux.data.role === "student" ? (
               <div className="sm:flex ">

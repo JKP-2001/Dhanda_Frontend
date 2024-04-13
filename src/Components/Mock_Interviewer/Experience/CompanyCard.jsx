@@ -317,8 +317,10 @@ const CompanyCard = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [seeMore, setSeeMore] = useState(false);
+
     return (
-        <>
+        <div className='transition-height ease-in-out duration-500 overflow-hidden'>
             <div className="flex justify-between">
                 <div className='flex'>
                     <div className='logo'>
@@ -339,17 +341,20 @@ const CompanyCard = (props) => {
             </div>
             <div className="about">
                 <h1 className="font-inter text-xs text-justify md:text-sm text-gray-500 ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words">
-                    {description}
-
-
+                    {seeMore?description:description.slice(0, 150)}{description.length>150?"...":" "}
                 </h1>
             </div>
+            {description.length>150?<div className="about">
+                <h1 className="font-inter hover:cursor-pointer text-blue-500 hover:underline text-xs text-justify md:text-sm ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words" onClick={()=>setSeeMore(!seeMore)}>
+                    {seeMore?"See Less":"See More"}
+                </h1>
+            </div>:null}
             <hr className='w-11/12 mx-4 mt-2' />
 
             {edit ? <CompanyForm setEdit={setEdit} exp={props.exp} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} /> : null}
 
             {deleteCard ? <DeleteForm setDeleteCard={setDeleteCard} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} dispatch={dispatch} navigate={navigate} /> : null}
-        </>
+        </div>
     );
 }
 
