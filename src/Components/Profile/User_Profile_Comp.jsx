@@ -34,7 +34,9 @@ import { getAllMeetings } from "../../APIs/Meeting_API";
 // import SideBar from './SideBarProfile';
 import SideBarProfile from "./SideBarProfile";
 import toast from "react-hot-toast";
-import { updateProfilePic } from "../../APIs/User_API";
+import { handleEditPersonalInfo, updateProfilePic } from "../../APIs/User_API";
+import { LuPencil } from "react-icons/lu";
+import { getLoginUser } from "../../App";
 // import { Spinner } from "@material-tailwind/react";
 
 const localizer = momentLocalizer(moment);
@@ -43,6 +45,162 @@ const variants = {
   hidden: { x: -100 },
   visible: { x: 0 },
 };
+
+
+const EditForm = (props) => {
+
+  const { setOpenEdit } = props;
+
+  const [firstName, setFirstName] = useState(props.firstName === "" ? null : props.firstName);
+  const [middleName, setMiddleName] = useState(props.middleName === "" ? null : props.middleName);
+  const [lastName, setLastName] = useState(props.lastName === "" ? null : props.lastName);
+  const [bio, setBio] = useState(props.bio);
+  const [description, setDescription] = useState(props.description);
+
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const editInfo = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+
+        showToast({
+          msg: "Login Required",
+          type: "error",
+          duration: 3000
+        })
+
+        return;
+      }
+
+      
+
+      const data = {
+        firstName,
+        middleName,
+        lastName,
+        bio,
+        description
+      }
+
+      if(description.length>1500){
+
+        showToast({
+          msg: "Description should be less than 1500 characters",
+          type: "error",
+          duration: 3000
+        })
+        return;
+        
+      }
+      setLoading(true);
+
+      const response = await handleEditPersonalInfo(data, token);
+
+      getLoginUser(dispatch, navigate);
+
+      setLoading(false);
+
+      if (response.success) {
+        showToast({
+          msg: response.msg,
+          type: "success",
+          duration: 3000
+        })
+
+        setOpenEdit(false);
+
+        return;
+      }
+
+      else {
+        showToast({
+          msg: response.msg,
+          type: "error",
+          duration: 3000
+        })
+      }
+
+    } catch (err) {
+
+      showToast({
+        msg: "Something went wrong " + err.toString(),
+        type: "error",
+        duration: 3000
+      })
+    }
+  }
+
+  const handleClose = () => {
+    setOpenEdit(false);
+  }
+
+
+
+  return (
+    <div className="fixed z-50 inset-0 overflow-y-auto">
+      <div className="flex items-center justify-center mt-8 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <span
+          className="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+        >
+          &#8203;
+        </span>
+        <div
+          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle  w-full sm:max-w-lg"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
+          <div className="bg-white px-2 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="mt-3 mx-2 sm:mx-0   sm:text-left">
+              <div
+                className="text-lg font-semibold text-gray-900 font-inter mb-7"
+                id="modal-headline"
+              >
+                {`Edit Personal Information`}
+              </div>
+              <form className="max-w-md mx-auto font-inter font-semibold  text-sm md:text-base">
+                <div className="relative z-0 w-full mb-5 group">
+                  <input type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                  <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First Name</label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
+                  <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Middle Name</label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                  <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last Name</label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+                  <input type="text" name="floating_password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={bio} onChange={(e) => setBio(e.target.value)} />
+                  <label for="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Bio</label>
+                </div>
+                <div className="relative z-0 w-full mb-2 group">
+                  <textarea type="text" name="repeat_password" rows={10} id="floating_repeat_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={description} onChange={(e) => setDescription(e.target.value)} />
+                  <label for="floating_repeat_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">About</label>
+                </div>
+                {description.length<=1500?<div className="flex justify-end text-xs text-green-500">{1500-description.length} characters left</div>:<div className="flex justify-end text-xs text-red-500">Character limit exceeded</div>}
+                <div className="flex space-x-4">
+                  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={loading} onClick={editInfo}>{loading ? "Submitting..." : "Submit"}</button>
+                  <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={handleClose}>Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const Slider = () => {
   return (
@@ -69,12 +227,12 @@ const Account = (props) => {
     <motion.div className="mt-5 ml-3 md:ml-5 space-y-8">
       {userRedux.data ? (
         <div>
-          <ExperienceCard exp={userRedux} isEdit={true}/>
+          <ExperienceCard exp={userRedux} isEdit={true} />
         </div>
       ) : null}
 
       <div>
-        <EducationCard edu={userRedux} isEdit={true}/>
+        <EducationCard edu={userRedux} isEdit={true} />
       </div>
     </motion.div>
   );
@@ -587,6 +745,13 @@ const User_Profile_Comp = () => {
   //   }
   // },[])
 
+  const [seeMore, setSeeMore] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const handleOpen = () => {
+    setOpenEdit(true);
+    document.body.style.overflow = "hidden";
+  }
 
 
   return (
@@ -599,18 +764,18 @@ const User_Profile_Comp = () => {
         />
         <div className="mt-2 ml-0 lg:mt-12 md:ml-[240px] lg:ml-[300px] md:pr-[100px] mb-10 ">
           <div className="">
-            <div className="mx-3 sm:mx-4 flex ">
+            <div className="p-3 bg-white rounded-xl border-[1px] border-gray-300 shadow-lg ml-3 lg:ml-5 w-[93%] lg:w-8/12 transition-all ease-in-out duration-300">
 
-              <div className="overflow-hidden">
+              <div className="overflow-hidden ">
                 <img
-                  className="h-[80px] w-[80px] sm:h-[120px] sm:w-[120px] rounded-full border-2 border-gray-500 object-cover object-center mt-3 hover:cursor-pointer"
+                  className="h-[80px] w-[80px] sm:h-[120px] sm:w-[120px] rounded-full border-2 border-gray-500 object-cover object-center mt-3 ml-1 hover:cursor-pointer"
                   src={profileImg}
                   alt={userimg}
                   onClick={() => handleImageClick()}
                 />
               </div>
 
-              <div className="ml-2 mt-8 md:mt-12 ">
+              <div className="mt-2 ml-2">
                 {/* <div className="flex space-x-4 sm:space-x-16">
                                 <div className="flex-col text-sm sm:text-base font-inter font-semibold hover:cursor-pointer hover:underline hover:text-blue-600" onClick={() => {
                                     setSelectedIcon("grid");
@@ -649,6 +814,38 @@ const User_Profile_Comp = () => {
                   </h1>
                 </div>
               </div>
+            </div>
+
+            <div className="description text-justify font-inter w-[93%] lg:w-8/12 mt-2 text-xs sm:text-sm p-5 border-[1px] border-gray-300 bg-white rounded-xl shadow-lg transition-all ease-in-out duration-300 ml-3 lg:ml-5">
+              <div className="flex justify-between">
+                <div className="mb-3 text-xl font-semibold">About</div>
+                <LuPencil size={20} className="hover:cursor-pointer" onClick={handleOpen} />
+              </div>
+
+
+              {userRedux.data.description === "" ?
+                <div className="flex justify-center font-inter font-semibold text-gray-600 hover:cursor-pointer">
+                  + Add Description
+                </div>
+                : null}
+
+              <textarea
+                type="text"
+                name="repeat_password"
+                id="floating_repeat_password"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer resize-none"
+                placeholder=" "
+                required
+                disabled
+                value={seeMore ? userRedux.data.description : userRedux.data.description.slice(0, 400)}
+                rows={Math.max(5, Math.ceil(userRedux.data.description.length / 100))} // Adjust the divisor as needed
+              />
+
+
+              
+
+
+              {(userRedux.data.description === "" || userRedux.data.description.length <= 400) ? null : <div className="mt-3 text-blue-600 hover:cursor-pointer hover:underline" onClick={() => setSeeMore(!seeMore)}>{seeMore ? "See Less" : "See more"}</div>}
             </div>
 
             <div className="ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm break-words">
@@ -792,6 +989,9 @@ const User_Profile_Comp = () => {
             </div>
           </div>
         )}
+
+        {openEdit && <EditForm firstName={userRedux.data.firstName} middleName={userRedux.data.middleName} lastName={userRedux.data.lastName} bio={userRedux.data.bio} description={userRedux.data.description} setOpenEdit={setOpenEdit} />}
+
       </div>
     ) : userRedux.loading ? (
       <Spinner />

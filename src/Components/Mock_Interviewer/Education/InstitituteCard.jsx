@@ -24,7 +24,7 @@ const dateFromISO = (date) => {
 const DeleteForm = (props) => {
 
 
-    const { setDeleteCard, visibleEducation, setVisibleEducation, index} = props;
+    const { setDeleteCard, visibleEducation, setVisibleEducation, index } = props;
 
     const handleCancel = () => {
         setDeleteCard(false);
@@ -33,7 +33,7 @@ const DeleteForm = (props) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+
 
     const [loading, setLoading] = useState(false);
 
@@ -42,8 +42,8 @@ const DeleteForm = (props) => {
         try {
 
             const token = localStorage.getItem("token");
-            
-            if(!token){
+
+            if (!token) {
                 showToast({
                     msg: "Please Login First",
                     type: "error",
@@ -59,7 +59,7 @@ const DeleteForm = (props) => {
 
             setLoading(false);
 
-            if(response.success){
+            if (response.success) {
                 const temp = [...visibleEducation];
                 temp.splice(index, 1);
                 setVisibleEducation([...temp]);
@@ -76,8 +76,8 @@ const DeleteForm = (props) => {
                     duration: 3000
                 });
             }
-        }catch(err){
-            
+        } catch (err) {
+
             showToast({
                 msg: err.toString(),
                 type: "error",
@@ -85,8 +85,8 @@ const DeleteForm = (props) => {
             });
         }
     }
-    
-    return(
+
+    return (
         <div className="fixed z-50 inset-0 overflow-y-auto">
             <div className="flex items-center justify-center mt-8 md:mt-0 md:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div className="fixed inset-0 transition-opacity" aria-hidden="true">
@@ -114,7 +114,7 @@ const DeleteForm = (props) => {
                             </div>
                         </div>
                         <div className="flex space-x-4">
-                            <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={handleDelete}>{loading?"Deleting...":"Delete"}</button>
+                            <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={handleDelete}>{loading ? "Deleting..." : "Delete"}</button>
                             <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleCancel}>Cancel</button>
                         </div>
                     </div>
@@ -292,8 +292,8 @@ const EducationForm = (props) => {
 
 const InstitituteCard = (props) => {
 
-    const { instituteName, degree, startDate, endDate, description, branch  } = props.education;
-    const {index, visibleEducation, setVisibleEducation, isEdit} = props;
+    const { instituteName, degree, startDate, endDate, description, branch } = props.education;
+    const { index, visibleEducation, setVisibleEducation, isEdit } = props;
 
     const startYear = startDate.slice(0, 4);
     const endYear = endDate.slice(0, 4);
@@ -315,10 +315,11 @@ const InstitituteCard = (props) => {
 
     const dateDiff = getDateDiffrence(startDate, endDate);
 
-    
+    const [seeMore, setSeeMore] = useState(false);
+
 
     return (
-        <>
+        <div className='transition-height ease-in-out duration-500 overflow-hidden'>
             <div className='flex justify-between'>
                 <div className='flex justify-between'>
                     <div className='logo'>
@@ -327,31 +328,32 @@ const InstitituteCard = (props) => {
                     <div className="info ml-6 md:mx-2">
                         <h1 className="font-roboto text-sm md:text-base font-medium mt-4 mb-1">{instituteName}</h1>
                         <h1 className="font-inter text-xs md:text-sm  text-gray-500">{degree} - {branch} </h1>
-                        <h1 className="font-inter text-xs md:text-sm text-gray-500">{startYear} - {endYear} . {dateDiff.year!==0 ? dateDiff.year + " Years " : null}{dateDiff.month!==0 ? dateDiff.month + " Months " : null}</h1>
+                        <h1 className="font-inter text-xs md:text-sm text-gray-500">{startYear} - {endYear} . {dateDiff.year !== 0 ? dateDiff.year + " Years " : null}{dateDiff.month !== 0 ? dateDiff.month + " Months " : null}</h1>
                     </div>
                 </div>
                 <div className="flex space-x-4 mr-4 ">
-                {isEdit?<LuPencil size={20} className="mt-4 hover:cursor-pointer" onClick={handleEdit} />:null}
-                {isEdit ?<AiOutlineDelete size={20} className="mt-4 hover:cursor-pointer" onClick={handleDelete}/> : null}
+                    {isEdit ? <LuPencil size={20} className="mt-4 hover:cursor-pointer" onClick={handleEdit} /> : null}
+                    {isEdit ? <AiOutlineDelete size={20} className="mt-4 hover:cursor-pointer" onClick={handleDelete} /> : null}
                 </div>
 
             </div>
             {description !== "" && <div className="about">
-                <h1 className="font-inter text-xs md:text-sm text-justify text-gray-500 ml-[70px] md:ml-[80px] mt-2 mx-10 ">
-                    {/* Filler text is text that shares some characteristics of a real written text, but is
-                    random or otherwise generated. It may be used to display a sample of fonts, 
-                    generate text for testing, or to spoof an e-mail spam filter. */}
-
-                    {description}
-
+                <h1 className="font-inter text-xs text-justify md:text-sm text-gray-500 ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words">
+                    {seeMore ? description : description.slice(0, 150)}{description.length > 150 ? "..." : " "}
                 </h1>
             </div>}
+
+            {description.length > 150 ? <div className="about">
+                <h1 className="font-inter hover:cursor-pointer text-blue-500 hover:underline text-xs text-justify md:text-sm ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words" onClick={() => setSeeMore(!seeMore)}>
+                    {seeMore ? "See Less" : "See More"}
+                </h1>
+            </div> : null}
             <hr className='w-11/12 mx-4 mt-2' />
 
             {edit ? <EducationForm setEdit={setEdit} education={props.education} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} /> : null}
 
             {deleteCard ? <DeleteForm setDeleteCard={setDeleteCard} visibleEducation={visibleEducation} setVisibleEducation={setVisibleEducation} index={index} /> : null}
-        </>
+        </div>
     )
 }
 

@@ -304,3 +304,30 @@ export const deleteUserExperience = async (token, id) => {
     return { success: false, msg: err.toString() };
   }
 }
+
+
+export const handleEditPersonalInfo = async (data, token) => {
+  try {
+    const encryptedData = encryptToJson(data);
+    const DATA = { payload: encryptedData };
+
+    const response = await fetch(BASE_URL + "/user/edit/person-info", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "security-key": security_key,
+        "auth-token": token,
+      },
+      body: JSON.stringify(DATA),
+    })
+
+    let json = await response.json();
+
+    json = DecryptResponseData(json);
+
+    return json;
+
+  } catch (err) {
+    return { success: false, msg: err.toString() };
+  }
+}

@@ -211,7 +211,7 @@ const ExperienceCard = (props) => {
 
   return (
     <div>
-      <Card className='w-[96%] lg:w-8/12 pb-2 border-2 border-gray-300'>
+      <Card className='transition-height ease-in-out duration-500 overflow-hidden w-[96%] lg:w-8/12 pb-2 border-2 border-gray-300'>
         <div className="flex justify-between">
           <h1 className="font-roboto text-xl font-thin mt-4 ml-6 text-black">Experience</h1>
           {isEdit ?
