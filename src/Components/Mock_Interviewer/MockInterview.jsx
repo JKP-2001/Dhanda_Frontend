@@ -469,7 +469,8 @@ const MockInterview = () => {
               </div>
               </div>
             </div>
-            {searchUserRedux.data.description===""?null:<div className="description text-justify font-inter w-11/12 lg:w-8/12 mt-2 text-xs sm:text-sm p-5 border-[1px] border-gray-300 bg-white rounded-xl shadow-lg transition-all ease-in-out duration-300 ml-3 lg:ml-7">
+            {searchUserRedux.data.description===""?null:<div className="description text-justify font-inter w-11/12 lg:w-8/12 mt-2 text-xs sm:text-sm p-5 border-[1px] border-gray-300 bg-white rounded-xl shadow-lg transition-all ease-in-out duration-300 ml-3 lg:ml-7"
+            style={{ whiteSpace: 'pre-line' }}>
               <div className="mb-3 text-xl font-semibold">About</div>
 
               {seeMore?searchUserRedux.data.description.slice(0,searchUserRedux.data.description.length):searchUserRedux.data.description.slice(0,400)}

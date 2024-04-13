@@ -77,7 +77,7 @@ const EditForm = (props) => {
         return;
       }
 
-      
+      setLoading(true);
 
       const data = {
         firstName,
@@ -87,17 +87,15 @@ const EditForm = (props) => {
         description
       }
 
-      if(description.length>1500){
+      if (description.length > 1500) {
 
         showToast({
           msg: "Description should be less than 1500 characters",
           type: "error",
           duration: 3000
         })
-        return;
-        
+        return
       }
-      setLoading(true);
 
       const response = await handleEditPersonalInfo(data, token);
 
@@ -185,10 +183,10 @@ const EditForm = (props) => {
                   <label for="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Bio</label>
                 </div>
                 <div className="relative z-0 w-full mb-2 group">
-                  <textarea type="text" name="repeat_password" rows={10} id="floating_repeat_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={description} onChange={(e) => setDescription(e.target.value)} />
+                  <textarea type="text" name="repeat_password" rows={15} id="floating_repeat_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={description} onChange={(e) => setDescription(e.target.value)} />
                   <label for="floating_repeat_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">About</label>
                 </div>
-                {description.length<=1500?<div className="flex justify-end text-xs text-green-500">{1500-description.length} characters left</div>:<div className="flex justify-end text-xs text-red-500">Character limit exceeded</div>}
+                <div className="flex justify-end text-xs text-green-500">{1500 - description.length} characters left</div>
                 <div className="flex space-x-4">
                   <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={loading} onClick={editInfo}>{loading ? "Submitting..." : "Submit"}</button>
                   <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={handleClose}>Close</button>
@@ -816,37 +814,28 @@ const User_Profile_Comp = () => {
               </div>
             </div>
 
-            <div className="description text-justify font-inter w-[93%] lg:w-8/12 mt-2 text-xs sm:text-sm p-5 border-[1px] border-gray-300 bg-white rounded-xl shadow-lg transition-all ease-in-out duration-300 ml-3 lg:ml-5">
+            <div className="description font-inter w-[93%] lg:w-8/12 mt-2 text-xs sm:text-sm p-5 border-[1px] border-gray-300 bg-white rounded-xl shadow-lg transition-all ease-in-out duration-300 ml-3 lg:ml-5" style={{ whiteSpace: 'pre-line' }}>
               <div className="flex justify-between">
                 <div className="mb-3 text-xl font-semibold">About</div>
                 <LuPencil size={20} className="hover:cursor-pointer" onClick={handleOpen} />
               </div>
 
-
-              {userRedux.data.description === "" ?
+              {userRedux.data.description === "" ? (
                 <div className="flex justify-center font-inter font-semibold text-gray-600 hover:cursor-pointer">
                   + Add Description
                 </div>
-                : null}
+              ) : null}
 
-              <textarea
-                type="text"
-                name="repeat_password"
-                id="floating_repeat_password"
-                className="block py-2.5 px-0 w-full sm:text-sm text-gray-900 bg-transparent border-0 border-gray-300 appearance-none dark:text-white text-xs  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer resize-none"
-                placeholder=" "
-                required
-                disabled
-                value={seeMore ? userRedux.data.description : userRedux.data.description.slice(0, 400)}
-                rows={Math.max(8, Math.ceil(userRedux.data.description.length / 100))} // Adjust the divisor as needed
-              />
+              {seeMore ? userRedux.data.description.slice(0, userRedux.data.description.length) : userRedux.data.description.slice(0, 400)}
+              {userRedux.data.description.length > 400 && "......"}
 
-
-              
-
-
-              {(userRedux.data.description === "" || userRedux.data.description.length <= 400) ? null : <div className="mt-3 text-blue-600 hover:cursor-pointer hover:underline" onClick={() => setSeeMore(!seeMore)}>{seeMore ? "See Less" : "See more"}</div>}
+              {(userRedux.data.description === "" || userRedux.data.description.length <= 400) ? null : (
+                <div className="mt-3 text-blue-600 hover:cursor-pointer hover:underline" onClick={() => setSeeMore(!seeMore)}>
+                  {seeMore ? "See Less" : "See more"}
+                </div>
+              )}
             </div>
+
 
             <div className="ml-5 lg:ml-7 description font-inter w-11/12 lg:w-8/12  mt-10 text-sm break-words">
               {userRedux.data.decription}
