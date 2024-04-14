@@ -827,7 +827,7 @@ const User_Profile_Comp = () => {
               ) : null}
 
               {seeMore ? userRedux.data.description.slice(0, userRedux.data.description.length) : userRedux.data.description.slice(0, 400)}
-              {userRedux.data.description.length > 400 && "......"}
+              {(userRedux.data.description.length > 400 && !seeMore) ? "......":""}
 
               {(userRedux.data.description === "" || userRedux.data.description.length <= 400) ? null : (
                 <div className="mt-3 text-blue-600 hover:cursor-pointer hover:underline" onClick={() => setSeeMore(!seeMore)}>

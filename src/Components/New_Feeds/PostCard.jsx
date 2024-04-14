@@ -396,14 +396,14 @@ const PostCard = (props) => {
                     <div className="flex">
                         <div className='ml-3'>
                             <img
-                                className="hover:underline hover:cursor-pointer mt-2 sm:mt-0 w-[60px] sm:h-[40px] sm:w-[40px] border-2 border-gray-500 rounded-full object-cover object-center"
+                                className="hover:underline hover:cursor-pointer mt-2 sm:mt-0 w-[40px] sm:h-[40px] sm:w-[40px] border-2 border-gray-500 rounded-full object-cover object-center"
                                 src={userimg}
                                 alt="nature"
                                 onClick={() => navigate(`/user/profile/${props.role}/${props.authorId}`)}
                             />
                         </div>
-                        <div className='ml-3 mt-1 space-y-0.1 hover:cursor-pointer hover:text-blue-800 hover:underline' onClick={() => navigate(`/user/profile/${props.role}/${props.authorId}`)}>
-                            <h1 className='font-inter font-semibold'>{props.name}</h1>
+                        <div className='ml-3 mt-3 sm:mt-1 space-y-0.1 hover:cursor-pointer hover:text-blue-800 hover:underline' onClick={() => navigate(`/user/profile/${props.role}/${props.authorId}`)}>
+                            <h1 className='font-inter text-xs sm:text-sm font-semibold'>{props.name}</h1>
                             <h1 className='font-inter text-xs hover:text-light-blue-800 text-gray-500 w-3/4 md:w-full'>{newBio}</h1>
                         </div>
                     </div>
@@ -419,7 +419,7 @@ const PostCard = (props) => {
 
                 <hr className='border-[0.5px] border-gray-200' />
 
-                {text ? <div className="text text-justify mx-2 break-words my-3 text-xs sm:text-sm font-inter transition-height duration-300  p-1">
+                {text ? <div className="text text-justify mx-2 break-words my-3 text-xs sm:text-sm font-inter transition-height duration-300 whitespace-pre-wrap p-1">
                     <div className="1">
                         {!seeMore ? (rawText.length > 200 ? rawText.substring(0, 200) + "......." : text) : text}
                         <p

@@ -338,13 +338,13 @@ const InstitituteCard = (props) => {
 
             </div>
             {description !== "" && <div className="about">
-                <h1 className="font-inter text-xs text-justify md:text-sm text-gray-500 ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words">
-                    {seeMore ? description : description.slice(0, 150)}{description.length > 150 ? "..." : " "}
+                <h1 className="font-inter text-xs text-justify md:text-sm text-gray-500 ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words whitespace-pre-wrap">
+                    {seeMore ? description : description.slice(0, 150)}{(description.length > 150 && !seeMore) ? "..." : " "}
                 </h1>
             </div>}
 
             {description.length > 150 ? <div className="about">
-                <h1 className="font-inter hover:cursor-pointer text-blue-500 hover:underline text-xs text-justify md:text-sm ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words" onClick={() => setSeeMore(!seeMore)}>
+                <h1 className="font-inter hover:cursor-pointer text-blue-500 hover:underline text-xs text-justify md:text-sm ml-[80px] lg:ml-[80px] mt-2 mx-10 break-words white" onClick={() => setSeeMore(!seeMore)}>
                     {seeMore ? "See Less" : "See More"}
                 </h1>
             </div> : null}
