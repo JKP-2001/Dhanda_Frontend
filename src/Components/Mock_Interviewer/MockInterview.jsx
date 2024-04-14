@@ -474,7 +474,9 @@ const MockInterview = () => {
               <div className="mb-3 text-xl font-semibold">About</div>
 
               {seeMore?searchUserRedux.data.description.slice(0,searchUserRedux.data.description.length):searchUserRedux.data.description.slice(0,400)}
-              {searchUserRedux.data.description.length > 400 && "......"}
+
+
+              {(searchUserRedux.data.description.length>400 && !seeMore) ? "......":""}
 
 
               {searchUserRedux.data.description.length > 400 &&<div className="mt-3 text-blue-600 hover:cursor-pointer hover:underline" onClick={()=>setSeeMore(!seeMore)}>{seeMore?"See Less":"See more"}</div>}

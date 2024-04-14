@@ -20,6 +20,7 @@ import NewPassword from "./Pages/Auth/NewPassword";
 import SignIn from "./Pages/Auth/SignIn";
 import Calendar_Page from "./Pages/Schedule_Interview/Calendar_Page";
 import User_Profile from "./Pages/Profile/User_Profile";
+import New_Feeds from "./Pages/New_Feeds";
 
 import ProtectedRoute from "./Utils/ProtectedRoute";
 
@@ -140,10 +141,10 @@ const App = () => {
             path="/user/profile/:role/:id"
             element={<ProtectedRoute ele={<User_Profile />} />}
           />
-          {/* <Route
+          <Route
             path="/new-feeds"
             element={<ProtectedRoute ele={<New_Feeds />} />}
-          /> */}
+          />
           <Route
             path="/discuss/:discussId"
             element={<ProtectedRoute ele={<DiscussionPostDetails />} />}
